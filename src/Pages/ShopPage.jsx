@@ -7,6 +7,7 @@ import Footer from '../Layouts/Footer'
 import Products from '../Components/Products'
 import MobileNavbar from '../Layouts/MobileNavbar'
 import AllProducts from '../Components/AllProducts'
+window.React = React
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
