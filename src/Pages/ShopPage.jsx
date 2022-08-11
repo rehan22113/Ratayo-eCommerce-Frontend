@@ -1,4 +1,4 @@
-import React,{ Fragment, useState } from 'react'
+import React,{ useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
@@ -76,10 +76,10 @@ export default function ShopPage() {
       </div>
       <div>
         {/* Mobile filter dialog */}
-        <Transition.Root show={mobileFiltersOpen} as={Fragment}>
+        <Transition.Root show={mobileFiltersOpen}>
           <Dialog as="div" className="relative z-40 lg:hidden" onClose={setMobileFiltersOpen}>
             <Transition.Child
-              as={Fragment}
+              
               enter="transition-opacity ease-linear duration-300"
               enterFrom="opacity-0"
               enterTo="opacity-100"
@@ -92,7 +92,7 @@ export default function ShopPage() {
 
             <div className="fixed inset-0 flex z-40">
               <Transition.Child
-                as={Fragment}
+                
                 enter="transition ease-in-out duration-300 transform"
                 enterFrom="translate-x-full"
                 enterTo="translate-x-0"
@@ -192,7 +192,7 @@ export default function ShopPage() {
                 </div>
 
                 <Transition
-                  as={Fragment}
+                  
                   enter="transition ease-out duration-100"
                   enterFrom="transform opacity-0 scale-95"
                   enterTo="transform opacity-100 scale-100"
