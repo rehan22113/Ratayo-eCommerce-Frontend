@@ -1,6 +1,13 @@
+import {useRef,useState} from 'react'
 import {Link} from 'react-router-dom'
 import Logo from '../assets/logo.png'
 export default function RegisterPage() {
+  const [isChecked,setIsChecked] = useState(false)
+  const vendorInput = useRef()
+  const CheckVendorOption =()=>{
+      vendorInput.current.checked = true
+  }
+
     return (
       <div className="min-h-screen bg-white flex">
         <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -58,6 +65,38 @@ export default function RegisterPage() {
   
               <div className="mt-6">
                 <form action="#" method="POST" className="space-y-6">
+                <div className='flex space-x-4'>
+                <div className='w-[49%]'>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                      First Name
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className='w-[49%]'>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                      Last Name
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                       Email address
@@ -89,6 +128,88 @@ export default function RegisterPage() {
                       />
                     </div>
                   </div>
+                  <div className="space-y-1">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                     Confirm Password
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                     Choose One
+                    </label>
+                    <div className="mt-1 w-full flex justify-start items-center space-x-5">
+                     <div>
+                      <input
+                      className=''
+                        defaultChecked="true"
+                        onFocus={()=>{setIsChecked(false)}}
+                        id="customer"
+                        name="user_type"
+                        type="radio"
+                       
+                      />
+                      <label htmlFor="customer">sign as Customer</label>
+                      </div>
+                      <div>
+                    <input
+                        ref={vendorInput}
+                        onFocus={()=>{setIsChecked(true)}}
+                        id="vendor"
+                        name="user_type"
+                        type="radio"
+                        
+                      />
+                      <label htmlFor="vendor">sign as vendor</label>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  {isChecked?(
+
+                  <>
+                  <div className="space-y-1">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                     Shop name
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                      Shop URL(without any spaces or capital) *
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  </>
+                  ):""}
+                  
   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
@@ -110,13 +231,25 @@ export default function RegisterPage() {
                     </div>
                   </div>
   
-                  <div>
+                  <div className='flex space-x-6'>
+                  {!isChecked?(
+
                     <button
                       type="submit"
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-skin-secondary hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-skin-secondaryLight"
                     >
                       Sign up
                     </button>
+                  ):(
+
+                    <Link
+                      type="button"
+                      to="/vendor-register"
+                      className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-skin-secondary hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-skin-secondaryLight"
+                    >
+                      Sign up as a vendor
+                    </Link>
+                  )}
                   </div>
                 </form>
                 <div className='w-full flex justify-center py-6'>

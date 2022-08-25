@@ -130,11 +130,12 @@ const Navbar = ({color}) => {
                 </form>
 
                 <div className="flex items-center space-x-6">
+                
                   <Link to="/login" className="text-sm font-medium text-white hover:text-gray-100">
                     Sign in
                   </Link>
                   <Link to="/register" className="text-sm font-medium text-white hover:text-gray-100">
-                    Create an account
+                  Be a vendor
                   </Link>
                 </div>
               </div>
