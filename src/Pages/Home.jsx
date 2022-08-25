@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import Products from '../Components/Products'
 import MainImage from '../assets/main.jpg'
 import Typewriter from 'typewriter-effect'
+import FullScreenSearch from '../Components/FullScreenSearch'
 
 
 const categories = [
@@ -29,7 +30,7 @@ const categories = [
     href: '#',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg',
   },
-  { name: 'Sale', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
+  { name: 'Appliance', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
 ]
 const collections = [
   {
@@ -76,6 +77,7 @@ export default function Home() {
         </div>
         <div className="absolute inset-0 bg-skin-primary opacity-50" />
         <Navbar/>
+        {/* <FullScreenSearch /> */}
 
 
         <div className="relative z-0 max-w-6xl mx-auto py-32 px-1 flex flex-col items-center text-center sm:py-64 lg:px-0">
@@ -149,9 +151,9 @@ export default function Home() {
         </section>
 
         {/*Products section */}
-        <Products category={"Women collection"}/>
-        <Products category={"Men collection"}/>
-        <Products category={"Kids collection"}/>
+        <Products category={"New Arrivals"}/>
+        <Products category={"Best Sales"}/>
+        <Products category={"Season collection"}/>
 
 
 
