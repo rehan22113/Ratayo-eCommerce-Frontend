@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import Products from '../Components/Products'
 import MainImage from '../assets/main.jpg'
 import Typewriter from 'typewriter-effect'
-import FullScreenSearch from '../Components/FullScreenSearch'
+// import FullScreenSearch from '../Components/FullScreenSearch'
 
 
 const categories = [

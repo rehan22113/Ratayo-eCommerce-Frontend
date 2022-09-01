@@ -75,6 +75,504 @@ const navigation = {
 
 
   ],
+  megaMenu:[
+    {
+      name:"Home Appliances",
+      subMenu:[
+        {
+         name: "Household Appliances"
+        },
+        {
+          name:"Personal Care Appliances"
+        },
+        {
+          name:"Commercial Appliances"
+        },
+        {
+          name:"Major Appliances"
+        },
+        {
+          name:"Home Appliance Parts"
+        },
+        {
+          name:"Kitchen Appliances"
+        }
+      ]
+    },
+    {
+      name:"Food",
+      subMenu:[
+        {
+          name:"Grain Products"
+        },
+        {
+          name:"Coffee"
+        },
+        {
+          name:"Nut & Kernel"
+        },
+        {
+          name:"Water/ Juices/ Drinks"
+        },
+        {
+          name:"Dried Goods / Local Specialties"
+        },
+        {
+          name:"Canned Food"
+        },
+        {
+          name:"Ready meal"
+        },
+        {
+          name:"Bread and pastries"
+        },
+        {
+          name:"Tea Cakes & Pasteries"
+        },
+        {
+          name:"Candies and Chocolates"
+        },
+        {
+          name:"Cooking herbs"
+        }
+      ]
+    },
+    {
+      name:"Computer & Office",
+      subMenu:
+        [
+          {
+              name: "Storage Devices"
+          },
+          {
+              name: "Laptops"
+          },
+          {
+              name: "Servers"
+          },
+          {
+              name: "Demo Board & Accessories"
+          },
+          {
+              name: "Desktops"
+          },
+          {
+              name: "Tablets"
+          },
+          {
+              name: "Computer Cables & Connectors"
+          },
+          {
+              name: "Office Software"
+          },
+          {
+              name: "Mini PC"
+          },
+          {
+              name: "Computer Peripherals"
+          },
+          {
+              name: "Tablet Accessories"
+          },
+          {
+              name: "Networking"
+          },
+          {
+              name: "Computer Components"
+          },
+          {
+              name: "Device Cleaners"
+          },
+          {
+              name: "Office Electronics"
+          },
+          {
+              name: "Industrial Computer & Accessories"
+          },
+          {
+              name: "Mouse & Keyboards"
+          },
+          {
+              name: "Laptop Accessories"
+          },
+          {
+              name: "Laptop Parts"
+          },
+          {
+              name: "Tablet Parts"
+          }
+      ]
+      
+    },
+    {
+      name:"Home Improvement",
+      subMenu:[
+        {
+            name: "Electrical Equipments & Supplies"
+        },
+        {
+            name: "Hardware"
+        },
+        {
+            name: "Kitchen Fixtures"
+        },
+        {
+            name: "Plumbing"
+        },
+        {
+            name: "Painting Supplies & Wall Treatments"
+        },
+        {
+            name: "Family Intelligence System"
+        },
+        {
+            name: "Home Appliances"
+        },
+        {
+            name: "Lights & Lighting"
+        },
+        {
+            name: "Building Supplies"
+        },
+        {
+            name: "Bathroom Fixtures"
+        }
+    ]
+    },
+    {
+      name:"Home & Garden",
+      subMenu:[
+        {
+            name:"Garden Supplies"
+        },
+        {
+            name:"Household Merchandises"
+        },
+        {
+            name:"Home Textile"
+        },
+        {
+            name:"Home Storage & Organization"
+        },
+        {
+            name:"Home Decor"
+        },
+        {
+            name:"Arts"
+        },
+        {
+            name:"Kitchen"
+        },
+        {
+            name:"Household Cleaning"
+        },
+        {
+            name:"Festive & Party Supplies"
+        },
+        {
+            name:"Bathroom Products"
+        },
+        {
+            name:"Pet Products"
+        }
+    ]
+    },
+    {
+      name:"Sports & Entertainment",
+      subMenu:[
+        {
+            name: "Sports Accessories"
+        },
+        {
+            name: "Sports Bags"
+        },
+        {
+            name: "Team Sports"
+        },
+        {
+            name: "Sports Clothing"
+        },
+        {
+            name: "Swimming"
+        },
+        {
+            name: "Cycling"
+        },
+        {
+            name: "Sneakers"
+        },
+        {
+            name: "Running"
+        },
+        {
+            name: "Roller Skates"
+        },
+        {
+            name: "Bowling"
+        },
+        {
+            name: "Entertainment"
+        },
+        {
+            name: "Racquet Sports"
+        },
+        {
+            name: "Golf"
+        },
+        {
+            name: "Fitness & Body Building"
+        },
+        {
+            name: "Other Sports & Entertainment"
+        },
+        {
+            name: "Skiing & Snowboarding"
+        },
+        {
+            name: "Water Sports"
+        },
+        {
+            name: "Shooting"
+        },
+        {
+            name: "Horse Racing"
+        },
+        {
+            name: "Hunting"
+        },
+        {
+            name: "Fishing"
+        },
+        {
+            name: "Camping & Hiking"
+        },
+        {
+            name: "Musical Instruments"
+        }
+    ]
+    },
+    {
+      name:"Education & Office Supplies",
+      subMenu:[
+        {
+            name: "Paper"
+        },
+        {
+            name: "Desk Accessories & Organizer"
+        },
+        {
+            name: "Art Supplies"
+        },
+        {
+            name: "Presentation Supplies"
+        },
+        {
+            name: "Books & Magazines"
+        },
+        {
+            name: "Stationery Sticker"
+        },
+        {
+            name: "Mail & Shipping Supplies"
+        },
+        {
+            name: "Writing & Correction Supplies"
+        },
+        {
+            name: "Calendars"
+        },
+        {
+            name: "Labels"
+        },
+        {
+            name: "Filing Products"
+        },
+        {
+            name: "Notebooks & Writing Pads"
+        },
+        {
+            name: "School & Educational Supplies"
+        },
+        {
+            name: "Tapes"
+        },
+        {
+            name: "Office Binding Supplies"
+        },
+        {
+            name: "Cutting Supplies"
+        }
+    ]
+    },
+    {
+      name:"Toys & Hobbies",
+      subMenu:[
+        {
+            name: "Stress Relief Toy"
+        },
+        {
+            name: "Pools & Water Fun"
+        },
+        {
+            name: "Popular Toys"
+        },
+        {
+            name: "Hobby & Collectibles"
+        },
+        {
+            name: "Stuffed Animals & Plush"
+        },
+        {
+            name: "Arts & Crafts"
+        },
+        {
+            name: "High Tech Toys"
+        },
+        {
+            name: "Kid's Party"
+        },
+        {
+            name: "Building & Construction Toys"
+        },
+        {
+            name: "Play Vehicles & Models"
+        },
+        {
+            name: "Ride On Toys"
+        },
+        {
+            name: "Action & Toy Figures"
+        },
+        {
+            name: "Puzzles & Games"
+        },
+        {
+            name: "Dolls & Accessories"
+        },
+        {
+            name: "Novelty & Gag Toys"
+        },
+        {
+            name: "Model Building"
+        },
+        {
+            name: "Remote Control Toys"
+        },
+        {
+            name: "Diecasts & Toy Vehicles"
+        },
+        {
+            name: "Baby & Toddler Toys"
+        },
+        {
+            name: "Pretend Play"
+        },
+        {
+            name: "Outdoor Fun & Sports"
+        },
+        {
+            name: "Electronic Toys"
+        },
+        {
+            name: "Classic Toys"
+        },
+        {
+            name: "Learning & Education"
+        }
+    ]
+    },
+    {
+      name:"Security & Protection",
+      subMenu:[
+        {
+            name: "Security Alarm"
+        },
+        {
+            name: "Building Automation"
+        },
+        {
+            name: "Smart Card System"
+        },
+        {
+            name: "Door Intercom"
+        },
+        {
+            name: "Workplace Safety Supplies"
+        },
+        {
+            name: "Fire Protection"
+        },
+        {
+            name: "Video Surveillance"
+        },
+        {
+            name: "Safes"
+        },
+        {
+            name: "Self Defense Supplies"
+        },
+        {
+            name: "Access Control"
+        },
+        {
+            name: "Public Broadcasting"
+        },
+        {
+            name: "Roadway Safety"
+        },
+        {
+            name: "Transmission & Cables"
+        },
+        {
+            name: "IoT Devices"
+        },
+        {
+            name: "Security Inspection Device"
+        },
+        {
+            name: "Lightning Protection"
+        },
+        {
+            name: "Emergency Kits"
+        }
+    ]
+    },
+    {
+      name:"Automobiles & Motorcycles",
+      subMenu:[
+        {
+            name: "Car Lights"
+        },
+        {
+            name: "Car Repair Tools"
+        },
+        {
+            name: "ATV"
+        },
+        {
+            name: "Travel & Roadway Product"
+        },
+        {
+            name: "Car Wash & Maintenance"
+        },
+        {
+            name: "Motorcycle Accessories & Parts"
+        },
+        {
+            name: "Car Electronics"
+        },
+        {
+            name: "Auto Replacement Parts"
+        },
+        {
+            name: "Exterior Accessories"
+        },
+        {
+            name: "Interior Accessories"
+        }
+    ]
+    }
+  ]
 }
 
 function classNames(...classes) {
@@ -163,6 +661,149 @@ const Navbar = ({color}) => {
                       {/* Flyout menus */}
                       <Popover.Group className="px-4 bottom-0 inset-x-0">
                         <div className="h-full flex justify-center space-x-8">
+                        
+                        <Popover className="flex">
+            {({ open }) => (
+              <>
+                <div className="relative flex">
+                  <Popover.Button className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium text-white">
+                    Categories
+                    <span
+                      className={classNames(
+                        open ? 'bg-white' : '',
+                        'absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200'
+                      )}
+                      aria-hidden="true"
+                    />
+                  </Popover.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Popover.Panel className="absolute z-[90] top-full 2xl:left-[37%] left-[32%] w-[15.8rem] text-sm text-gray-500">
+                    
+                  <div id="mega-menu-full-image-dropdown" className="mt-1 bg-black shadow-lg absolute flex items-center justify-center">
+                <div className="grid py-5 px-4 mx-auto max-w-screen-xl text-sm text-gray-500 dark:text-gray-400 md:px-6">
+                  <ul className="mb-8 pb-6 space-y-4 md:mb-0 md:block" aria-labelledby="mega-menu-full-image-button">
+                  
+
+                  {/* ============= sub menu start ============== */}
+                  {navigation.megaMenu.map((menu,index)=>{
+                    return <Fragment key={index}>
+                    <li >
+                      <div className="hover:underline hover:text-white font-bold text-gray">
+                          {/* Flyout menus */}
+                      <Popover.Group className="bottom-0 inset-x-0">
+                        <div className="h-full flex">
+                        
+                        <Popover className="flex">
+            {({ open }) => (
+              <>
+
+                <div className="relative">
+                  <Popover.Button>
+                  {menu.name}
+                    <span
+                      className={classNames(
+                        open ? 'bg-white' : '',
+                        'absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200'
+                      )}
+                      aria-hidden="true"
+                    />
+                  </Popover.Button>
+                </div>
+
+                  {(menu.hasOwnProperty('subMenu')) ? (
+                    <>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Popover.Panel className="absolute z-[90] 2xl:left-full left-full w-[300%] h-4 flex-wrap text-sm text-gray-500">
+                    
+                  <div id="mega-menu-full-image-dropdown" className="mt-1 bg-black shadow-lg absolute flex items-center justify-center">
+                <div className="flex py-5 px-4 mx-auto max-w-screen-xl w-[200%] text-sm text-gray-500 dark:text-gray-400 md:px-6">
+                  <ul className="mb-8 pb-6 space-y-4 md:mb-0 md:block" aria-labelledby="mega-menu-full-image-button">
+
+                    {menu.subMenu.map((subMenu,indexs)=>{
+                      return <Fragment key={indexs}>
+                    <li>
+                      <Link to="#" className="hover:underline hover:text-white font-bold text-gray">
+                          {subMenu.name}
+                      </Link>
+                    </li>
+                      </Fragment>
+                    })}
+                    
+                    <li>
+                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
+                      Explore More ⚡
+                      </Link>
+                    </li>
+                  </ul>
+                  
+                  
+                  
+                </div>
+                <div className='grid py-5 px-4 mx-auto text-sm text-gray-500 dark:text-gray-400 md:px-6'>
+                  <img src="https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg" />
+                </div>
+              </div>
+              </Popover.Panel>
+                </Transition>
+                    </>
+                    
+                  ):""}
+              </>
+            )}
+            </Popover>
+            </div>
+                      </Popover.Group>
+                    
+                      </div>
+                    </li>
+
+                    </Fragment>
+                  })}
+                    
+                    
+                    <li>
+                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
+                      Explore More ⚡
+                      </Link>
+                      
+                    </li>
+                  </ul>
+                  
+                  
+                </div>
+              </div>
+
+               {/* Mega Menu end  */}
+
+                
+                  </Popover.Panel>
+                </Transition>
+              </>
+            )}
+            </Popover>
+
+
+
+           
+                {/* end of categories */}
                           {navigation.categories.map((category) => (
                             <Popover key={category.name} className="flex">
                               {({ open }) => (
@@ -223,239 +864,7 @@ const Navbar = ({color}) => {
                               )}
                             </Popover>
                           ))}
-            <Popover className="flex">
-            {({ open }) => (
-              <>
-                <div className="relative flex">
-                  <Popover.Button className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium text-white">
-                    Categories
-                    <span
-                      className={classNames(
-                        open ? 'bg-white' : '',
-                        'absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200'
-                      )}
-                      aria-hidden="true"
-                    />
-                  </Popover.Button>
-                </div>
-
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <Popover.Panel className="absolute z-[90] top-full inset-x-0 text-sm text-gray-500">
-                    
-                    {/*Mega Menu*/}
-                    <div id="mega-menu-full-image-dropdown" className="mt-1 bg-black shadow-lg absolute w-full">
-                <div className="grid py-5 px-4 mx-auto max-w-screen-xl text-sm text-gray-500 dark:text-gray-400 md:grid-cols-3 md:px-6">
-                  <ul className="mb-8 pb-6 space-y-4 md:mb-0 md:block" aria-labelledby="mega-menu-full-image-button">
-                  
-                    <li>
-                      <Link to="#" className="hover:underline font-bold text-white">
-                      Home Appliances
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Household Appliances
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Personal Care Appliances
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Commercial Appliances
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
-                      Explore More ⚡
-                      </Link>
-                    </li>
-                  </ul>
-                  <ul className="mb-8 pb-6 space-y-4 md:mb-0">
-                    <li>
-                      <Link to="#" className="hover:underline font-bold text-white hover:text-white">
-                      Gift Baskets
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Christmas Gift Basket
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Cosmetic Gift Basket
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                        Thanks you gift Basket
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
-                      Explore More ⚡
-                      </Link>
-                    </li>
-                    
-                  </ul>
-                  <ul className="mb-8 pb-6 space-y-4 md:mb-0">
-                    <li>
-                      <Link to="#" className="hover:underline font-bold text-white hover:text-white">
-                      Appareal Accessories
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Women's Hair Accessories
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Women's Belts
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Women's Hats
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Women's Scarves
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
-                      Explore More ⚡
-                      </Link>
-                    </li>
-                    
-                    
-                  </ul>
-
-                  <ul className="mb-8 pb-6 space-y-4 md:mb-0">
-                    <li>
-                      <Link to="#" className="hover:underline font-bold text-white hover:text-white">
-                      Mens Clothing
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Mens Set
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Pants
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Sweaters
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Shirts
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
-                      Explore More ⚡
-                      </Link>
-                    </li>
-                    
-                    
-                  </ul>
-                  <ul className="mb-8 pb-6 space-y-4 md:mb-0">
-                    <li>
-                      <Link to="#" className="hover:underline font-bold text-white hover:text-white">
-                      Mens Clothing
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Mens Set
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Pants
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Sweaters
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Shirts
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
-                      Explore More ⚡
-                      </Link>
-                    </li>
-                    
-                    
-                  </ul>
-                  <ul className="mb-8 space-y-4 md:mb-0">
-                    <li>
-                      <Link to="#" className="hover:underline font-bold text-white hover:text-white">
-                      Mens Clothing
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Mens Set
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Pants
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Sweaters
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline hover:text-white">
-                      Shirts
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="hover:underline text-skin-secondary hover:text-white">
-                      Explore More ⚡
-                      </Link>
-                    </li>
-                    
-                    
-                  </ul>
-                  
-                </div>
-              </div>
-
-              {/* Mega Menu end  */}
-                  </Popover.Panel>
-                </Transition>
-              </>
-            )}
-            </Popover>
+           
 
                           {navigation.pages.map((page) => (
                             <Link
