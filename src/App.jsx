@@ -8,6 +8,14 @@ import ShoppingCart from './Pages/ShoppingCart'
 import Checkout from './Pages/Checkout'
 import ShopPage from './Pages/ShopPage'
 import ErrorPage from './Pages/ErrorPage'
+
+// vendor Pages
+import VendorDashboard from './Pages/Vendor/Dashboard'
+import VendorIndex from './Components/VendorComponent/Dashboard'
+import VendorMain from './Components/VendorComponent/Dashboard/Main'
+import AllVendorProducts from './Components/VendorComponent/Dashboard/AllVendorProducts'
+
+
 const App = () => {
   return (
     
@@ -20,6 +28,13 @@ const App = () => {
         <Route path='/single-product' element={<SingleProduct />} />
         <Route path='/cart' element={<ShoppingCart />} />
         <Route path='/checkout' element={<Checkout />} />
+
+        <Route path='/dashboard/vendor' element={<VendorDashboard/>} >
+          <Route index element={<VendorIndex />}/>
+          <Route path='main' element={<VendorMain />}/>
+          <Route path='products' element={<AllVendorProducts/>}/>
+        </Route>
+
         <Route path='*' element={<ErrorPage />} />
       </Routes>
     

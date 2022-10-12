@@ -144,15 +144,16 @@ export default function RegisterPage() {
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    {/* <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                      Choose One
-                    </label>
+                    </label> */}
                     <div className="mt-1 w-full flex justify-start items-center space-x-5">
                      <div>
                       <input
                       className=''
                         defaultChecked="true"
                         onFocus={()=>{setIsChecked(false)}}
+                        onChange={()=>{setIsChecked(false)}}
                         id="customer"
                         name="user_type"
                         type="radio"
@@ -164,6 +165,7 @@ export default function RegisterPage() {
                     <input
                         ref={vendorInput}
                         onFocus={()=>{setIsChecked(true)}}
+                        onChange={()=>{setIsChecked(true)}}
                         id="vendor"
                         name="user_type"
                         type="radio"
@@ -244,7 +246,7 @@ export default function RegisterPage() {
 
                     <Link
                       type="button"
-                      to="/vendor-register"
+                      to="/dashboard/vendor"
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-skin-secondary hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-skin-secondaryLight"
                     >
                       Sign up as a vendor
