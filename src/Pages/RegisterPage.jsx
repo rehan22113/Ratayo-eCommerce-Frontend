@@ -1,6 +1,7 @@
 import {useRef,useState} from 'react'
 import {Link} from 'react-router-dom'
 import Logo from '../assets/logo.png'
+
 export default function RegisterPage() {
   const [isChecked,setIsChecked] = useState(false)
   const vendorInput = useRef()
@@ -14,12 +15,14 @@ export default function RegisterPage() {
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
             <div className='flex justify-center'>
+            <Link to="/">
 
               <img
                 className="h-12 w-auto"
                 src={Logo}
                 alt="Workflow"
               />
+            </Link>
             </div>
               <h2 className="mt-6 text-3xl font-extrabold text-skin-primary">Register to your account</h2>
               

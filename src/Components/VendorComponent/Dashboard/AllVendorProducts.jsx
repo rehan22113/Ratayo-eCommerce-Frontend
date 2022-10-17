@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const AllVendorProducts = () => {
   return (
@@ -15,16 +16,19 @@ const AllVendorProducts = () => {
         <div id="dropdownAction" className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" style={{position: 'absolute', inset: '0px auto auto 0px', margin: 0, transform: 'translate3d(0px, 56679.5px, 0px)'}} data-popper-reference-hidden data-popper-escaped data-popper-placement="bottom">
             <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
                 <li>
+                    <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                </li>
+                <li>
+                    <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">UnPublished</a>
+                </li>
+                <li>
                     <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Published</a>
-                </li>
-                <li>
-                    <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Offline</a>
-                </li>
-                <li>
-                    <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Top Rated</a>
                 </li>
             </ul>           
         </div>
+        </div>
+        <div>
+            <Link to="/dashboard/vendor/addnewproduct" className='border py-2 px-10 bg-gray-50 drop-shadow flex items-center justify-center space-x-2'><svg xmlns="http://www.w3.org/2000/svg" className='h-4' viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" /></svg><span>Add New Product</span></Link>
         </div>
         <label htmlFor="table-search" className="sr-only">Search</label>
         <div className="relative">
