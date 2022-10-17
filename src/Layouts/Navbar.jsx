@@ -371,539 +371,539 @@ const Navbar = ({ color }) => {
     const dispatch = useDispatch();
 
     return (
-        <>
-            {/* Navigation */}
-            <header className="relative z-50">
-                <nav aria-label="Top">
-                    {/* Top navigation */}
-                    <div className="bg-skin-primary">
-                        <div className="max-w-7xl mx-auto h-10 px-4 flex items-center justify-between sm:px-6 lg:px-8">
-                            {/* Currency selector */}
-                            <form>
-                                <div>
-                                    <label
-                                        htmlFor="desktop-currency"
-                                        className="sr-only"
-                                    >
-                                        Currency
-                                    </label>
-                                    <div className="-ml-2 group relative bg-skin-primary border-transparent rounded-md focus-within:ring-2 focus-within:ring-white">
-                                        <select
-                                            id="desktop-currency"
-                                            name="currency"
-                                            className="bg-none bg-skin-primary border-transparent rounded-md py-0.5 pl-2 pr-5 flex items-center text-sm font-medium text-white group-hover:text-gray-100 focus:outline-none focus:ring-0 focus:border-transparent"
-                                        >
-                                            {currencies.map((currency) => (
-                                                <option key={currency}>
-                                                    {currency}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        <div className="absolute right-0 inset-y-0 flex items-center pointer-events-none">
-                                            <svg
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 20 20"
-                                                className="w-5 h-5 text-gray-300"
-                                            >
-                                                <path
-                                                    stroke="currentColor"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="1.5"
-                                                    d="M6 8l4 4 4-4"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </div>
+<>
+{/* Navigation */}
+<header className="relative z-40">
+<nav aria-label="Top">
+{/* Top navigation */}
+<div className="bg-skin-primary">
+<div className="max-w-7xl mx-auto h-10 px-4 flex items-center justify-between sm:px-6 lg:px-8">
+{/* Currency selector */}
+<form>
+<div>
+<label
+    htmlFor="desktop-currency"
+    className="sr-only"
+>
+    Currency
+</label>
+<div className="-ml-2 group relative bg-skin-primary border-transparent rounded-md focus-within:ring-2 focus-within:ring-white">
+    <select
+        id="desktop-currency"
+        name="currency"
+        className="bg-none bg-skin-primary border-transparent rounded-md py-0.5 pl-2 pr-5 flex items-center text-sm font-medium text-white group-hover:text-gray-100 focus:outline-none focus:ring-0 focus:border-transparent"
+    >
+        {currencies.map((currency) => (
+            <option key={currency}>
+                {currency}
+            </option>
+        ))}
+    </select>
+    <div className="absolute right-0 inset-y-0 flex items-center pointer-events-none">
+        <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+            className="w-5 h-5 text-gray-300"
+        >
+            <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M6 8l4 4 4-4"
+            />
+        </svg>
+    </div>
+</div>
+</div>
+</form>
+
+<div className="flex items-center space-x-6 justify-center">
+<Link
+to="/login"
+className="text-sm font-medium text-white hover:text-gray-100"
+>
+Sign in
+</Link>
+<Link
+to="/register"
+className="text-sm font-medium text-white hover:text-gray-100"
+>
+Be a vendor
+</Link>
+</div>
+</div>
+</div>
+
+{/* Secondary navigation */}
+<div>
+<div className="backdrop-blur-md backdrop-filter bg-opacity-40 bg-white">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div>
+<div className="h-32 flex items-center justify-between">
+    <div className="flex flex-col">
+        {/* Logo (lg+) */}
+        <div className="hidden lg:flex-1 lg:flex lg:items-center">
+            <Link to="/">
+                <span className="sr-only">
+                    Ratayo
+                </span>
+                <img
+                    className="h-12 w-auto"
+                    src={Logo}
+                    alt="Ratayo_logo"
+                />
+            </Link>
+        </div>
+        
+        <span className="p-1"></span>
+        <div className="hidden h-full lg:flex">
+            {/* Flyout menus */}
+            <Popover.Group className="px-4 bottom-0 inset-x-0">
+                <div className="h-full flex justify-center space-x-8">
+                    <Popover className="flex">
+                        {({ open }) => (
+                            <>
+                                <div className="relative flex">
+                                    <Popover.Button className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium drop-shadow-lg bg-opacity-50 bg-gray-800 rounded px-10 p-2 text-white">
+                                        All Categories
+                                        <span
+                                            className={classNames(
+                                                open
+                                                    ? "bg-white"
+                                                    : "",
+                                                "absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200"
+                                            )}
+                                            aria-hidden="true"
+                                        />
+                                    </Popover.Button>
                                 </div>
-                            </form>
 
-                            <div className="flex items-center space-x-6">
-                                <Link
-                                    to="/login"
-                                    className="text-sm font-medium text-white hover:text-gray-100"
+                                <Transition
+                                    as={
+                                        Fragment
+                                    }
+                                    enter="transition ease-out duration-200"
+                                    enterFrom="opacity-0"
+                                    enterTo="opacity-100"
+                                    leave="transition ease-in duration-150"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
                                 >
-                                    Sign in
-                                </Link>
-                                <Link
-                                    to="/register"
-                                    className="text-sm font-medium text-white hover:text-gray-100"
-                                >
-                                    Be a vendor
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+                                    <Popover.Panel className="absolute z-[90] top-full 2xl:left-[12%] left-[3%] w-[15.8rem] text-sm text-gray-500">
+                                        <div
+                                            id="mega-menu-full-image-dropdown"
+                                            className="mt-1 bg-black shadow-lg absolute flex items-center justify-center"
+                                        >
+                                            <div className="grid py-5 px-4 mx-auto max-w-screen-xl text-sm text-gray-500 dark:text-gray-400 md:px-6">
+                                                <ul
+                                                    className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
+                                                    aria-labelledby="mega-menu-full-image-button"
+                                                >
+                                    {/* ============= sub menu start ============== */}
+                                    {navigation.megaMenu.map(
+                                    (
+                                    menu,
+                                    index
+                                    ) => {
+                                    return (
+                                    <Fragment
+                                    key={
+                                    index
+                                    }
+                                    >
+                                    <li>
+                                    <div className="hover:underline hover:text-white font-bold text-gray">
+                                    {/* Flyout menus */}
+                                    <Popover.Group className="bottom-0 inset-x-0">
+                                    <div className="h-full flex">
+                                        <Popover className="flex">
+                                            {({
+                                                open,
+                                            }) => (
+                                                <>
+                                                    <div className="relative">
+                                                        <Popover.Button>
+                                                            {
+                                                                menu.name
+                                                            }
+                                                            <span
+                                                                className={classNames(
+                                                                    open
+                                                                        ? "bg-white"
+                                                                        : "",
+                                                                    "absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200"
+                                                                )}
+                                                                aria-hidden="true"
+                                                            />
+                                                        </Popover.Button>
+                                                    </div>
 
-                    {/* Secondary navigation */}
-                    <div>
-                        <div className="backdrop-blur-md backdrop-filter bg-opacity-40 bg-white">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                                <div>
-                                    <div className="h-32 flex items-center justify-between">
-                                        <div className="flex flex-col">
-                                            {/* Logo (lg+) */}
-                                            <div className="hidden lg:flex-1 lg:flex lg:items-center">
-                                                <Link to="/">
-                                                    <span className="sr-only">
-                                                        Ratayo
-                                                    </span>
-                                                    <img
-                                                        className="h-12 w-auto"
-                                                        src={Logo}
-                                                        alt="Ratayo_logo"
-                                                    />
-                                                </Link>
-                                            </div>
-                                            <span className="p-3"></span>
-                                            <div className="hidden h-full lg:flex">
-                                                {/* Flyout menus */}
-                                                <Popover.Group className="px-4 bottom-0 inset-x-0">
-                                                    <div className="h-full flex justify-center space-x-8">
-                                                        <Popover className="flex">
-                                                            {({ open }) => (
-                                                                <>
-                                                                    <div className="relative flex">
-                                                                        <Popover.Button className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium text-white">
-                                                                            Categories
-                                                                            <span
-                                                                                className={classNames(
-                                                                                    open
-                                                                                        ? "bg-white"
-                                                                                        : "",
-                                                                                    "absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200"
+                                                    {menu.hasOwnProperty(
+                                                        "subMenu"
+                                                    ) ? (
+                                                        <>
+                                                            <Transition
+                                                                as={
+                                                                    Fragment
+                                                                }
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0"
+                                                                enterTo="opacity-100"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100"
+                                                                leaveTo="opacity-0"
+                                                            >
+                                                                <Popover.Panel className="absolute z-[90] 2xl:left-full left-full w-[450%] h-4 flex-wrap text-sm text-gray-500">
+                                                                    <div
+                                                                        id="mega-menu-full-image-dropdown"
+                                                                        className="mt-1 bg-black shadow-lg absolute flex items-center justify-center"
+                                                                    >
+                                                                        <div className="flex py-5 px-4 mx-auto max-w-screen-xl w-[100%] text-sm text-gray-500 dark:text-gray-400 md:px-6">
+                                                                            <ul
+                                                                                className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
+                                                                                aria-labelledby="mega-menu-full-image-button"
+                                                                            >
+                                                                                {menu.subMenu.map(
+                                                                                    (
+                                                                                        subMenu,
+                                                                                        indexs
+                                                                                    ) => {
+                                                                                        return (
+                                                                                            <Fragment
+                                                                                                key={
+                                                                                                    indexs
+                                                                                                }
+                                                                                            >
+                                                                                                <li>
+                                                                                                    <Link
+                                                                                                        to="#"
+                                                                                                        className="hover:underline hover:text-white font-bold text-gray"
+                                                                                                    >
+                                                                                                        {
+                                                                                                            subMenu.name
+                                                                                                        }
+                                                                                                    </Link>
+                                                                                                </li>
+                                                                                            </Fragment>
+                                                                                        );
+                                                                                    }
                                                                                 )}
+
+                                                                                <li>
+                                                                                    <Link
+                                                                                        to="#"
+                                                                                        className="hover:underline text-skin-secondary hover:text-white"
+                                                                                    >
+                                                                                        Explore
+                                                                                        More
+                                                                                        ⚡
+                                                                                    </Link>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div className="flex py-5 px-4 mx-auto max-w-screen-xl w-[100%] text-sm text-gray-500 dark:text-gray-400 md:px-6">
+                                                                            <ul
+                                                                                className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
+                                                                                aria-labelledby="mega-menu-full-image-button"
+                                                                            >
+                                                                                {menu.subMenu.map(
+                                                                                    (
+                                                                                        subMenu,
+                                                                                        indexs
+                                                                                    ) => {
+                                                                                        return (
+                                                                                            <Fragment
+                                                                                                key={
+                                                                                                    indexs
+                                                                                                }
+                                                                                            >
+                                                                                                <li>
+                                                                                                    <Link
+                                                                                                        to="#"
+                                                                                                        className="hover:underline hover:text-white font-bold text-gray"
+                                                                                                    >
+                                                                                                        {
+                                                                                                            subMenu.name
+                                                                                                        }
+                                                                                                    </Link>
+                                                                                                </li>
+                                                                                            </Fragment>
+                                                                                        );
+                                                                                    }
+                                                                                )}
+
+                                                                                <li>
+                                                                                    <Link
+                                                                                        to="#"
+                                                                                        className="hover:underline text-skin-secondary hover:text-white"
+                                                                                    >
+                                                                                        Explore
+                                                                                        More
+                                                                                        ⚡
+                                                                                    </Link>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div className="flex py-5 px-4 mx-auto max-w-screen-xl w-[100%] text-sm text-gray-500 dark:text-gray-400 md:px-6">
+                                                                            <ul
+                                                                                className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
+                                                                                aria-labelledby="mega-menu-full-image-button"
+                                                                            >
+                                                                                {menu.subMenu.map(
+                                                                                    (
+                                                                                        subMenu,
+                                                                                        indexs
+                                                                                    ) => {
+                                                                                        return (
+                                                                                            <Fragment
+                                                                                                key={
+                                                                                                    indexs
+                                                                                                }
+                                                                                            >
+                                                                                                <li>
+                                                                                                    <Link
+                                                                                                        to="#"
+                                                                                                        className="hover:underline hover:text-white font-bold text-gray"
+                                                                                                    >
+                                                                                                        {
+                                                                                                            subMenu.name
+                                                                                                        }
+                                                                                                    </Link>
+                                                                                                </li>
+                                                                                            </Fragment>
+                                                                                        );
+                                                                                    }
+                                                                                )}
+
+                                                                                <li>
+                                                                                    <Link
+                                                                                        to="#"
+                                                                                        className="hover:underline text-skin-secondary hover:text-white"
+                                                                                    >
+                                                                                        Explore
+                                                                                        More
+                                                                                        ⚡
+                                                                                    </Link>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div className="grid py-5 px-4 mx-auto text-sm text-gray-500 dark:text-gray-400 md:px-6">
+                                                                            <img src="https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg" />
+                                                                        </div>
+                                                                    </div>
+                                                                </Popover.Panel>
+                                                            </Transition>
+                                                        </>
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                </>
+                                            )}
+                                        </Popover>
+                                    </div>
+                                    </Popover.Group>
+                                    </div>
+                                    </li>
+                                    </Fragment>
+                                    );
+                                    }
+                                    )}
+
+                                                    <li>
+                                                        <Link
+                                                            to="#"
+                                                            className="hover:underline text-skin-secondary hover:text-white"
+                                                        >
+                                                            Explore
+                                                            More
+                                                            ⚡
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        {/* Mega Menu end  */}
+                                    </Popover.Panel>
+                                </Transition>
+                            </>
+                        )}
+                    </Popover>
+
+                    {/* end of categories */}
+                    {navigation.categories.map(
+                        (category) => (
+                            <Popover
+                                key={
+                                    category.name
+                                }
+                                className="flex"
+                            >
+                                {({
+                                    open,
+                                }) => (
+                                    <>
+                                        <div className="relative flex">
+                                            <Popover.Button className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium text-white">
+                                                {
+                                                    category.name
+                                                }
+                                                <span
+                                                    className={classNames(
+                                                        open
+                                                            ? "bg-white"
+                                                            : "",
+                                                        "absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200"
+                                                    )}
+                                                    aria-hidden="true"
+                                                />
+                                            </Popover.Button>
+                                        </div>
+
+                                        <Transition
+                                            as={
+                                                Fragment
+                                            }
+                                            enter="transition ease-out duration-200"
+                                            enterFrom="opacity-0"
+                                            enterTo="opacity-100"
+                                            leave="transition ease-in duration-150"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
+                                                {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
+                                                <div
+                                                    className="absolute inset-0 top-1/2 bg-white shadow"
+                                                    aria-hidden="true"
+                                                />
+
+                                                <div className="relative bg-white">
+                                                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                                        <div className="grid grid-cols-4 gap-y-10 gap-x-8 py-16">
+                                                            {category.featured.map(
+                                                                (
+                                                                    item
+                                                                ) => (
+                                                                    <div
+                                                                        key={
+                                                                            item.name
+                                                                        }
+                                                                        className="group relative"
+                                                                    >
+                                                                        <div className="aspect-w-1 aspect-h-1 rounded-md bg-gray-100 overflow-hidden group-hover:opacity-75">
+                                                                            <img
+                                                                                src={
+                                                                                    item.imageSrc
+                                                                                }
+                                                                                alt={
+                                                                                    item.imageAlt
+                                                                                }
+                                                                                className="object-center object-cover"
+                                                                            />
+                                                                        </div>
+                                                                        <Link
+                                                                            to={
+                                                                                item.href
+                                                                            }
+                                                                            className="mt-4 block font-medium text-skin-primary"
+                                                                        >
+                                                                            <span
+                                                                                className="absolute z-10 inset-0"
                                                                                 aria-hidden="true"
                                                                             />
-                                                                        </Popover.Button>
+                                                                            {
+                                                                                item.name
+                                                                            }
+                                                                        </Link>
+                                                                        <p
+                                                                            aria-hidden="true"
+                                                                            className="mt-1"
+                                                                        >
+                                                                            Shop
+                                                                            now
+                                                                        </p>
                                                                     </div>
-
-                                                                    <Transition
-                                                                        as={
-                                                                            Fragment
-                                                                        }
-                                                                        enter="transition ease-out duration-200"
-                                                                        enterFrom="opacity-0"
-                                                                        enterTo="opacity-100"
-                                                                        leave="transition ease-in duration-150"
-                                                                        leaveFrom="opacity-100"
-                                                                        leaveTo="opacity-0"
-                                                                    >
-                                                                        <Popover.Panel className="absolute z-[90] top-full 2xl:left-[12%] left-[3%] w-[15.8rem] text-sm text-gray-500">
-                                                                            <div
-                                                                                id="mega-menu-full-image-dropdown"
-                                                                                className="mt-1 bg-black shadow-lg absolute flex items-center justify-center"
-                                                                            >
-                                                                                <div className="grid py-5 px-4 mx-auto max-w-screen-xl text-sm text-gray-500 dark:text-gray-400 md:px-6">
-                                                                                    <ul
-                                                                                        className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
-                                                                                        aria-labelledby="mega-menu-full-image-button"
-                                                                                    >
-                                                                                        {/* ============= sub menu start ============== */}
-                                                                                        {navigation.megaMenu.map(
-                                                                                            (
-                                                                                                menu,
-                                                                                                index
-                                                                                            ) => {
-                                                                                                return (
-                                                                                                    <Fragment
-                                                                                                        key={
-                                                                                                            index
-                                                                                                        }
-                                                                                                    >
-                                                                                                        <li>
-                                                                                                            <div className="hover:underline hover:text-white font-bold text-gray">
-                                                                                                                {/* Flyout menus */}
-                                                                                                                <Popover.Group className="bottom-0 inset-x-0">
-                                                                                                                <div className="h-full flex">
-                                                                                                                        <Popover className="flex">
-                                                                                                                            {({
-                                                                                                                                open,
-                                                                                                                            }) => (
-                                                                                                                                <>
-                                                                                                                                    <div className="relative">
-                                                                                                                                        <Popover.Button>
-                                                                                                                                            {
-                                                                                                                                                menu.name
-                                                                                                                                            }
-                                                                                                                                            <span
-                                                                                                                                                className={classNames(
-                                                                                                                                                    open
-                                                                                                                                                        ? "bg-white"
-                                                                                                                                                        : "",
-                                                                                                                                                    "absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200"
-                                                                                                                                                )}
-                                                                                                                                                aria-hidden="true"
-                                                                                                                                            />
-                                                                                                                                        </Popover.Button>
-                                                                                                                                    </div>
-
-                                                                                                                                    {menu.hasOwnProperty(
-                                                                                                                                        "subMenu"
-                                                                                                                                    ) ? (
-                                                                                                                                        <>
-                                                                                                                                            <Transition
-                                                                                                                                                as={
-                                                                                                                                                    Fragment
-                                                                                                                                                }
-                                                                                                                                                enter="transition ease-out duration-200"
-                                                                                                                                                enterFrom="opacity-0"
-                                                                                                                                                enterTo="opacity-100"
-                                                                                                                                                leave="transition ease-in duration-150"
-                                                                                                                                                leaveFrom="opacity-100"
-                                                                                                                                                leaveTo="opacity-0"
-                                                                                                                                            >
-                                                                                                                                                <Popover.Panel className="absolute z-[90] 2xl:left-full left-full w-[450%] h-4 flex-wrap text-sm text-gray-500">
-                                                                                                                                                    <div
-                                                                                                                                                        id="mega-menu-full-image-dropdown"
-                                                                                                                                                        className="mt-1 bg-black shadow-lg absolute flex items-center justify-center"
-                                                                                                                                                    >
-                                                                                                                                                        <div className="flex py-5 px-4 mx-auto max-w-screen-xl w-[100%] text-sm text-gray-500 dark:text-gray-400 md:px-6">
-                                                                                                                                                            <ul
-                                                                                                                                                                className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
-                                                                                                                                                                aria-labelledby="mega-menu-full-image-button"
-                                                                                                                                                            >
-                                                                                                                                                                {menu.subMenu.map(
-                                                                                                                                                                    (
-                                                                                                                                                                        subMenu,
-                                                                                                                                                                        indexs
-                                                                                                                                                                    ) => {
-                                                                                                                                                                        return (
-                                                                                                                                                                            <Fragment
-                                                                                                                                                                                key={
-                                                                                                                                                                                    indexs
-                                                                                                                                                                                }
-                                                                                                                                                                            >
-                                                                                                                                                                                <li>
-                                                                                                                                                                                    <Link
-                                                                                                                                                                                        to="#"
-                                                                                                                                                                                        className="hover:underline hover:text-white font-bold text-gray"
-                                                                                                                                                                                    >
-                                                                                                                                                                                        {
-                                                                                                                                                                                            subMenu.name
-                                                                                                                                                                                        }
-                                                                                                                                                                                    </Link>
-                                                                                                                                                                                </li>
-                                                                                                                                                                            </Fragment>
-                                                                                                                                                                        );
-                                                                                                                                                                    }
-                                                                                                                                                                )}
-
-                                                                                                                                                                <li>
-                                                                                                                                                                    <Link
-                                                                                                                                                                        to="#"
-                                                                                                                                                                        className="hover:underline text-skin-secondary hover:text-white"
-                                                                                                                                                                    >
-                                                                                                                                                                        Explore
-                                                                                                                                                                        More
-                                                                                                                                                                        ⚡
-                                                                                                                                                                    </Link>
-                                                                                                                                                                </li>
-                                                                                                                                                            </ul>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div className="flex py-5 px-4 mx-auto max-w-screen-xl w-[100%] text-sm text-gray-500 dark:text-gray-400 md:px-6">
-                                                                                                                                                            <ul
-                                                                                                                                                                className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
-                                                                                                                                                                aria-labelledby="mega-menu-full-image-button"
-                                                                                                                                                            >
-                                                                                                                                                                {menu.subMenu.map(
-                                                                                                                                                                    (
-                                                                                                                                                                        subMenu,
-                                                                                                                                                                        indexs
-                                                                                                                                                                    ) => {
-                                                                                                                                                                        return (
-                                                                                                                                                                            <Fragment
-                                                                                                                                                                                key={
-                                                                                                                                                                                    indexs
-                                                                                                                                                                                }
-                                                                                                                                                                            >
-                                                                                                                                                                                <li>
-                                                                                                                                                                                    <Link
-                                                                                                                                                                                        to="#"
-                                                                                                                                                                                        className="hover:underline hover:text-white font-bold text-gray"
-                                                                                                                                                                                    >
-                                                                                                                                                                                        {
-                                                                                                                                                                                            subMenu.name
-                                                                                                                                                                                        }
-                                                                                                                                                                                    </Link>
-                                                                                                                                                                                </li>
-                                                                                                                                                                            </Fragment>
-                                                                                                                                                                        );
-                                                                                                                                                                    }
-                                                                                                                                                                )}
-
-                                                                                                                                                                <li>
-                                                                                                                                                                    <Link
-                                                                                                                                                                        to="#"
-                                                                                                                                                                        className="hover:underline text-skin-secondary hover:text-white"
-                                                                                                                                                                    >
-                                                                                                                                                                        Explore
-                                                                                                                                                                        More
-                                                                                                                                                                        ⚡
-                                                                                                                                                                    </Link>
-                                                                                                                                                                </li>
-                                                                                                                                                            </ul>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div className="flex py-5 px-4 mx-auto max-w-screen-xl w-[100%] text-sm text-gray-500 dark:text-gray-400 md:px-6">
-                                                                                                                                                            <ul
-                                                                                                                                                                className="mb-8 pb-6 space-y-4 md:mb-0 md:block"
-                                                                                                                                                                aria-labelledby="mega-menu-full-image-button"
-                                                                                                                                                            >
-                                                                                                                                                                {menu.subMenu.map(
-                                                                                                                                                                    (
-                                                                                                                                                                        subMenu,
-                                                                                                                                                                        indexs
-                                                                                                                                                                    ) => {
-                                                                                                                                                                        return (
-                                                                                                                                                                            <Fragment
-                                                                                                                                                                                key={
-                                                                                                                                                                                    indexs
-                                                                                                                                                                                }
-                                                                                                                                                                            >
-                                                                                                                                                                                <li>
-                                                                                                                                                                                    <Link
-                                                                                                                                                                                        to="#"
-                                                                                                                                                                                        className="hover:underline hover:text-white font-bold text-gray"
-                                                                                                                                                                                    >
-                                                                                                                                                                                        {
-                                                                                                                                                                                            subMenu.name
-                                                                                                                                                                                        }
-                                                                                                                                                                                    </Link>
-                                                                                                                                                                                </li>
-                                                                                                                                                                            </Fragment>
-                                                                                                                                                                        );
-                                                                                                                                                                    }
-                                                                                                                                                                )}
-
-                                                                                                                                                                <li>
-                                                                                                                                                                    <Link
-                                                                                                                                                                        to="#"
-                                                                                                                                                                        className="hover:underline text-skin-secondary hover:text-white"
-                                                                                                                                                                    >
-                                                                                                                                                                        Explore
-                                                                                                                                                                        More
-                                                                                                                                                                        ⚡
-                                                                                                                                                                    </Link>
-                                                                                                                                                                </li>
-                                                                                                                                                            </ul>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div className="grid py-5 px-4 mx-auto text-sm text-gray-500 dark:text-gray-400 md:px-6">
-                                                                                                                                                            <img src="https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg" />
-                                                                                                                                                        </div>
-                                                                                                                                                    </div>
-                                                                                                                                                </Popover.Panel>
-                                                                                                                                            </Transition>
-                                                                                                                                        </>
-                                                                                                                                    ) : (
-                                                                                                                                        ""
-                                                                                                                                    )}
-                                                                                                                                </>
-                                                                                                                            )}
-                                                                                                                        </Popover>
-                                                                                                                    </div>
-                                                                                                                </Popover.Group>
-                                                                                                            </div>
-                                                                                                        </li>
-                                                                                                    </Fragment>
-                                                                                                );
-                                                                                            }
-                                                                                        )}
-
-                                                                                        <li>
-                                                                                            <Link
-                                                                                                to="#"
-                                                                                                className="hover:underline text-skin-secondary hover:text-white"
-                                                                                            >
-                                                                                                Explore
-                                                                                                More
-                                                                                                ⚡
-                                                                                            </Link>
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {/* Mega Menu end  */}
-                                                                        </Popover.Panel>
-                                                                    </Transition>
-                                                                </>
+                                                                )
                                                             )}
-                                                        </Popover>
-
-                                                        {/* end of categories */}
-                                                        {navigation.categories.map(
-                                                            (category) => (
-                                                                <Popover
-                                                                    key={
-                                                                        category.name
-                                                                    }
-                                                                    className="flex"
-                                                                >
-                                                                    {({
-                                                                        open,
-                                                                    }) => (
-                                                                        <>
-                                                                            <div className="relative flex">
-                                                                                <Popover.Button className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium text-white">
-                                                                                    {
-                                                                                        category.name
-                                                                                    }
-                                                                                    <span
-                                                                                        className={classNames(
-                                                                                            open
-                                                                                                ? "bg-white"
-                                                                                                : "",
-                                                                                            "absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200"
-                                                                                        )}
-                                                                                        aria-hidden="true"
-                                                                                    />
-                                                                                </Popover.Button>
-                                                                            </div>
-
-                                                                            <Transition
-                                                                                as={
-                                                                                    Fragment
-                                                                                }
-                                                                                enter="transition ease-out duration-200"
-                                                                                enterFrom="opacity-0"
-                                                                                enterTo="opacity-100"
-                                                                                leave="transition ease-in duration-150"
-                                                                                leaveFrom="opacity-100"
-                                                                                leaveTo="opacity-0"
-                                                                            >
-                                                                                <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
-                                                                                    {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                                                                                    <div
-                                                                                        className="absolute inset-0 top-1/2 bg-white shadow"
-                                                                                        aria-hidden="true"
-                                                                                    />
-
-                                                                                    <div className="relative bg-white">
-                                                                                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                                                                                            <div className="grid grid-cols-4 gap-y-10 gap-x-8 py-16">
-                                                                                                {category.featured.map(
-                                                                                                    (
-                                                                                                        item
-                                                                                                    ) => (
-                                                                                                        <div
-                                                                                                            key={
-                                                                                                                item.name
-                                                                                                            }
-                                                                                                            className="group relative"
-                                                                                                        >
-                                                                                                            <div className="aspect-w-1 aspect-h-1 rounded-md bg-gray-100 overflow-hidden group-hover:opacity-75">
-                                                                                                                <img
-                                                                                                                    src={
-                                                                                                                        item.imageSrc
-                                                                                                                    }
-                                                                                                                    alt={
-                                                                                                                        item.imageAlt
-                                                                                                                    }
-                                                                                                                    className="object-center object-cover"
-                                                                                                                />
-                                                                                                            </div>
-                                                                                                            <Link
-                                                                                                                to={
-                                                                                                                    item.href
-                                                                                                                }
-                                                                                                                className="mt-4 block font-medium text-skin-primary"
-                                                                                                            >
-                                                                                                                <span
-                                                                                                                    className="absolute z-10 inset-0"
-                                                                                                                    aria-hidden="true"
-                                                                                                                />
-                                                                                                                {
-                                                                                                                    item.name
-                                                                                                                }
-                                                                                                            </Link>
-                                                                                                            <p
-                                                                                                                aria-hidden="true"
-                                                                                                                className="mt-1"
-                                                                                                            >
-                                                                                                                Shop
-                                                                                                                now
-                                                                                                            </p>
-                                                                                                        </div>
-                                                                                                    )
-                                                                                                )}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </Popover.Panel>
-                                                                            </Transition>
-                                                                        </>
-                                                                    )}
-                                                                </Popover>
-                                                            )
-                                                        )}
-
-                                                        {navigation.pages.map(
-                                                            (page) => (
-                                                                <Link
-                                                                    key={
-                                                                        page.name
-                                                                    }
-                                                                    to={
-                                                                        page.href
-                                                                    }
-                                                                    className="flex items-center text-sm font-medium text-white"
-                                                                >
-                                                                    {page.name}
-                                                                </Link>
-                                                            )
-                                                        )}
+                                                        </div>
                                                     </div>
-                                                </Popover.Group>
-                                            </div>
-                                        </div>
-                                        {/* Mobile menu and search (lg-) */}
-                                        <div className="flex-1 flex items-center lg:hidden">
-                                            <button
-                                                type="button"
-                                                className="-ml-2 p-2 text-white"
-                                                onClick={() =>
-                                                    dispatch(trigger(true))
-                                                }
-                                            >
-                                                <span className="sr-only">
-                                                    Open menu
-                                                </span>
-                                                <MenuIcon
-                                                    className="h-6 w-6"
-                                                    aria-hidden="true"
-                                                />
-                                            </button>
+                                                </div>
+                                            </Popover.Panel>
+                                        </Transition>
+                                    </>
+                                )}
+                            </Popover>
+                        )
+                    )}
 
-                                            {/* Search */}
-                                            <Link
-                                                to="#"
-                                                className="ml-2 p-2 text-white"
-                                            >
-                                                <span className="sr-only">
-                                                    Search
-                                                </span>
-                                                <SearchIcon
-                                                    className="w-6 h-6"
-                                                    aria-hidden="true"
-                                                />
-                                            </Link>
-                                        </div>
+                    {navigation.pages.map(
+                        (page) => (
+                            <Link
+                                key={
+                                    page.name
+                                }
+                                to={
+                                    page.href
+                                }
+                                className="flex items-center text-sm font-medium text-white"
+                            >
+                                {page.name}
+                            </Link>
+                        )
+                    )}
+                </div>
+            </Popover.Group>
+        </div>
+    </div>
+    {/* Mobile menu and search (lg-) */}
+    <div className="flex-1 flex items-center lg:hidden">
+        <button
+            type="button"
+            className="-ml-2 p-2 text-white"
+            onClick={() =>
+                dispatch(trigger(true))
+            }
+        >
+            <span className="sr-only">
+                Open menu
+            </span>
+            <MenuIcon
+                className="h-6 w-6"
+                aria-hidden="true"
+            />
+        </button>
 
-                                        {/* Logo (lg-) */}
-                                        <Link to="/" className="lg:hidden">
-                                            <span className="sr-only">
-                                                Ratayo
-                                            </span>
-                                            <img
-                                                src={Logo}
-                                                alt="Mobile_logo"
-                                                className="h-8 w-auto"
-                                            />
-                                        </Link>
+        {/* Search */}
+        <Link
+            to="#"
+            className="ml-2 p-2 text-white"
+        >
+            <span className="sr-only">
+                Search
+            </span>
+            <SearchIcon
+                className="w-6 h-6"
+                aria-hidden="true"
+            />
+        </Link>
+    </div>
 
-                                        <div className="flex-1 flex items-center justify-end">
+    {/* Logo (lg-) */}
+    <Link to="/" className="lg:hidden">
+        <span className="sr-only">
+            Ratayo
+        </span>
+        <img
+            src={Logo}
+            alt="Mobile_logo"
+            className="h-8 w-auto"
+        />
+    </Link>
+    <div className="flex items-center justify-end">
                                             <Link
                                                 to="#"
                                                 className="hidden text-sm font-medium text-white lg:block"
@@ -943,7 +943,7 @@ const Navbar = ({ color }) => {
                                                             aria-hidden="true"
                                                         />
                                                         <span className="ml-2 text-sm font-medium text-white">
-                                                            0
+                                                            1
                                                         </span>
                                                         <span className="sr-only">
                                                             items in cart, view
@@ -953,14 +953,15 @@ const Navbar = ({ color }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-        </>
+    
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+</>
     );
 };
 
