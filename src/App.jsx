@@ -16,7 +16,7 @@ import VendorMain from './Components/VendorComponent/Dashboard/Main'
 import AllVendorProducts from './Components/VendorComponent/Dashboard/AllVendorProducts'
 import AddNewProduct from './Components/VendorComponent/Dashboard/AddNewProduct'
 
-import Orders from './Components/VendorComponent/Dashboard/orders'
+import Orders from './Components/VendorComponent/Dashboard/Orders'
 
 
 const App = () => {
