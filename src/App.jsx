@@ -15,6 +15,7 @@ import VendorIndex from './Components/VendorComponent/Dashboard'
 import VendorMain from './Components/VendorComponent/Dashboard/Main'
 import AllVendorProducts from './Components/VendorComponent/Dashboard/AllVendorProducts'
 import AddNewProduct from './Components/VendorComponent/Dashboard/AddNewProduct'
+import Orders from './Components/VendorComponent/Dashboard/orders'
 
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='main' element={<VendorMain />}/>
           <Route path='products' element={<AllVendorProducts/>}/>
           <Route path='addnewproduct' element={<AddNewProduct />} />
+          <Route path='orders' element={<Orders/>} />
         </Route>
 
         <Route path='*' element={<ErrorPage />} />
