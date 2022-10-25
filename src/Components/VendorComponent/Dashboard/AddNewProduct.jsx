@@ -25,7 +25,6 @@ const AddNewProduct = () => {
         <div className=' w-1/5'>
         Tips:
         <ul className='px-4'>
-
 <li className=' list-disc'>Use natural light and no flash.</li>
 <li className=' list-disc'>Include a common object for scale.</li>
 <li className=' list-disc'>Show the item being held, worn, or used.</li>

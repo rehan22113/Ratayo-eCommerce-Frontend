@@ -5,57 +5,12 @@ import Navbar from '../Layouts/Navbar'
 import { Link } from 'react-router-dom'
 import Products from '../Components/Products'
 import MainImage from '../assets/main.jpg'
-import Typewriter from 'typewriter-effect'
+// import Typewriter from 'typewriter-effect'
+import OfferSlider from '../Components/OfferSlider'
 // import FullScreenSearch from '../Components/FullScreenSearch'
-
-
-const categories = [
-  {
-    name: 'New Arrivals',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-01.jpg',
-  },
-  {
-    name: 'Productivity',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-02.jpg',
-  },
-  {
-    name: 'Workspace',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-04.jpg',
-  },
-  {
-    name: 'Accessories',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg',
-  },
-  { name: 'Appliance', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
-]
-const collections = [
-  {
-    name: 'Handcrafted Collection',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-collection-01.jpg',
-    imageAlt: 'Brown leather key ring with brass metal loops and rivets on wood table.',
-    description: 'Keep your phone, keys, and wallet together, so you can lose everything at once.',
-  },
-  {
-    name: 'Organized Desk Collection',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-collection-02.jpg',
-    imageAlt: 'Natural leather mouse pad on white desk next to porcelain mug and keyboard.',
-    description: 'The rest of the house will still be a mess, but your desk will look great.',
-  },
-  {
-    name: 'Focus Collection',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-collection-03.jpg',
-    imageAlt: 'Person placing task list card into walnut card holder next to felt carrying case on leather desk pad.',
-    description: 'Be more productive than enterprise project managers with a single piece of paper.',
-  },
-]
-
+import {categories,collections} from '../assets/CatDummyData'
+import TopSellerSlider from '../Components/TopSellerSlider'
+import SponsorProducts from '../Components/SponsorProducts'
 
 
 export default function Home() {
@@ -80,29 +35,24 @@ export default function Home() {
         {/* <FullScreenSearch /> */}
 
 
-        <div className="relative z-0 max-w-6xl mx-auto py-32 px-1 flex flex-col items-center text-center sm:py-64 lg:px-0">
-        <div className='flex justify-center items-center flex-wrap'>
-          <span className="text-6xl font-extrabold tracking-tight text-white lg:text-6xl mr-2"> Go Shopping For  
-          </span>
-          <span className="text-4xl font-extrabold tracking-tight text-skin-secondary lg:text-6xl">
-          <Typewriter
-            options={{
-              strings: ['Women Collection', 'Mens Collection','Kids Toys','Summer Sale','Winter sale'],
-              autoStart: true,
-              loop: true,
-            }}
-          />
-        </span>
+        <div className="relative z-0 lg:space-x-4 container mx-auto py-10 px-1 flex items-center text-center lg:px-0">
+        <div className='bg-slate-100 p-3 w-1/4 '> 
+          <div>
+          <h2 className='text-md font-semibold leading-relaxed'>Our Sponsor Products</h2>
+          </div>
+          <SponsorProducts />
         </div>
-          <p className="mt-8 text-6xl font-serif font-extrabold text-white">
-          ON RATAYO
-          </p>
-          <Link
-            to="/shop"
-            className="mt-8 inline-block bg-skin-secondary border border-transparent rounded-md py-3 px-8 text-base font-medium text-skin-primary hover:bg-gray-100"
-          >
-            Shop New Arrivals
-          </Link>
+        <div className='w-3/4 lg:space-y-2'>
+          <div className='lg:h-96 '>
+            <OfferSlider />
+          </div>
+          <div className=' h-auto backdrop-blur-sm w-full'>
+    <h1 className="text-left leading-relaxed font-bold text-2xl drop-shadow-lg shadow-white font-serif text-red-700">Our Top Seller</h1>
+            <TopSellerSlider />
+          </div>
+        </div>
+        
+          
         </div>
       </div>
 

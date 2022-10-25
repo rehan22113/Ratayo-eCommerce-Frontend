@@ -4,7 +4,7 @@ import { XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
 import Navbar from '../Layouts/Navbar'
 import Footer from '../Layouts/Footer'
-import Products from '../Components/Products'
+// import Products from '../Components/Products'
 import MobileNavbar from '../Layouts/MobileNavbar'
 import AllProducts from '../Components/AllProducts'
 window.React = React
@@ -77,7 +77,7 @@ export default function ShopPage() {
       </div>
       <div>
         {/* Mobile filter dialog */}
-        <Transition.Root show={mobileFiltersOpen}>
+        <Transition show={mobileFiltersOpen}>
           <Dialog as="div" className="relative z-40 lg:hidden" onClose={setMobileFiltersOpen}>
             <Transition.Child
               
@@ -95,11 +95,11 @@ export default function ShopPage() {
               <Transition.Child
                 
                 enter="transition ease-in-out duration-300 transform"
-                enterFrom="translate-x-full"
+                enterFrom="translate-x-10"
                 enterTo="translate-x-0"
                 leave="transition ease-in-out duration-300 transform"
                 leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
+                leaveTo="translate-x-10"
               >
                 <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-12 flex flex-col overflow-y-auto">
                   <div className="px-4 flex items-center justify-between">
@@ -174,7 +174,7 @@ export default function ShopPage() {
               </Transition.Child>
             </div>
           </Dialog>
-        </Transition.Root>
+        </Transition>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
