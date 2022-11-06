@@ -15,8 +15,9 @@ import VendorIndex from './Components/VendorComponent/Dashboard'
 import VendorMain from './Components/VendorComponent/Dashboard/Main'
 import AllVendorProducts from './Components/VendorComponent/Dashboard/AllVendorProducts'
 import AddNewProduct from './Components/VendorComponent/Dashboard/AddNewProduct'
-
+import ShopSettingGeneral from './Components/VendorComponent/Dashboard/ShopSettingGeneral'
 import Orders from './Components/VendorComponent/Dashboard/Orders'
+import PaymentSetting from './Components/VendorComponent/Dashboard/PaymentSetting'
 
 
 const App = () => {
@@ -38,6 +39,8 @@ const App = () => {
           <Route path='products' element={<AllVendorProducts />}/>
           <Route path='addnewproduct' element={<AddNewProduct />} />
           <Route path='orders' element={<Orders />} />
+          <Route path='shop-setting-general' element={<ShopSettingGeneral />} />
+          <Route path='payment-setting' element={<PaymentSetting />} />
         </Route>
 
         <Route path='*' element={<ErrorPage />} />

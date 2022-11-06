@@ -1,7 +1,8 @@
 import React from "react";
 import Footer from "../Layouts/Footer";
 import Navbar from "../Layouts/Navbar";
-
+import logo from '../assets/logo.png'
+import { Link } from "react-router-dom";
 export default function LoginPage() {
     return (
       <>
@@ -12,7 +13,7 @@ export default function LoginPage() {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-skin-secondar.svg"
+            src={logo}
             alt="Workflow"
           />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-skin-primary">Sign in to your account</h2>
@@ -83,6 +84,11 @@ export default function LoginPage() {
                 </button>
               </div>
             </form>
+            <div className='w-full flex justify-center py-2'>
+                <Link to="/register" className="text-sm text-center text-skin-primary">
+                  Not have an Account yet? <span className='text-skin-secondary underline'>Register Here</span>
+                </Link> 
+                </div>
   
             <div className="mt-6">
               <div className="relative">
