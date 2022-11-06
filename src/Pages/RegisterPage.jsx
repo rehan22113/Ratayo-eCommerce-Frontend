@@ -3,6 +3,32 @@ import {Link} from 'react-router-dom'
 import Logo from '../assets/logo.png'
 
 export default function RegisterPage() {
+
+  const [RegisterData,setRegisterData] = useState({
+    firstName:"",
+    lastName:"",
+    userName:"",
+    email:"",
+    password:"",
+    confirm_password:""
+  })
+
+  const HandleChange = (e)=>{
+      const {name,value} = e.target;
+      setRegisterData({...RegisterData,[name]:value})
+  }
+  const postData = async()=>{
+    const res = await fetch("https://ratayo-api.herokuapp.com/register",{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(RegisterData)
+    })
+    console.log(res)
+
+  }
+
   const [isChecked,setIsChecked] = useState(false)
   const vendorInput = useRef()
   const CheckVendorOption =()=>{
@@ -70,30 +96,32 @@ export default function RegisterPage() {
                 <form action="#" method="POST" className="space-y-6">
                 <div className='flex space-x-4'>
                 <div className='w-[49%]'>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="fName" className="block text-sm font-medium text-gray-700">
                       First Name
                     </label>
                     <div className="mt-1">
                       <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
+                        onChange={HandleChange}
+                        id="fName"
+                        name="firstName"
+                        type="text"
+                        autoComplete="text"
                         required
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                       />
                     </div>
                   </div>
                   <div className='w-[49%]'>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="lName" className="block text-sm font-medium text-gray-700">
                       Last Name
                     </label>
                     <div className="mt-1">
                       <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
+                        onChange={HandleChange}
+                        id="lName"
+                        name="lastName"
+                        type="text"
+                        autoComplete="lName"
                         required
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                       />
@@ -101,11 +129,28 @@ export default function RegisterPage() {
                   </div>
                   </div>
                   <div>
+                    <label htmlFor="userName" className="block text-sm font-medium text-gray-700">
+                      User Name
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        onChange={HandleChange}
+                        id="userName"
+                        name="userName"
+                        type="text"
+                        autoComplete="userName"
+                        required
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                       Email address
                     </label>
                     <div className="mt-1">
                       <input
+                        onChange={HandleChange}
                         id="email"
                         name="email"
                         type="email"
@@ -115,6 +160,8 @@ export default function RegisterPage() {
                       />
                     </div>
                   </div>
+
+                  
   
                   <div className="space-y-1">
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -122,6 +169,7 @@ export default function RegisterPage() {
                     </label>
                     <div className="mt-1">
                       <input
+                        onChange={HandleChange}
                         id="password"
                         name="password"
                         type="password"
@@ -132,13 +180,14 @@ export default function RegisterPage() {
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="cPassword" className="block text-sm font-medium text-gray-700">
                      Confirm Password
                     </label>
                     <div className="mt-1">
                       <input
-                        id="password"
-                        name="password"
+                        onChange={HandleChange}
+                        id="cPassword"
+                        name="confirm_password"
                         type="password"
                         autoComplete="current-password"
                         required
@@ -240,7 +289,8 @@ export default function RegisterPage() {
                   {!isChecked?(
 
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={postData}
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-skin-secondary hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-skin-secondaryLight"
                     >
                       Sign up
@@ -257,7 +307,12 @@ export default function RegisterPage() {
                   )}
                   </div>
                 </form>
-                <div className='w-full flex justify-center py-6'>
+                <div className='w-full flex justify-center py-2'>
+                <Link to="/login" className="text-sm text-center text-skin-primary">
+                  Already have an Account? <span className='text-skin-secondary underline'>Login Here</span>
+                </Link> 
+                </div>
+                <div className='w-full flex justify-center py-2'>
                 <Link to="/" className="text-lg underline text-center text-skin-secondary">Back To Home</Link> 
                 </div>
               </div>

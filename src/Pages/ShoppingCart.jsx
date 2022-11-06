@@ -1,9 +1,9 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { MenuIcon, SearchIcon, ShoppingBagIcon, XIcon as XIconOutline } from '@heroicons/react/outline'
+import { Fragment, useState,useEffect } from 'react'
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XIcon as XIconSolid } from '@heroicons/react/solid'
 import Footer from '../Layouts/Footer'
 import Navbar from '../Layouts/Navbar'
+import { Link } from 'react-router-dom'
+
 
 const navigation = {
   categories: [
@@ -207,6 +207,9 @@ function classNames(...classes) {
 
 export default function ShoppingCart() {
   const [open, setOpen] = useState(false)
+  useEffect(() => {
+     window.scroll(0,0)
+  },[]);
 
   return (
     <div className="bg-white">
@@ -338,12 +341,17 @@ export default function ShoppingCart() {
             </dl>
 
             <div className="mt-6">
+            <Link
+                to="/checkout"
+            >
+
               <button
-                type="submit"
+               
                 className="w-full bg-skin-secondary border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-skin-secondaryLight"
               >
                 Checkout
               </button>
+            </Link>
             </div>
           </section>
         </form>

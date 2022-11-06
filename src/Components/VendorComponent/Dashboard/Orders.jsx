@@ -1,9 +1,17 @@
-import React from 'react'
+import React,{useState,Fragment} from 'react'
 import { Link } from 'react-router-dom'
+import { Dialog, Transition } from '@headlessui/react'
+import OrderDetail from './OrderDetail'
+import { useDispatch } from 'react-redux'
+import { isOpen } from '../../../Service/Slice/ProductAction'
+
 
 const Orders = () => {
+    const dispatch = useDispatch()
+
   return (
    <>
+   
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
     <div className="flex justify-between items-center pb-4 bg-white dark:bg-gray-900">
         <div>
@@ -49,7 +57,7 @@ const Orders = () => {
             Order
             </th>
             <th scope="col" className="py-3 px-6">
-            item
+            Status
             </th>
             <th scope="col" className="py-3 px-6">
             total
@@ -79,7 +87,7 @@ const Orders = () => {
             </th>
             <td className="py-4 px-6">
             <div className="flex items-center">
-            2 
+                <span className='bg-green-400 text-white px-2 p-1'>Completed</span>
             </div>
             </td>
             
@@ -90,7 +98,7 @@ const Orders = () => {
                 10/10/2022
             </td>
             <td className="py-4 px-6 space-x-2">
-            <button className='h-4 w-4'>
+            <button className='h-4 w-4' onClick={()=>{dispatch(isOpen(true))}}>
             <svg xmlns="http://www.w3.org/2000/svg" fill='currentColor' viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z" /></svg>
             </button>
             <button className='h-4 w-4 '>            
@@ -113,6 +121,8 @@ const Orders = () => {
     </table>
     </div>
 
+    <OrderDetail />
+    
 
    </>
   )
