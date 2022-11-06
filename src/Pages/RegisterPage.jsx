@@ -22,8 +22,11 @@ export default function RegisterPage() {
     const res = await fetch("https://ratayo-api.herokuapp.com/register",{
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Accept': 'application/json',
+      'Content-Type': 'application/json'
       },
+      mode:"cors",
+      credentials:"include",
       body: JSON.stringify(RegisterData)
     })
     console.log(res)
