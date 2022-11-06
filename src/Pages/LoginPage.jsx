@@ -24,15 +24,15 @@ export default function LoginPage() {
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" action="#" method="POST">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email address
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                  phone
                 </label>
                 <div className="mt-1">
                   <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
+                    id="phone"
+                    name="phone"
+                    type="phone"
+                    autoComplete="phone"
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                   />

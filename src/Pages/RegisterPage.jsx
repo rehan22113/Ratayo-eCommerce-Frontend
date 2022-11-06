@@ -5,9 +5,10 @@ import Logo from '../assets/logo.png'
 export default function RegisterPage() {
 
   const [RegisterData,setRegisterData] = useState({
-    firstName:"",
-    lastName:"",
-    userName:"",
+    firstname:"",
+    lastname:"",
+    username:"",
+    phone:"",
     email:"",
     password:"",
     confirm_password:""
@@ -144,6 +145,22 @@ export default function RegisterPage() {
                       />
                     </div>
                   </div>
+                  <div>
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                  Phone
+                </label>
+                <div className="mt-1">
+                  <input
+                  onChange={HandleChange}
+                    id="phone"
+                    name="phone"
+                    type="phone"
+                    autoComplete="phone"
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                  />
+                </div>
+              </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                       Email address
