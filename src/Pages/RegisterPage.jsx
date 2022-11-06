@@ -107,7 +107,7 @@ export default function RegisterPage() {
                       <input
                         onChange={HandleChange}
                         id="fName"
-                        name="firstName"
+                        name="firstname"
                         type="text"
                         autoComplete="text"
                         required
@@ -123,7 +123,7 @@ export default function RegisterPage() {
                       <input
                         onChange={HandleChange}
                         id="lName"
-                        name="lastName"
+                        name="lastname"
                         type="text"
                         autoComplete="lName"
                         required
@@ -140,7 +140,7 @@ export default function RegisterPage() {
                       <input
                         onChange={HandleChange}
                         id="userName"
-                        name="userName"
+                        name="username"
                         type="text"
                         autoComplete="userName"
                         required
