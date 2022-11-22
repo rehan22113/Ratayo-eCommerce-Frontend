@@ -67,14 +67,7 @@ function classNames(...classes) {
 
 export default function ShopPage() {
 
-  const GenearateProducts = async()=>{
-      const res =await fetch("https://ratayo-api.herokuapp.com/listing")
-      const data = await res.json()
-      console.log(data)
-  }
-  useEffect(() => {
-    GenearateProducts();
-  }, []);
+ 
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
