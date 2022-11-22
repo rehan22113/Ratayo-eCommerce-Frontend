@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Footer from '../Layouts/Footer'
 import MobileNavbar from '../Layouts/MobileNavbar'
 import Navbar from '../Layouts/Navbar'
@@ -11,10 +11,32 @@ import OfferSlider from '../Components/OfferSlider'
 import {categories,collections} from '../assets/CatDummyData'
 import TopSellerSlider from '../Components/TopSellerSlider'
 import SponsorProducts from '../Components/SponsorProducts'
+import { useMediaQuery} from 'use-media-size'
 
 
 export default function Home() {
-
+  const isMobile = useMediaQuery('(max-width:680px)')
+  const Run=async()=>{
+    const res = await fetch("http://localhost:1000/listing",{
+      method:"GET",
+      headers: {
+        'Accept': 'application/json',
+      'Content-Type': 'application/json',
+        'Access-Control-Allow-Headers':
+          'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        'Access-Control-Allow-Methods': 'OPTIONS,GET',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': '*',
+        'X-Requested-With': '*',
+      },
+      credentials:"include"
+     
+    })
+    console.log("Data",res)
+  }
+  useEffect(() => {
+   Run()
+  }, []);
   return (
     <div className="bg-white">
       <MobileNavbar />
@@ -35,19 +57,26 @@ export default function Home() {
         {/* <FullScreenSearch /> */}
 
 
-        <div className="relative z-0 lg:space-x-4 container mx-auto py-10 px-1 flex items-center text-center lg:px-0">
+        <div className="relative z-0 lg:space-x-4 container mx-auto py-4 md:py-10 lg:py-10 px-1 flex items-center text-center lg:px-0 justify-center">
+        {!isMobile?(
+          <>
+
         <div className='bg-slate-100 p-3 w-1/4 '> 
           <div>
           <h2 className='text-md font-semibold leading-relaxed'>Our Sponsor Products</h2>
           </div>
+          
           <SponsorProducts />
+          
         </div>
-        <div className='w-3/4 lg:space-y-2'>
+          </>
+        ):null}
+        <div className='lg:w-3/4 w-full lg:space-y-2'>
           <div className='lg:h-96 '>
             <OfferSlider />
           </div>
-          <div className=' h-auto backdrop-blur-sm w-full'>
-    <h1 className="text-left leading-relaxed font-bold text-2xl drop-shadow-lg shadow-white font-serif text-red-700">Our Top Seller</h1>
+          <div className=' h-auto backdrop-blur-sm w-full '>
+    <h1 className="text-left leading-relaxed font-bold text-lg md:text-2xl drop-shadow-lg shadow-white font-serif text-red-700">Our Top Seller</h1>
             <TopSellerSlider />
           </div>
         </div>

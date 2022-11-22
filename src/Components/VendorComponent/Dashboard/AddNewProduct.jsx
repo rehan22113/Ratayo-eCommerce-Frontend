@@ -11,6 +11,25 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const AddNewProduct = () => {
   const [files, setFiles] = useState([]);
+  const [Data,setData] = useState({
+      title :"",
+      description :"",
+      price :"",
+      qty :"",
+      sku :"",
+      catagory :"",
+      type :"",
+      renewal :"",
+      originPostCode :"",
+      processingTime :"",
+      services :"",
+      country :"",
+      weightValue :"",
+      weightUnit :"",
+      sizeValue :"",
+      sizeUnit :"",
+      tags :"",
+  })
   return (
     <>
     <div className='p-4'>
@@ -44,7 +63,7 @@ const AddNewProduct = () => {
                 maxFiles={1}
                 server={false}
                 name="files"
-                labelIdle='<div>Upload Primary Picture <span class="filepond--label-action">Browse</span>
+                labelIdle='<div>Upload Primary Picture <span className="filepond--label-action">Browse</span>
                 </div>'
             />
         </div>
@@ -59,7 +78,7 @@ const AddNewProduct = () => {
                 maxFiles={1}
                 server={false}
                 name="files"
-                labelIdle='<div>Upload Secondary Picture <span class="filepond--label-action">Browse</span>
+                labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action">Browse</span>
                 </div>'
             />
         </div>
@@ -74,7 +93,7 @@ const AddNewProduct = () => {
                 maxFiles={1}
                 server={false}
                 name="files"
-                labelIdle='<div>Upload Secondary Picture <span class="filepond--label-action">Browse</span>
+                labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action">Browse</span>
                 </div>'
             />
         </div>
@@ -89,7 +108,7 @@ const AddNewProduct = () => {
                 maxFiles={1}
                 server={false}
                 name="files"
-                labelIdle='<div>Upload Secondary Picture <span class="filepond--label-action">Browse</span>
+                labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action">Browse</span>
                 </div>'
             />
         </div>
@@ -111,7 +130,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4'>
 
-          <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+          <input type="text" name='title' id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
            </div>
     </div>
     <div className='flex py-5'>
@@ -121,7 +140,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4 flex space-x-2'>
             <div className='w-full'>
-           <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+           <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected>who made it?</option>
             <option value="US">i did</option>
             <option value="CA">A member of my shop</option>
@@ -129,14 +148,14 @@ const AddNewProduct = () => {
           </select>
 </div>
 <div className='w-full'>
-           <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+           <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected>what is it?</option>
             <option value="US">A finish product</option>
             <option value="CA">A supply or tool to make thing</option>
           </select>
 </div>
 <div className='w-full'>
-           <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">           
+           <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">           
             <option selected>When did you make it?</option>
             <optgroup label='Not Yet Made'>
             <option value="US">Made to Order</option>
@@ -217,7 +236,7 @@ const AddNewProduct = () => {
           <div className='md:w-3/4'>
 
            <div className='flex'>
-              <textarea id="message" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Brief overview that describes your item’s"></textarea>
+              <textarea id="message" rows="8" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Brief overview that describes your item’s"></textarea>
             </div>
            </div>     
     </div>
@@ -300,7 +319,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4 flex space-x-2'>
             <div className='w-full'>
-           <select id="countries" class="bg-gray-50 border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+           <select id="countries" className="bg-gray-50 border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected>Select your processing time...</option>
             <option value="US">1 business day</option>
             <option value="CA">1-2 business day</option>

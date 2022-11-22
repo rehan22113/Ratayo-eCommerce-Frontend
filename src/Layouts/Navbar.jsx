@@ -442,7 +442,7 @@ Be a vendor
 <div className="backdrop-blur-md backdrop-filter bg-opacity-40 bg-white">
 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div>
-<div className="h-32 lg:space-x-4 flex items-center justify-between">
+<div className="lg:h-32 md:h-28 h-20 lg:space-x-4 flex items-center justify-between">
     <div className="flex flex-row">
         {/* Logo (lg+) */}
         <div className="hidden lg:flex-1 lg:flex lg:items-center">

@@ -31,7 +31,7 @@ const ShopSettingGeneral = () => {
             maxFiles={1}
             server={false}
             name="files"
-            labelIdle='<div>Upload Primary Picture <span class="filepond--label-action">Browse</span>
+            labelIdle='<div>Upload Primary Picture <span className="filepond--label-action">Browse</span>
             </div>'
             />
         </div>
@@ -49,7 +49,7 @@ const ShopSettingGeneral = () => {
             maxFiles={1}
             server={false}
             name="files"
-            labelIdle='<div>Upload Primary Picture <span class="filepond--label-action">Browse</span>
+            labelIdle='<div>Upload Primary Picture <span className="filepond--label-action">Browse</span>
             </div>'
             />
         </div>

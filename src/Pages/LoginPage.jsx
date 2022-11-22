@@ -1,9 +1,45 @@
-import React from "react";
+import React,{useState} from "react";
 import Footer from "../Layouts/Footer";
 import Navbar from "../Layouts/Navbar";
 import logo from '../assets/logo.png'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {LoginUser} from '../Service/Slice/Login'
+import { useDispatch } from "react-redux";
+
+
 export default function LoginPage() {
+  const Navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [UserData,setUserData] = useState({
+    phone:"",
+    password:""
+  })
+  const DataHandler= (e)=>{
+    const {name,value} = e.target;
+    setUserData({...UserData,[name]:value})
+  }
+  const PostData = async(e)=>{
+      e.preventDefault()
+      const res = await fetch('http://localhost:1000/auth',{
+        method:"POST",
+        mode:"cors",
+        headers:{
+          "Content-type":"application/json",
+          "Accept":"application/json",    
+        },
+        credentials:"include",
+        body:JSON.stringify(UserData)
+      })
+      const Data = res.json()
+      console.log(res)
+      if(res.status == 200){
+        dispatch(LoginUser(true))
+        Navigate("/")
+      }
+      else{
+          Navigate("/login")
+      }
+  }
     return (
       <>
       <div className="relative bg-gray-700">
@@ -22,7 +58,7 @@ export default function LoginPage() {
   
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" onSubmit={PostData}>
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                   phone
@@ -30,6 +66,8 @@ export default function LoginPage() {
                 <div className="mt-1">
                   <input
                     id="phone"
+                    onChange={DataHandler}
+                    value={UserData.phone}
                     name="phone"
                     type="phone"
                     autoComplete="phone"
@@ -45,6 +83,8 @@ export default function LoginPage() {
                 </label>
                 <div className="mt-1">
                   <input
+                    onChange={DataHandler}
+                    value={UserData.password}
                     id="password"
                     name="password"
                     type="password"

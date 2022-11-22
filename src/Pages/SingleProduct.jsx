@@ -9,6 +9,7 @@ import {
 import { StarIcon } from '@heroicons/react/solid'
 import Navbar from '../Layouts/Navbar'
 import Footer from  '../Layouts/Footer'
+import { useSearchParams } from 'react-router-dom'
 
 
 const product = {
@@ -66,8 +67,21 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
-  useEffect(() => {
+export default function SingleProduct() {
+  const [product,setProducts] = useState({})
+  const GenearateProducts = async()=>{
+    const res =await fetch(`${import.meta.env.VITE_APP_URL}/listing/${params.get("product_ID")}`,{
+      method:"GET",
+      credentials:"include"
+    })
+    const data = await res.json()
+    setProducts(data)
+    console.log(data)
+}
+
+const [params,setParams] = useSearchParams();
+useEffect(() => {
+    GenearateProducts();
     window.scrollTo(0, 0);
   }, []);
   const [open, setOpen] = useState(false)

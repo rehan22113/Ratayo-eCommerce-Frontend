@@ -19,7 +19,7 @@ export default function RegisterPage() {
       setRegisterData({...RegisterData,[name]:value})
   }
   const postData = async()=>{
-    const res = await fetch("https://ratayo-api.herokuapp.com/register",{
+    const res = await fetch("http://localhost:1000/register",{
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -222,14 +222,13 @@ export default function RegisterPage() {
                     <div className="mt-1 w-full flex justify-start items-center space-x-5">
                      <div>
                       <input
-                      className=''
+                        id="customer"
+                        className=''
                         defaultChecked="true"
                         onFocus={()=>{setIsChecked(false)}}
                         onChange={()=>{setIsChecked(false)}}
-                        id="customer"
                         name="user_type"
-                        type="radio"
-                       
+                        type="radio"        
                       />
                       <label htmlFor="customer">sign as Customer</label>
                       </div>
@@ -240,8 +239,7 @@ export default function RegisterPage() {
                         onChange={()=>{setIsChecked(true)}}
                         id="vendor"
                         name="user_type"
-                        type="radio"
-                        
+                        type="radio"    
                       />
                       <label htmlFor="vendor">sign as vendor</label>
                       </div>
