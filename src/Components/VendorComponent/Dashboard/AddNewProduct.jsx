@@ -11,7 +11,11 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const AddNewProduct = () => {
   const [files, setFiles] = useState([]);
-  const [Data,setData] = useState({
+  const [files1, setFiles1] = useState([]);
+  const [files2, setFiles2] = useState([]);
+  const [files3, setFiles3] = useState([]);
+
+ const [Data,setData] = useState({
       title :"",
       description :"",
       price :"",
@@ -34,8 +38,8 @@ const AddNewProduct = () => {
     <>
     <div className='p-4'>
       <div className='py-5'>
-
-        <h1 className='md:text-3xl text-xl font-semibold leading-loose mb-5'>Create a Listing</h1>
+        <h1 className='md:text-3xl text-xl font-semibold leading-loose mb-5'>Create a Listing
+        </h1>
         <p className='md:text-md'>Add some photos and details about your item. Fill out what you can for now - you’ll be able to edit this later. </p>
       </div>
       <div className='border p-4'>
@@ -44,11 +48,12 @@ const AddNewProduct = () => {
         <div className=' w-1/5'>
         Tips:
         <ul className='px-4'>
-<li className=' list-disc'>Use natural light and no flash.</li>
-<li className=' list-disc'>Include a common object for scale.</li>
-<li className=' list-disc'>Show the item being held, worn, or used.</li>
-<li className=' list-disc'>Shoot against a clean, simple background.</li>
-<li className=' list-disc'>Add photos to your variations so buyers can see all their options</li>
+          <li className=' list-disc'>Use natural light and no flash.</li>
+          <li className=' list-disc'>Include a common object for scale.</li>
+          <li className=' list-disc'>Show the item being held, worn, or used.</li>
+          <li className=' list-disc'>Shoot against a clean, simple background.</li>
+          <li className=' list-disc'>Add photos to your variations so buyers can see all their options
+          </li>
         </ul>
         </div>
         <div className='flex space-x-4 w-3/4'> 
@@ -71,13 +76,13 @@ const AddNewProduct = () => {
 
         <FilePond
               imagePreviewMaxHeight={300}
-                files={files}
-                onupdatefiles={setFiles}
+                files={files1}
+                onupdatefiles={setFiles1}
                 allowMultiple={false}
                 styleButtonRemoveItemPosition="left"
                 maxFiles={1}
                 server={false}
-                name="files"
+                name="files1"
                 labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action">Browse</span>
                 </div>'
             />
@@ -86,14 +91,14 @@ const AddNewProduct = () => {
 
         <FilePond
               imagePreviewMaxHeight={300}
-                files={files}
-                onupdatefiles={setFiles}
+                files={files2}
+                onupdatefiles={setFiles2}
                 allowMultiple={false}
                 styleButtonRemoveItemPosition="left"
                 maxFiles={1}
                 server={false}
-                name="files"
-                labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action">Browse</span>
+                name="files2"
+                labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action cursor-pointer">Browse</span>
                 </div>'
             />
         </div>
@@ -101,14 +106,14 @@ const AddNewProduct = () => {
 
         <FilePond
               imagePreviewMaxHeight={300}
-                files={files}
-                onupdatefiles={setFiles}
+                files={files3}
+                onupdatefiles={setFiles3}
                 allowMultiple={false}
                 styleButtonRemoveItemPosition="left"
                 maxFiles={1}
                 server={false}
-                name="files"
-                labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action">Browse</span>
+                name="files3"
+                labelIdle='<div>Upload Secondary Picture <span className="filepond--label-action cursor-pointer">Browse</span>
                 </div>'
             />
         </div>
@@ -236,7 +241,7 @@ const AddNewProduct = () => {
           <div className='md:w-3/4'>
 
            <div className='flex'>
-              <textarea id="message" rows="8" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Brief overview that describes your item’s"></textarea>
+              <textarea id="description" name='description' rows="8" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Brief overview that describes your item’s"></textarea>
             </div>
            </div>     
     </div>
@@ -263,7 +268,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4'>
 
-          <input type="number" id="first_name" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+          <input type="number" name='price' id="first_name" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
            </div>
     </div>
     <div className='flex py-5 space-x-2'>
@@ -273,7 +278,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4'>
 
-          <input type="number" id="first_name" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+          <input type="number" name='quantity' id="first_name" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
            </div>
     </div><div className='flex py-5 space-x-2'>
            <div className=' md:w-1/6'>
