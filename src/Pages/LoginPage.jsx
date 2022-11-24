@@ -34,7 +34,7 @@ export default function LoginPage() {
       console.log(res)
       if(res.status == 200){
         dispatch(LoginUser(true))
-        Navigate("/")
+        Navigate("/dashboard/vendor/")
       }
       else{
           Navigate("/login")
