@@ -1,9 +1,9 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import Footer from "../Layouts/Footer";
 import Navbar from "../Layouts/Navbar";
 import logo from '../assets/logo.png'
 import { Link, useNavigate } from "react-router-dom";
-import {LoginUser} from '../Service/Slice/Login'
+import {LoginUser, LoginVendor} from '../Service/Slice/Login'
 import { useDispatch } from "react-redux";
 
 
@@ -11,7 +11,7 @@ export default function LoginPage() {
   const Navigate = useNavigate();
   const dispatch = useDispatch()
   const [UserData,setUserData] = useState({
-    phone:"",
+    email:"",
     password:""
   })
   const DataHandler= (e)=>{
@@ -20,7 +20,7 @@ export default function LoginPage() {
   }
   const PostData = async(e)=>{
       e.preventDefault()
-      const res = await fetch('http://localhost:1000/auth',{
+      const res = await fetch(`${import.meta.env.VITE_APP_URL}/auth`,{
         method:"POST",
         mode:"cors",
         headers:{
@@ -30,16 +30,40 @@ export default function LoginPage() {
         credentials:"include",
         body:JSON.stringify(UserData)
       })
-      const Data = res.json()
-      console.log(res)
+      const Data =await res.json()
+      console.log(Data)
       if(res.status == 200){
-        dispatch(LoginUser(true))
+        dispatch(LoginVendor(true))
         Navigate("/dashboard/vendor/")
       }
       else{
           Navigate("/login")
       }
   }
+  const isLogin = async()=>{
+    const res = await fetch(`${import.meta.env.VITE_APP_URL}/refresh`,{
+      method:"GET",
+      mode:"cors",
+      headers:{
+        "Content-type":"application/json",
+        "Accept":"application/json",    
+      },
+      credentials:"include",   
+    })
+    const Data = await res.json()
+    console.log(Data)
+    if(res.status == 200){
+      dispatch(LoginVendor(true))
+      Navigate("/dashboard/vendor/")
+    }
+    else{
+      dispatch(LoginVendor(false))
+        Navigate("/login")
+    }
+  }
+  useEffect(() => {
+    isLogin()
+  }, []);
     return (
       <>
       <div className="relative bg-gray-700">
@@ -61,16 +85,16 @@ export default function LoginPage() {
             <form className="space-y-6" onSubmit={PostData}>
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                  phone
+                  Email
                 </label>
                 <div className="mt-1">
                   <input
                     id="phone"
                     onChange={DataHandler}
-                    value={UserData.phone}
-                    name="phone"
-                    type="phone"
-                    autoComplete="phone"
+                    value={UserData.email}
+                    name="email"
+                    type="email"
+                    autoComplete="email"
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                   />

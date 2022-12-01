@@ -2,33 +2,50 @@ import React, { Fragment,useEffect } from 'react'
 import {Link, useNavigate, Outlet } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
 import { useSelector,useDispatch } from 'react-redux'
-import { LoginUser } from '../../../Service/Slice/Login'
+import { LoginUser,LoginVendor } from '../../../Service/Slice/Login'
+
 
 
 const index = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=>state.isLogin)
+  const isLogins = async()=>{
+    const res = await fetch(`${import.meta.env.VITE_APP_URL}/refresh`,{
+      method:"GET",
+      mode:"cors",
+      headers:{
+        "Content-type":"application/json",
+        "Accept":"application/json",    
+      },
+      credentials:"include",   
+    })
+    if(res.status == 200){
+      dispatch(LoginVendor(true))
+
+    }
+    
+  }
   const Logout = async()=>{
-    const res = await fetch("http://localhost:1000/logout",{
+    const res = await fetch(`${import.meta.env.VITE_APP_URL}/logout`,{
       method:"GET",
       headers:{
       'content-type':'application/json',
       'Allowed':'application/json'   
       },
-
     })
     console.log(res)
     if (res.status == 204){
-      dispatch(LoginUser(false))
+      dispatch(LoginVendor(false))
       Navigate("/login")
     }
   }
   useEffect(() => {
-    if(!isLogin.isLogin){
+    isLogins()
+    if(!isLogin.VendorLogin){
       Navigate("/login")
     }
-    console.log(isLogin.isLogin)
+    console.log(isLogin.VendorLogin)
   }, []);
   return (
     <>
