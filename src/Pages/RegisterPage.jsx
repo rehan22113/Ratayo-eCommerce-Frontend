@@ -1,9 +1,13 @@
-import {useRef,useState} from 'react'
-import {Link} from 'react-router-dom'
+import {useRef,useState,useEffect} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
 import Logo from '../assets/logo.png'
+import { useDispatch } from 'react-redux'
+import {LoginUser, LoginVendor} from '../Service/Slice/Login'
+import Cookies from 'js-cookie';
 
 export default function RegisterPage() {
-
+  const dispatch = useDispatch()
+  const Navigate = useNavigate();
   const [RegisterData,setRegisterData] = useState({
     firstname:"",
     lastname:"",
@@ -11,15 +15,32 @@ export default function RegisterPage() {
     phone:"",
     email:"",
     password:"",
-    confirm_password:""
+    confirm_password:"",
+    vendor:false
   })
 
+  
   const HandleChange = (e)=>{
       const {name,value} = e.target;
       setRegisterData({...RegisterData,[name]:value})
   }
-  const postData = async()=>{
-    const res = await fetch("http://localhost:1000/register",{
+  const GenerateLoginRequest=()=>{
+      const res = fetch(`${import.meta.env.VITE_APP_URL}/auth`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        mode:"cors",
+        credentials:"include",
+        body: JSON.stringify({email:RegisterData.email,password:RegisterData.password})
+      })
+      return res
+  }
+  const postVendorData=async()=>{
+
+    setRegisterData({...RegisterData,vendor:true})
+    const res = await fetch(`${import.meta.env.VITE_APP_URL}/register`,{
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -30,14 +51,68 @@ export default function RegisterPage() {
       body: JSON.stringify(RegisterData)
     })
     console.log(res)
+    if(res.status == 201){
+       const loginRes=await GenerateLoginRequest()
+       if(loginRes.status == 200 ){
+         dispatch(LoginVendor(true))   
+         Navigate("/dashboard/vendor/")
+       }
+    }
+    else{
+        Navigate("/register")
+    }
+  }
+  const postData = async()=>{
+    const res = await fetch(`${import.meta.env.VITE_APP_URL}/register`,{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      },
+      mode:"cors",
+      credentials:"include",
+      body: JSON.stringify(RegisterData)
+    })
+    console.log(res)
+    if(res.status == 200){
+      dispatch(LoginVendor(true))
+      Navigate("/dashboard/vendor/")
+    }
+    else{
+        Navigate("/register")
+    }
 
   }
+  const isLogin = async()=>{
+    const res = await fetch(`${import.meta.env.VITE_APP_URL}/refresh`,{
+      method:"GET",
+      mode:"cors",
+      headers:{
+        "Content-type":"application/json",
+        "Accept":"application/json",    
+      },
+      credentials:"include",   
+    })
+    const Data =await res.json()
+    console.log(Data)
+    if(res.status == 200){
+      dispatch(LoginUser(true))
+      dispatch(LoginVendor(true))
+      Navigate("/dashboard/vendor/");
+    }
+    else{
+        Navigate('/register');
+    }
+  }
+  useEffect(() => {
+    isLogin()
+  }, []);
 
   const [isChecked,setIsChecked] = useState(false)
-  const vendorInput = useRef()
-  const CheckVendorOption =()=>{
-      vendorInput.current.checked = true
-  }
+  // const vendorInput = useRef()
+  // const CheckVendorOption =()=>{
+  //     vendorInput.current.checked = true
+  // }
 
     return (
       <div className="min-h-screen bg-white flex">
@@ -234,7 +309,7 @@ export default function RegisterPage() {
                       </div>
                       <div>
                     <input
-                        ref={vendorInput}
+                        // ref={vendorInput}
                         onFocus={()=>{setIsChecked(true)}}
                         onChange={()=>{setIsChecked(true)}}
                         id="vendor"
@@ -246,7 +321,7 @@ export default function RegisterPage() {
                     </div>
                     
                   </div>
-                  {isChecked?(
+                  {/* {isChecked?(
 
                   <>
                   <div className="space-y-1">
@@ -256,8 +331,8 @@ export default function RegisterPage() {
                     <div className="mt-1">
                       <input
                         id="password"
-                        name="password"
-                        type="password"
+                        name="name"
+                        type="name"
                         autoComplete="current-password"
                         required
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
@@ -270,19 +345,19 @@ export default function RegisterPage() {
                     </label>
                     <div className="mt-1">
                       <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        autoComplete="current-password"
+                        id="url"
+                        name="url"
+                        type="url"
+                        autoComplete="url"
                         required
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                       />
                     </div>
                   </div>
                   </>
-                  ):""}
+                  ):""} */}
                   
-  
+{/*   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <input
@@ -301,7 +376,7 @@ export default function RegisterPage() {
                         Forgot your password?
                       </a>
                     </div>
-                  </div>
+                  </div> */}
   
                   <div className='flex space-x-6'>
                   {!isChecked?(
@@ -315,13 +390,14 @@ export default function RegisterPage() {
                     </button>
                   ):(
 
-                    <Link
+                    <button
                       type="button"
+                      onClick={postVendorData}
                       to="/dashboard/vendor"
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-skin-secondary hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-skin-secondaryLight"
                     >
                       Sign up as a vendor
-                    </Link>
+                    </button>
                   )}
                   </div>
                 </form>
