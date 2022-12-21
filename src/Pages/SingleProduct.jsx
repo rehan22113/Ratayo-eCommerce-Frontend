@@ -85,7 +85,7 @@ useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const [open, setOpen] = useState(false)
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
+  const [selectedColor, setSelectedColor] = useState("")
 
   return (
     <div className="bg-white">

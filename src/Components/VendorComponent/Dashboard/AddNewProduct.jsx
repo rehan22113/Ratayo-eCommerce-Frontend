@@ -294,6 +294,20 @@ const AddNewProduct = () => {
       </div>
       <div className='border h-40 p-4 my-5'>
         <h1>Variant</h1>
+        <div className=' md:w-1/6'>
+              <label htmlFor="first_name" className="block mb-2 text-gray-900 dark:text-gray-300 font-bold text-sm">About this listing *</label>
+              <p className='leading-relaxed text-sm'>Learn more about what types of items are allowed on Etsy.</p>
+           </div>
+           <div className='md:w-3/4 flex space-x-2'>
+            <div className='w-full'>
+           <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option selected>who made it?</option>
+            <option value="US">i did</option>
+            <option value="CA">A member of my shop</option>
+            <option value="FR">Another company or person</option>
+          </select>
+</div>
+</div>
       </div>
       <div className='border p-4 my-5'>
         <h1 className='text-lg font-semibold'>Delivery</h1>

@@ -3,11 +3,16 @@ import {Link, useNavigate} from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import { useDispatch } from 'react-redux'
 import {LoginUser, LoginVendor} from '../Service/Slice/Login'
-import Cookies from 'js-cookie';
-
+import {useLoginMutation, useRegisterMutation} from '../Service/Api/ApiQuery'
+import { setToken } from '../Service/Slice/tokenSlice'
+import useAuth from '../Hooks/useAuth'
 export default function RegisterPage() {
   const dispatch = useDispatch()
   const Navigate = useNavigate();
+  const {RoleAction} = useAuth();
+  const [isError,setIsError] = useState(false)
+  const [Register,{isLoading}] = useRegisterMutation();
+  const [login,{}] = useLoginMutation();
   const [RegisterData,setRegisterData] = useState({
     firstname:"",
     lastname:"",
@@ -18,101 +23,60 @@ export default function RegisterPage() {
     confirm_password:"",
     vendor:false
   })
-
   
   const HandleChange = (e)=>{
       const {name,value} = e.target;
       setRegisterData({...RegisterData,[name]:value})
   }
-  const GenerateLoginRequest=()=>{
-      const res = fetch(`${import.meta.env.VITE_APP_URL}/auth`,{
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-        'Content-Type': 'application/json'
-        },
-        mode:"cors",
-        credentials:"include",
-        body: JSON.stringify({email:RegisterData.email,password:RegisterData.password})
-      })
-      return res
-  }
-  const postVendorData=async()=>{
 
-    setRegisterData({...RegisterData,vendor:true})
-    const res = await fetch(`${import.meta.env.VITE_APP_URL}/register`,{
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-      'Content-Type': 'application/json'
-      },
-      mode:"cors",
-      credentials:"include",
-      body: JSON.stringify(RegisterData)
-    })
-    console.log(res)
-    if(res.status == 201){
-       const loginRes=await GenerateLoginRequest()
-       if(loginRes.status == 200 ){
-         dispatch(LoginVendor(true))   
-         Navigate("/dashboard/vendor/")
+  const GenerateLoginRequest=async()=>{
+    const data = {email:RegisterData.email,password:RegisterData.password}
+    const {accessToken} = await login(data).unwrap()
+    console.log(accessToken)
+    if(accessToken){
+      await dispatch(setToken({accessToken}))
+       const Roles = await RoleAction()
+       console.log("login nowww",Roles);
+        if(Roles){    
+          if(Roles.Admin){
+            Navigate("/dashboard/admin")
+          }
+          else if(Roles.Vendor){
+            Navigate("/dashboard/vendor")
+          }
+          else if(Roles.User){
+            Navigate("/dashboard/customer")
+          }
+        }
+       else{
+         setIsError(true)
        }
-    }
-    else{
-        Navigate("/register")
-    }
+     }
+    return accessToken
   }
+
+  const postVendorData=async()=>{
+    setRegisterData({...RegisterData,vendor:true})
+    const {success} = await Register(RegisterData).unwrap()
+    if(success){
+       await GenerateLoginRequest()
+    }
+    
+  }
+
   const postData = async()=>{
-    const res = await fetch(`${import.meta.env.VITE_APP_URL}/register`,{
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-      'Content-Type': 'application/json'
-      },
-      mode:"cors",
-      credentials:"include",
-      body: JSON.stringify(RegisterData)
-    })
-    console.log(res)
-    if(res.status == 200){
-      dispatch(LoginVendor(true))
-      Navigate("/dashboard/vendor/")
+    const {success} =await Register(RegisterData).unwrap()
+    if(success){
+     await GenerateLoginRequest();
     }
     else{
         Navigate("/register")
     }
 
   }
-  const isLogin = async()=>{
-    const res = await fetch(`${import.meta.env.VITE_APP_URL}/refresh`,{
-      method:"GET",
-      mode:"cors",
-      headers:{
-        "Content-type":"application/json",
-        "Accept":"application/json",    
-      },
-      credentials:"include",   
-    })
-    const Data =await res.json()
-    console.log(Data)
-    if(res.status == 200){
-      dispatch(LoginUser(true))
-      dispatch(LoginVendor(true))
-      Navigate("/dashboard/vendor/");
-    }
-    else{
-        Navigate('/register');
-    }
-  }
-  useEffect(() => {
-    isLogin()
-  }, []);
-
+  
   const [isChecked,setIsChecked] = useState(false)
-  // const vendorInput = useRef()
-  // const CheckVendorOption =()=>{
-  //     vendorInput.current.checked = true
-  // }
+  
 
     return (
       <div className="min-h-screen bg-white flex">
