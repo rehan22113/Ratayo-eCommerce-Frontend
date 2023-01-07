@@ -16,27 +16,7 @@ import { useMediaQuery} from 'use-media-size'
 
 export default function Home() {
   const isMobile = useMediaQuery('(max-width:680px)')
-  const Run=async()=>{
-    const res = await fetch(`${import.meta.env.VITE_APP_URL}/listing`,{
-      method:"GET",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Headers':
-        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-        'Access-Control-Allow-Methods': 'OPTIONS,GET',
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Origin': '*',
-        'X-Requested-With': '*',
-      },
-      credentials:"include"
-     
-    })
-    console.log("Data",res)
-  }
-  useEffect(() => {
-   Run()
-  }, []);
+ 
   return (
     <div className="bg-white">
       <MobileNavbar />

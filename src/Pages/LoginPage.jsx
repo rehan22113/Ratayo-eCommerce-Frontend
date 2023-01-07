@@ -3,13 +3,17 @@ import Footer from "../Layouts/Footer";
 import Navbar from "../Layouts/Navbar";
 import logo from '../assets/logo.png'
 import { Link, useNavigate } from "react-router-dom";
-import {LoginUser, LoginVendor} from '../Service/Slice/Login'
-import { useDispatch } from "react-redux";
-
-
+import {setToken} from '../Service/Slice/tokenSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../Service/Api/ApiQuery";
+import useAuth  from "../Hooks/useAuth";
 export default function LoginPage() {
+
   const Navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const {RoleAction}= useAuth(); 
+  const [isError,setIsError] = useState(false)
+  const [login,{isLoading}] = useLoginMutation();
   const [UserData,setUserData] = useState({
     email:"",
     password:""
@@ -20,56 +24,40 @@ export default function LoginPage() {
   }
   const PostData = async(e)=>{
       e.preventDefault()
-      const res = await fetch(`${import.meta.env.VITE_APP_URL}/auth`,{
-        method:"POST",
-        mode:"cors",
-        headers:{
-          "Content-type":"application/json",
-          "Accept":"application/json",    
-        },
-        credentials:"include",
-        body:JSON.stringify(UserData)
-      })
-      const Data =await res.json()
-      console.log(Data)
-      if(res.status == 200){
-        dispatch(LoginVendor(true))
-        Navigate("/dashboard/vendor/")
+      const {accessToken} = await login(UserData).unwrap();
+      if(accessToken){
+        await dispatch(setToken({accessToken}))
+        const Roles = await RoleAction()
+        console.log("login now",Roles);
+        if(Roles){
+         
+          if(Roles.Admin){
+            Navigate("/dashboard/admin")
+          }
+          else if(Roles.Vendor){
+            Navigate("/dashboard/vendor")
+          }
+          else if(Roles.User){
+            Navigate("/dashboard/customer")
+          }
+        }
+        else{
+          setIsError(true)
+        }
       }
-      else{
-          Navigate("/login")
-      }
+      
   }
-  const isLogin = async()=>{
-    const res = await fetch(`${import.meta.env.VITE_APP_URL}/refresh`,{
-      method:"GET",
-      mode:"cors",
-      headers:{
-        "Content-type":"application/json",
-        "Accept":"application/json",    
-      },
-      credentials:"include",   
-    })
-    const Data = await res.json()
-    console.log(Data)
-    if(res.status == 200){
-      dispatch(LoginVendor(true))
-      Navigate("/dashboard/vendor/")
-    }
-    else{
-      dispatch(LoginVendor(false))
-        Navigate("/login")
-    }
-  }
-  useEffect(() => {
-    isLogin()
-  }, []);
+  
     return (
       <>
       <div className="relative bg-gray-700">
-      <Navbar color="bg-grey-900" />
+      <Navbar color="bg-gray-900" />
       </div>
+      
       <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      {isError && <div>
+        <h1 className="text-xl text-red-700 text-center">Something went Wrong</h1>
+      </div>}
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             className="mx-auto h-12 w-auto"

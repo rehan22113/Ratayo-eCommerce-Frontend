@@ -107,7 +107,8 @@ const MobileNavbar = () => {
 
 
   return (
-    <Fragment className="relative z-50">
+    <Fragment >
+      <div className="relative z-50">
         {/* Mobile menu */}
       <Transition.Root show={mobilemenu} as={Fragment}>
         <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={()=>dispatch(trigger(false))}>
@@ -252,6 +253,7 @@ const MobileNavbar = () => {
           </Transition.Child>
         </Dialog>
       </Transition.Root>
+      </div>
     </Fragment>
   )
 }
