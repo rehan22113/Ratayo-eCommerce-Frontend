@@ -1,14 +1,20 @@
-import React, { Fragment,useEffect } from 'react'
+import React, { Fragment,useEffect,useState } from 'react'
 import {Link, useNavigate, Outlet } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
 import { useSelector,useDispatch } from 'react-redux'
-import { useLogoutMutation, useRefreshMutation } from '../../../Service/Api/ApiQuery'
-
+import { useLogoutMutation } from '../../../Service/Api/ApiQuery'
+import { useGetSingleUserQuery } from '../../../Service/Api/UserQuery'
+import useUserData from '../../../Hooks/useUserData'
 
 const index = () => {
   const Navigate = useNavigate();
-  const dispatch = useDispatch();
   const [logout,{isFetching,isLoading} ]=useLogoutMutation();
+  const userID = useSelector(state=>state.isLogin.userID)
+  const {data} = useGetSingleUserQuery(userID)
+  const [userData,setUserData] = useState([{
+    firstname:"Default",
+    lastname:""
+  }])
 
   const Logout = async()=>{
     const {data}=await logout();
@@ -18,8 +24,9 @@ const index = () => {
     }
   }
   useEffect(()=>{
-
-  },[])
+    setUserData(data)
+    console.log(userID)
+  },[data])
   return (
     <>
     <div className='flex'>
@@ -29,7 +36,8 @@ const index = () => {
     <li className=' border-b'>
         <Link to="/dashboard/vendor/" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
           <img src='https://dummyimage.com/70x70' className='object-center rounded-full md:w-12 w-8' alt='vendor_image'/>
-          <span className="ml-3 font-extrabold">Sports Shop</span>
+          
+          <span className="ml-3 font-extrabold">{userData && userData[0]?.firstname} {userData && userData[0]?.lastname}</span>
         </Link>
       </li>
       <li>

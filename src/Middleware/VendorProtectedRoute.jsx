@@ -25,7 +25,7 @@ const VendorProtectedRoute = () => {
     
 }
 useEffect(()=>{
-  (async()=>{refresh();})()
+ 
   Refresh()
 },[])
   return (

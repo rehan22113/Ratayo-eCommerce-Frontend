@@ -2,6 +2,8 @@ import React from 'react'
 import {User,Admin,Vendor} from '../Slice/RoleSlice'
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {logout, setToken} from '../Slice/tokenSlice'
+import jwtDecode from 'jwt-decode'
+import { UserInformation } from '../Slice/Login'
 const baseQuery = fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_APP_URL}`,
     credentials: 'include',
@@ -48,9 +50,7 @@ export const RatayoApi = createApi({
     reducerPath:"RatayoApi",
     baseQuery:baseQueryWithReauth,
     endpoints:(builder)=>({
-        GetProducts:builder.query({
-            query:()=> `listing`
-          }),
+        
         Login:builder.mutation({
             query:(data)=>({
                 url:'/auth',
@@ -76,6 +76,8 @@ export const RatayoApi = createApi({
                 console.log("query stated",data)
                 if(data){
                     dispatch(setToken({accessToken:data.accessToken}))
+                    const {UserInfo} = await jwtDecode(data.accessToken)
+                    dispatch(UserInformation(UserInfo.id))
                 }
             }catch(err){
                 console.log("Error on refresh queryStarted",err)
@@ -103,4 +105,4 @@ export const RatayoApi = createApi({
     })
 })
 
-export const {useGetProductsQuery,useLoginMutation,useRegisterMutation,useRefreshMutation,useLogoutMutation} = RatayoApi;
+export const {useLoginMutation,useRegisterMutation,useRefreshMutation,useLogoutMutation} = RatayoApi;

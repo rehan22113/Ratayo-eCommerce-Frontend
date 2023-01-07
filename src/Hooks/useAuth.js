@@ -6,7 +6,6 @@ import { useRefreshMutation } from '../Service/Api/ApiQuery'
 
 const useAuth =()=>{
 
-    const dispatch = useDispatch()
     
     const [tokens,{}]= useRefreshMutation()
     const RoleAction=async()=>{

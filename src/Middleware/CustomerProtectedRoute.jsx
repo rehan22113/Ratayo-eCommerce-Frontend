@@ -23,7 +23,7 @@ const CustomerProtectedRoute = () => {
     
 }
 useEffect(()=>{
-  // (async()=>{refresh();})()
+  
   Refresh()
 },[])
   return (

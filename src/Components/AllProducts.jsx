@@ -1,9 +1,10 @@
 import React,{Fragment, useEffect,useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useGetProductsQuery } from '../Service/Api/ApiQuery'
+import { useGetProductsQuery } from '../Service/Api/productQuery'
 
 const AllProducts = () => {
   const {data,isLoading,isFetching,error} = useGetProductsQuery();
+  console.log(data,isFetching)
   const [products,setProducts] = useState([])
   const Navigate = useNavigate()
 

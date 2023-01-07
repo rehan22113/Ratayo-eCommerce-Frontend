@@ -1,9 +1,26 @@
-import React from 'react'
+import {useEffect,useState} from 'react'
 import { Link } from 'react-router-dom'
+import { useGetVendorProductsQuery,useGetProductsQuery } from '../../../Service/Api/productQuery';
+import useUserData from '../../../Hooks/useUserData';
+import EmptyImage from '../../../assets/Empty.svg'
+import { useSelector } from 'react-redux';
 
 const AllVendorProducts = () => {
+    const [Products,setProducts] = useState([])
+    const Userid =  useSelector(state=>state.isLogin.userID)
+
+    const {data,isFetching} = useGetVendorProductsQuery(Userid);
+
+    const FetchProduct=()=>{
+        setProducts(data)
+    }
+
+    useEffect(() => {
+        FetchProduct()
+    }, []);
+    
   return (
-   <>
+    <>
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
     <div className="flex justify-between items-center pb-4 bg-white dark:bg-gray-900">
         <div>
@@ -38,6 +55,8 @@ const AllVendorProducts = () => {
         <input type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Products" />
         </div>
     </div>
+{!isFetching && Products?.length >0 ? (
+    <>
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
@@ -57,7 +76,7 @@ const AllVendorProducts = () => {
             Sku
             </th>
             <th scope="col" className="py-3 px-6">
-            Stock
+            Quantity
             </th>
             <th scope="col" className="py-3 px-6">
             Price
@@ -66,10 +85,10 @@ const AllVendorProducts = () => {
             Earning
             </th>
             <th scope="col" className="py-3 px-6">
-            View
+            Category
             </th>
             <th scope="col" className="py-3 px-6">
-            Date
+            Created Date
             </th>
         </tr>
         </thead>
@@ -84,7 +103,7 @@ const AllVendorProducts = () => {
             <th scope="row" className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
             <img className="w-10 h-10 rounded-full" src="https://dummyimage.com/80x80" alt="Jese image" />
             <div className="pl-3 [&_div]:hover:flex">
-                <div className=" text-base font-semibold">Tennis Tape Ball</div>
+                <div className=" text-base font-semibold">{Products?.title}</div>
                 <div className="group font-normal text-gray-500 hover:flex space-x-2 hidden">
                     <span className='underline cursor-pointer hover:text-blue-600'>Edit</span>
                     <span className='underline cursor-pointer hover:text-blue-600'>Delete</span>
@@ -117,143 +136,23 @@ const AllVendorProducts = () => {
             10/10/2022
             </td>
         </tr>
-
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="p-4 w-4">
-            <div className="flex items-center">
-                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
-            </div>
-            </td>
-            <th scope="row" className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
-            <img className="w-10 h-10 rounded-full" src="https://dummyimage.com/80x80" alt="Jese image" />
-            <div className="pl-3 [&_div]:hover:flex">
-                <div className=" text-base font-semibold">Tennis Tape Ball</div>
-                <div className="group font-normal text-gray-500 hover:flex space-x-2 hidden">
-                    <span className='underline cursor-pointer hover:text-blue-600'>Edit</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>Delete</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>View</span>
-
-                </div>
-            </div>  
-            </th>
-            <td className="py-4 px-6">
-            <div className="flex items-center">
-                <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2" /> Online
-            </div>
-            </td>
-            <td className="py-4 px-6">
-            s-101
-            </td>
-            <td className="py-4 px-6">
-            In Stock
-            </td>
-            <td className="py-4 px-6">
-            100 $
-            </td>
-            <td className="py-4 px-6">
-            7$
-            </td>
-            <td className="py-4 px-6">
-            42
-            </td>
-            <td className="py-4 px-6">
-            10/10/2022
-            </td>
-        </tr>
-
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="p-4 w-4">
-            <div className="flex items-center">
-                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
-            </div>
-            </td>
-            <th scope="row" className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
-            <img className="w-10 h-10 rounded-full" src="https://dummyimage.com/80x80" alt="Jese image" />
-            <div className="pl-3 [&_div]:hover:flex">
-                <div className=" text-base font-semibold">Tennis Tape Ball</div>
-                <div className="group font-normal text-gray-500 hover:flex space-x-2 hidden">
-                    <span className='underline cursor-pointer hover:text-blue-600'>Edit</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>Delete</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>View</span>
-
-                </div>
-            </div>  
-            </th>
-            <td className="py-4 px-6">
-            <div className="flex items-center">
-                <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2" /> Online
-            </div>
-            </td>
-            <td className="py-4 px-6">
-            s-101
-            </td>
-            <td className="py-4 px-6">
-            In Stock
-            </td>
-            <td className="py-4 px-6">
-            100 $
-            </td>
-            <td className="py-4 px-6">
-            7$
-            </td>
-            <td className="py-4 px-6">
-            42
-            </td>
-            <td className="py-4 px-6">
-            10/10/2022
-            </td>
-        </tr>
-
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="p-4 w-4">
-            <div className="flex items-center">
-                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
-            </div>
-            </td>
-            <th scope="row" className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
-            <img className="w-10 h-10 rounded-full" src="https://dummyimage.com/80x80" alt="Jese image" />
-            <div className="pl-3 [&_div]:hover:flex">
-                <div className=" text-base font-semibold">Tennis Tape Ball</div>
-                <div className="group font-normal text-gray-500 hover:flex space-x-2 hidden">
-                    <span className='underline cursor-pointer hover:text-blue-600'>Edit</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>Delete</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>View</span>
-
-                </div>
-            </div>  
-            </th>
-            <td className="py-4 px-6">
-            <div className="flex items-center">
-                <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2" /> Online
-            </div>
-            </td>
-            <td className="py-4 px-6">
-            s-101
-            </td>
-            <td className="py-4 px-6">
-            In Stock
-            </td>
-            <td className="py-4 px-6">
-            100 $
-            </td>
-            <td className="py-4 px-6">
-            7$
-            </td>
-            <td className="py-4 px-6">
-            42
-            </td>
-            <td className="py-4 px-6">
-            10/10/2022
-            </td>
-        </tr>
+       
         </tbody>
-    </table>
+      </table>
+        </>
+    ):(
+   <>
+   <div className='flex'>
+        <div className='px-10 w-full flex flex-col justify-center items-center'>
+            <img src={EmptyImage} className=" w-96" alt="empty_image"/>
+            <h1 className='py-10 text-xl uppercase'>No Product To Display</h1>
+        </div>
+   </div>
+   </>
+   )
+        }
+
     </div>
-
-
    </>
   )
 }
