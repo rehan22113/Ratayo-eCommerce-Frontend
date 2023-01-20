@@ -84,6 +84,7 @@ export const RatayoApi = createApi({
             }                        
             }
         }),
+        
         Logout:builder.mutation({
             query:()=>({
                 url:'/logout',
@@ -105,4 +106,4 @@ export const RatayoApi = createApi({
     })
 })
 
-export const {useLoginMutation,useRegisterMutation,useRefreshMutation,useLogoutMutation} = RatayoApi;
+export const {useLoginMutation,useRegisterMutation,useRefreshMutation,useLogoutMutation,} = RatayoApi;

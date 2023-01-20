@@ -22,7 +22,6 @@ import VendorProtectedRoute from './Middleware/VendorProtectedRoute'
 //customer Pages
 import CustomerDashboard from './Pages/Customer/Dashboard'
 import CustomerProtectedRoute from './Middleware/CustomerProtectedRoute'
-import ConfigAuth from './Middleware/configAuth'
 
 const App = () => {
   return (
