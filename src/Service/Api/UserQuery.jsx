@@ -1,7 +1,7 @@
 import { RatayoApi } from "./ApiQuery";
 
 
-const UserQuery = RatayoApi.injectEndpoints({
+export const UserQuery = RatayoApi.injectEndpoints({
     endpoints:(builder)=>({
        GetSingleUser:builder.query({
             query:(id)=>`/user?u=${id}`

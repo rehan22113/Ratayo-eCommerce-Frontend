@@ -7,6 +7,7 @@ import { useGetSingleUserQuery } from '../../../Service/Api/UserQuery'
 import useUserData from '../../../Hooks/useUserData'
 
 const index = () => {
+  let [isOpen, setIsOpen] = useState(true)
   const Navigate = useNavigate();
   const [logout,{isFetching,isLoading} ]=useLogoutMutation();
   const userID = useSelector(state=>state.isLogin.userID)
@@ -95,6 +96,8 @@ const index = () => {
       </li>
       <li>
           <Menu>
+          {({ open,close }) => (
+
        <div className='flex px-2 space-x-2'>
         <div>
 
@@ -103,14 +106,17 @@ const index = () => {
         </div>
         <div>
 
-      <Menu.Button>Shop Setting</Menu.Button>
-      <Menu.Items>
+      <Menu.Button onClick={() =>{isOpen?setIsOpen(false):setIsOpen(true)}}>Shop Setting</Menu.Button>
+        
+      {open=isOpen && (
+      <Menu.Items static>
         <div className=' flex flex-wrap py-2'>
+        
 
-        <Menu.Item>
+        <Menu.Item onClick={open=true}>
           {({ active }) => (
             <Link
-              className={`w-full p-2 ${active && 'bg-gray-200'}`}
+              className={`w-full p-2 ${active && ' bg-gray-500'}`}
               to="shop-setting-general"
             >
               General
@@ -139,11 +145,12 @@ const index = () => {
         </Menu.Item>
         </div>
         
-       
-       
       </Menu.Items>
+      )}
           </div>
         </div>
+      
+          )}
     </Menu>
       </li>
       <li>

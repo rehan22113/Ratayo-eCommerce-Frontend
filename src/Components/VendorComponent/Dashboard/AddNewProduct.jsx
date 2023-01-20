@@ -4,26 +4,38 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
-import { useUploadProductMutation,useAddVariantMutation } from '../../../Service/Api/productQuery';
+import { useUploadProductMutation,useAddVariantMutation} from '../../../Service/Api/ProductQuery';
+import {useGetShopByIDQuery} from '../../../Service/Api/ShopQuery'
+import { useSelector } from 'react-redux';
+import {useNavigate} from 'react-router-dom'
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const AddNewProduct = () => {
   const [UploadProduct,action] = useUploadProductMutation()
   const [AddNewVariant,{}]= useAddVariantMutation()
+  const [shopID,setShopID] = useState("");
+  const userid = useSelector(state=>state.isLogin.userID)
+  const {data,isFetching} = useGetShopByIDQuery(userid)
   const [variant,setVariant]= useState([])
   const [files, setFiles] = useState([]);
-  // const [files1, setFiles1] = useState([]);
-  // const [files2, setFiles2] = useState([]);
-  // const [files3, setFiles3] = useState([]);
-
+  const Navigate = useNavigate();
+  useEffect(()=>{
+    console.log(data)
+    if(data?.length==0){
+      Navigate("/dashboard/vendor/shop-setting-general")
+    }else{
+      setShopID(data?._id) 
+    }
+  },[])
 
   const [variantList,setVariantList] = useState([{
-        type:"",
-        value:"",
+        typeName:"",
+        typeValue:"",
         price:0,
         qty:0,
-        color:""
+        color:"",
+        isUploaded:false
   }])
   const [selectedVariant,setSelectedvariant] = useState("")
   const handleChange = (event, index) => {
@@ -46,14 +58,24 @@ const AddNewProduct = () => {
         value:"",
         price:0,
         qty:0,
-        color:""
+        color:"",
+        isUploaded:false
       },
     ]);
   };
 
-  const UploadVariant=(e,index)=>{
-     const {id} = AddNewVariant(variantList[index])
-      setVariant([...variant,id])
+  const UploadVariant=async(e,index)=>{
+     const {data} =await AddNewVariant(variantList[index])
+     console.log(data)
+     if(data.id){
+       setVariant([...variant,data.id])
+       const values = [...variantList];
+      values[index].isUploaded = true;
+      setVariantList(values);
+      }
+      else{
+        console.log("Error to Load variant")
+      }
   }
  const HandleProduct = (e)=>{
   const {name,value} = e.target;
@@ -62,9 +84,8 @@ const AddNewProduct = () => {
 
  
  const [productData,setProductData] = useState({
-
       title :"",
-      whoMadeIt:"",
+      madeBy:"",
       whatIsIt:"",
       whenDid:"",
       category :"",
@@ -79,20 +100,22 @@ const AddNewProduct = () => {
       processingTime :"",
       country :"",
       services :"",
-      itemWeight :"",
-      itemLength :"",
-      itemWidth:"",
-      itemHeight:""
+      weightValue :"",
+      length :"",
+      width:"",
+      height:""
   })
 
   const PostProduct=async()=>{
     const formData = new FormData();
     formData.append("files",files)
-    formData.append("variant",variants)
+    formData.append("shop",shopID)
+    formData.append("variants",variant)
     for ( let key in productData ) {
       formData.append(key, productData[key]);
   }
   const res = await UploadProduct(formData)
+  console.log("Product upload >>",res)
   }
   const [categories,setCategories] = useState([{
     _id:"",
@@ -103,6 +126,7 @@ const AddNewProduct = () => {
     const data = await res.json()
     setCategories(data)
   }
+  
 
   useEffect(() => {
     FetchCategories()
@@ -140,7 +164,9 @@ const AddNewProduct = () => {
                 onupdatefiles={setFiles}
                 allowMultiple={true}
                 styleButtonRemoveItemPosition="left"
-                maxFiles={2}
+                maxfiles={3}
+                allowFileTypeValidation={true}
+                acceptedFileTypes={['image/png', 'image/jpeg','image/jpg']}
                 server={false}
                 name="files"
                 labelIdle='Drag & Drop your Primary and Secondry image or <span class="filepond--label-action">Browse</span>'
@@ -164,7 +190,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4'>
 
-          <input type="text" name='title' onChange={HandleProduct} id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+          <input type="text" name='title' onChange={HandleProduct} id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="A T-Shirt for men" required />
            </div>
     </div>
     <div className='flex py-5'>
@@ -174,7 +200,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4 flex space-x-2'>
             <div className='w-full'>
-           <select onChange={HandleProduct} name="whoMadeIt" id="whoMadeIt" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+           <select onChange={HandleProduct} name="madeBy" id="madeBy" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option value="null" selected>who made it?</option>
             <option value="i did">i did</option>
             <option value="A member of my shop">A member of my shop</option>
@@ -317,31 +343,33 @@ const AddNewProduct = () => {
 <div key={index} className='md:w-3/4 flex space-x-2 py-2'>
   <div className='w-full'>
     <span>Type</span>
-    <input onChange={event => handleChange(event, index)} name="type" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='weight, size...etc.' /> 
+    <input onChange={event => handleChange(event, index)} value={data.typeName} name="typeName" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='weight, size...etc.' /> 
   </div>
 <div className='w-full'>
 <span>Value</span>
-<input onChange={event => handleChange(event, index)} name="value" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='1kg,2kg...xl/sm'/> 
+<input onChange={event => handleChange(event, index)} value={data.typeValue} name="typeValue" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='1kg,2kg...xl/sm'/> 
 </div>
 <div className='w-full'>
     <span>Price</span>
-   <input onChange={event => handleChange(event, index)} name="price" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 before:bg-black" placeholder='$300'/>           
+   <input onChange={event => handleChange(event, index)} value={data.price} name="price" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 before:bg-black" placeholder='$300'/>           
    
 </div>
 <div className='w-full'>
     <span>Quantity</span>
-   <input onChange={event => handleChange(event, index)} name="qty" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='3'/>           
+   <input onChange={event => handleChange(event, index)} value={data.qty} name="qty" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='3' required/>           
    
 </div>
 <div className='w-full'>
     <span>Color</span>
-   <input onChange={event => handleChange(event, index)} name="color" type="color" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='3'/>           
+   <input onChange={event => handleChange(event, index)} value={data.color} name="color" type="color" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='3' required/>           
    
 </div>
    <div className='flex justify-center items-center mt-4 space-x-2'>
-  <button onChange={e=>{UploadVariant(e,index)}} className='text-md font-extrabold'>
+   {!data.isUploaded && <>
+  <button onClick={e=>{UploadVariant(e,index)}} className='text-md font-extrabold'>
     <svg className='w-6' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" /></svg>
   </button>
+   </>}
   <button onClick={handleAddFields} className='text-md font-extrabold'>
     <svg className='w-6' enableBackground="new 0 0 512 512" version="1.1" viewBox="0 0 512 512" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg">
     <polygon points="289.39 222.61 289.39 0 222.61 0 222.61 222.61 0 222.61 0 289.39 222.61 289.39 222.61 512 289.39 512 289.39 289.39 512 289.39 512 222.61" />
@@ -471,7 +499,7 @@ const AddNewProduct = () => {
            </div>
            <div className='md:w-3/4 flex space-x-2'>
             <div className='w-full'>
-             <input type="number" name='itemWeight' onChange={HandleProduct} id="weight" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+             <input type="number" name='weightValue' onChange={HandleProduct} id="weight" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
             </div>
            </div>
     </div>
@@ -483,15 +511,15 @@ const AddNewProduct = () => {
            <div className='md:w-3/4 flex space-x-2'>
             <div className=' '>
             <label htmlFor="first_name" className="block mb-1 text-gray-900 dark:text-gray-300  text-sm">Length</label>
-            <input type="number" onChange={HandleProduct} id="length" name="itemLength" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+            <input type="number" onChange={HandleProduct} id="length" name="length" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
             </div>
             <div className=''>
             <label htmlFor="first_name" className="block mb-1 text-gray-900 dark:text-gray-300  text-sm">Width</label>
-            <input type="number" onChange={HandleProduct} id="width" name="itemWidth" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+            <input type="number" onChange={HandleProduct} id="width" name="width" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
             </div>
             <div className=''>
             <label htmlFor="first_name" className="block mb-1 text-gray-900 dark:text-gray-300  text-sm">Height</label>
-            <input type="number" onChange={HandleProduct} id="height" name='itemHeight' className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+            <input type="number" onChange={HandleProduct} id="height" name='height' className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
             </div>
           </div>
     </div>
