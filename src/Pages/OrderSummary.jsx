@@ -1,21 +1,22 @@
-/* This example requires Tailwind CSS v2.0+ */
-// const products = [
-//     {
-//       id: 1,
-//       name: 'Cold Brew Bottle',
-//       description:
-//         'This glass bottle comes with a mesh insert for steeping tea or cold-brewing coffee. Pour from any angle and remove the top for easy cleaning.',
-//       href: '#',
-//       quantity: 1,
-//       price: '$32.00',
-//       imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-05-product-01.jpg',
-//       imageAlt: 'Glass bottle with black plastic pour top and mesh insert.',
-//     },
-//   ]
-  
-const OrderDetail=()=> {
-    return (
-      <div className="bg-white px-4 pt-16 pb-24 sm:px-6 sm:pt-24 lg:px-8 lg:py-32">
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+const products = [
+    {
+      id: 1,
+      name: 'TShirt For Men',
+      description:
+        'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
+      href: '#',
+      quantity: 1,
+      price: '$32.00',
+      imageSrc: 'http://localhost:1000/images/listings/63a33af461213ae97851542c167502498275895574d0b4ed94eb6855a6f3f995c4500.jpg',
+      imageAlt: 'Glass bottle with black plastic pour top and mesh insert.',
+    },
+  ]
+const Test = () => {
+  return (
+    <div className="bg-white px-4 pt-16 pb-24 sm:px-6 sm:pt-24 lg:px-8 lg:py-32">
         <div className="max-w-3xl mx-auto">
           <div className="max-w-xl">
             <h1 className="text-sm font-semibold uppercase tracking-wide text-skin-secondar">Thank you!</h1>
@@ -34,36 +35,35 @@ const OrderDetail=()=> {
             </h2>
   
             <h3 className="sr-only">Items</h3>
-            {/* {products.map((product) => ( */}
-{/*               
-              <div key={product.id} className="py-10 border-b border-gray-200 flex space-x-6">
+            
+              <div key={products[0].id} className="py-10 border-b border-gray-200 flex space-x-6">
                 <img
-                  src={product.imageSrc}
-                  alt={product.imageAlt}
+                  src={products[0].imageSrc}
+                  alt={products[0].imageAlt}
                   className="flex-none w-20 h-20 object-center object-cover bg-gray-100 rounded-lg sm:w-40 sm:h-40"
                 />
                 <div className="flex-auto flex flex-col">
                   <div>
                     <h4 className="font-medium text-skin-primary">
-                      <a href={product.href}>{product.name}</a>
+                      <a href={products[0].href}>{products[0].name}</a>
                     </h4>
-                    <p className="mt-2 text-sm text-gray-600">{product.description}</p>
+                    <p className="mt-2 text-sm text-gray-600">{products[0].description}</p>
                   </div>
                   <div className="mt-6 flex-1 flex items-end">
                     <dl className="flex text-sm divide-x divide-gray-200 space-x-4 sm:space-x-6">
                       <div className="flex">
                         <dt className="font-medium text-skin-primary">Quantity</dt>
-                        <dd className="ml-2 text-gray-700">{product.quantity}</dd>
+                        <dd className="ml-2 text-gray-700">{products[0].quantity}</dd>
                       </div>
                       <div className="pl-4 flex sm:pl-6">
                         <dt className="font-medium text-skin-primary">Price</dt>
-                        <dd className="ml-2 text-gray-700">{product.price}</dd>
+                        <dd className="ml-2 text-gray-700">{products[0].price}</dd>
                       </div>
                     </dl>
                   </div>
                 </div>
-              </div> */}
-            {/* ))} */}
+              </div>
+           
   
             <div className="sm:ml-40 sm:pl-6">
               <h3 className="sr-only">Your information</h3>
@@ -121,27 +121,30 @@ const OrderDetail=()=> {
                   <dt className="font-medium text-skin-primary">Subtotal</dt>
                   <dd className="text-gray-700">$36.00</dd>
                 </div>
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <dt className="flex font-medium text-skin-primary">
                     Discount
                     <span className="rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 ml-2">STUDENT50</span>
                   </dt>
                   <dd className="text-gray-700">-$18.00 (50%)</dd>
-                </div>
+                </div> */}
                 <div className="flex justify-between">
                   <dt className="font-medium text-skin-primary">Shipping</dt>
                   <dd className="text-gray-700">$5.00</dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="font-medium text-skin-primary">Total</dt>
-                  <dd className="text-skin-primary">$23.00</dd>
+                  <dd className="text-skin-primary">$41.00</dd>
                 </div>
               </dl>
             </div>
           </section>
+          <div>
+            <Link to="/shop" className='text-red-600 text-center'>Back To Shopping</Link>
+          </div>
         </div>
       </div>
-    )
-  }
-  
-  export default OrderDetail
+  )
+}
+
+export default Test

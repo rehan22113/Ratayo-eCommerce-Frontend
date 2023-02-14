@@ -10,8 +10,39 @@ import { StarIcon } from '@heroicons/react/solid'
 import Navbar from '../Layouts/Navbar'
 import Footer from  '../Layouts/Footer'
 import { useSearchParams } from 'react-router-dom'
+import '../assets/singleProduct.css'
+import { useSelector } from 'react-redux'
+import {useCart} from '../Hooks/useCart'
+import { Dialog } from '@headlessui/react'
+import CartDialogBox from '../Components/CartDialogBox'
+import { usePostCartMutation } from '../Service/Api/CartQuery'
 
-
+const product1=[{
+  images:[],
+  shop: '63cc4a5258d63bb69cc75d79',
+  variants: [{_id:"",type:"size",options:[{_id:"",name:"xl",price:"10",qty:"20",deliveryFee:"20"}]}],
+  title: 'Tesla',
+  madeBy: 'A member of my shop',
+  whatIsIt: 'A supply or tool to make thing',
+  whenDid: '2003 - 2009',
+  category: '6388adae669110e2805ebfe7',
+  renewal: 'true',
+  type: 'physical',
+  description: 'dsds',
+  tags: 'ds',
+  price: '20',
+  qty: '1',
+  sku: '',
+  originPostCode: 'A1A',
+  processingTime: '2',
+  country: 'All',
+  services: 'TCS',
+  deliveryFee: '10',
+  weightValue: '1',
+  length: '11',
+  width: '1',
+  height: '1'
+  }]
 const product = {
   name: 'Zip Tote Basket',
   price: '$140',
@@ -68,24 +99,70 @@ function classNames(...classes) {
 }
 
 export default function SingleProduct() {
-  const [product,setProducts] = useState({})
+  const [AddToCarty,{}] = usePostCartMutation() 
+  const [open, setOpen] = useState(false)
+  const [showDialog, setShowDialog] = useState(false)
+  const [params,setParams] = useSearchParams();
+  const [product2,setProducts] = useState(product1)
+  const AddCart = useCart()
+
+  const [selectedColor, setSelectedColor] = useState("")
+  const userId = useSelector((state)=>state.isLogin.userID)
+  const [cartData,setCartData] = useState({
+    listing:params.get("product_ID"),
+    variant:product2[0].variants[0]._id,
+    variantOption:"",
+    qty:1
+  })
+
+
   const GenearateProducts = async()=>{
-    const res =await fetch(`${import.meta.env.VITE_APP_URL}/listing/${params.get("product_ID")}`,{
+    const res =await fetch(`${import.meta.env.VITE_APP_URL}/listing?listingId=${params.get("product_ID")}`,{
       method:"GET",
       credentials:"include"
     })
     const data = await res.json()
     setProducts(data)
     console.log(data)
-}
+  }
+  const HandleSubmit=async(e)=>{
+    e.preventDefault()
+    let carts = JSON.parse(window.localStorage.getItem("cart"))
+        console.log("first time",carts)
+    if(userId==""){
+     if(!carts){
+      window.localStorage.setItem("cart",JSON.stringify([cartData]))
+    }
+    else{
+      let found=false
+      for (let i = 0; i < carts.length; i++) {
+       if(carts[i].listing==cartData.listing && carts[i].variant == cartData.variant){
+         carts[i].qty=carts[i].qty+cartData.qty
+         found=true
+         break;
+        }
+        
+      }
+      if(!found){
+        carts.push(cartData)
+      }
+       console.log("after push",carts)
+       window.localStorage.setItem("cart",JSON.stringify(carts))
+      }
+      setShowDialog(true)
+    }else{
+      const res =await AddToCarty(cartData)
+      console.log("Add to cart from All Product file",res)
+      setShowDialog(true)
+    }
+    
+  }
+  
 
-const [params,setParams] = useSearchParams();
 useEffect(() => {
     GenearateProducts();
     window.scrollTo(0, 0);
   }, []);
-  const [open, setOpen] = useState(false)
-  const [selectedColor, setSelectedColor] = useState("")
 
   return (
     <div className="bg-white">
@@ -104,16 +181,16 @@ useEffect(() => {
               {/* Image selector */}
               <div className="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
                 <Tab.List className="grid grid-cols-4 gap-6">
-                  {product.images.map((image) => (
+                  {product2 && product2[0].images.map((image,index) => (
                     <Tab
-                      key={image.id}
+                      key={index}
                       className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-skin-primary cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
                     >
                       {({ selected }) => (
                         <>
-                          <span className="sr-only">{image.name}</span>
+                          <span className="sr-only">{index}</span>
                           <span className="absolute inset-0 rounded-md overflow-hidden">
-                            <img src={image.src} alt="" className="w-full h-full object-center object-cover" />
+                            <img src={`${import.meta.env.VITE_APP_URL}/images/listings/${image}`} alt="img_product" className="w-full h-full object-center object-cover" />
                           </span>
                           <span
                             className={classNames(
@@ -130,11 +207,11 @@ useEffect(() => {
               </div>
 
               <Tab.Panels className="w-full aspect-w-1 aspect-h-1">
-                {product.images.map((image) => (
-                  <Tab.Panel key={image.id}>
+                {product2[0].images.map((image,index) => (
+                  <Tab.Panel key={index}>
                     <img
-                      src={image.src}
-                      alt={image.alt}
+                      src={`${import.meta.env.VITE_APP_URL}/images/listings/${image}`}
+                      alt={`image ${index}`}
                       className="w-full h-full object-center object-cover sm:rounded-lg"
                     />
                   </Tab.Panel>
@@ -144,11 +221,11 @@ useEffect(() => {
 
             {/* Product info */}
             <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-              <h1 className="text-3xl font-extrabold tracking-tight text-skin-primary">{product.name}</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight text-skin-primary">{product2[0].title}</h1>
 
               <div className="mt-3">
                 <h2 className="sr-only">Product information</h2>
-                <p className="text-3xl text-skin-primary">{product.price}</p>
+                <p className="text-3xl text-skin-primary">$ {product2[0].variants[0].options[0].price}</p>
               </div>
 
               {/* Reviews */}
@@ -160,14 +237,14 @@ useEffect(() => {
                       <StarIcon
                         key={rating}
                         className={classNames(
-                          product.rating > rating ? 'text-skin-secondaryLight' : 'text-gray-300',
+                          4 > rating ? 'text-skin-secondaryLight' : 'text-gray-300',
                           'h-5 w-5 flex-shrink-0'
                         )}
                         aria-hidden="true"
                       />
                     ))}
                   </div>
-                  <p className="sr-only">{product.rating} out of 5 stars</p>
+                  <p className="sr-only">4 out of 5 stars</p>
                 </div>
               </div>
 
@@ -176,55 +253,84 @@ useEffect(() => {
 
                 <div
                   className="text-base text-gray-700 space-y-6"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
+                  dangerouslySetInnerHTML={{ __html: product2[0].description }}
                 />
               </div>
 
               <form className="mt-6">
                 {/* Colors */}
                 <div>
-                  <h3 className="text-sm text-gray-600">Color</h3>
-
-                  <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-2">
-                    <RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
+                  <h3 className="text-md text-gray-600">Choose a {product2[0].variants[0].type}</h3>
+                  <RadioGroup value={cartData.variantOption} onChange={(e)=>{setCartData({...cartData,variant:product2[0].variants[0]._id,variantOption:e})}} className="mt-2">
+                    <RadioGroup.Label className="sr-only">Choose a {product2[0].variants[0]?.type}</RadioGroup.Label>
                     <div className="flex items-center space-x-3">
-                      {product.colors.map((color) => (
+                      {product2[0].variants[0].options && product2[0].variants[0].options.map((variant,index) => (
                         <RadioGroup.Option
-                          key={color.name}
-                          value={color}
+                          key={index}
+                          value={variant._id}
                           className={({ active, checked }) =>
                             classNames(
-                              color.selectedColor,
-                              active && checked ? 'ring ring-offset-1' : '',
+                              // color.selectedColor,
+                              product2[0].variants[0].type == 'color'? `bg-[${variant?.name}] p-0.5 rounded-full`:'',
+                              active && checked ? 'ring ring-offset-1 bg-slate-400' : '',
                               !active && checked ? 'ring-2' : '',
-                              '-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none'
+                              '-m-0.5 relative p-2 w-10 rounded-full flex flex-col-reverse items-center justify-center cursor-pointer focus:outline-none'
                             )
                           }
                         >
-                          <RadioGroup.Label as="p" className="sr-only">
-                            {color.name}
+                        {
+                          product2[0].variants[0].type == 'color'?(  
+                          null): <RadioGroup.Label as="p" className="">
+                            {variant.name}
                           </RadioGroup.Label>
+                        }
                           <span
                             aria-hidden="true"
                             className={classNames(
-                              color.bgColor,
-                              'h-8 w-8 border border-black border-opacity-10 rounded-full'
+                              // color.bgColor,
+                              product2[0].variants[0].type == 'color'? 'h-8 w-8 border border-black border-opacity-10 rounded-full':'',
+                              
                             )}
                           />
                         </RadioGroup.Option>
                       ))}
                     </div>
                   </RadioGroup>
+                  <div className='py-4 flex items-center space-x-2 '>
+                  <PlusSmIcon
+                  onClick={()=>{setCartData({...cartData,qty:cartData.qty+1})}}
+                  className="block h-6 w-6 text-gray-400 group-hover:text-gray-500 cursor-pointer"
+                  aria-hidden="true"
+                  />
+                  <input
+                        aria-disabled
+                        disabled
+                        value={cartData.qty}
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        autoComplete="quantity"
+                        className="block w-20 border-gray-300 rounded-md shadow-sm focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
+                      />
+                      <MinusSmIcon
+                      onClick={()=>{cartData.qty>1?setCartData({...cartData,qty:cartData.qty-1}):null}}
+                      className="block h-6 w-6 text-indigo-400 group-hover:text-skin-secondaryLight cursor-pointer"
+                      aria-hidden="true"
+                                  />
+                  </div>
                 </div>
 
                 <div className="mt-10 flex sm:flex-col1">
                   <button
                     type="submit"
+                    onClick={HandleSubmit}
                     className="max-w-xs flex-1 bg-skin-secondary border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-skin-secondaryLight sm:w-full"
                   >
                     Add to bag
                   </button>
-
+                  {showDialog &&
+                   <CartDialogBox message="Product Added To Cart" status={true}/>         
+                  }
                   <button
                     type="button"
                     className="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500"

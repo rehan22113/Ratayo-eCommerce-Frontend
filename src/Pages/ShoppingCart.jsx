@@ -3,130 +3,9 @@ import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XIcon as XIconSolid } fro
 import Footer from '../Layouts/Footer'
 import Navbar from '../Layouts/Navbar'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useGetCartMutation, usePostCartMutation } from '../Service/Api/CartQuery'
 
-
-const navigation = {
-  categories: [
-    {
-      id: 'women',
-      name: 'Women',
-      featured: [
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-        },
-        {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-          imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
-        },
-      ],
-      sections: [
-        {
-          id: 'clothing',
-          name: 'Clothing',
-          items: [
-            { name: 'Tops', href: '#' },
-            { name: 'Dresses', href: '#' },
-            { name: 'Pants', href: '#' },
-            { name: 'Denim', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-            { name: 'Activewear', href: '#' },
-            { name: 'Browse All', href: '#' },
-          ],
-        },
-        {
-          id: 'accessories',
-          name: 'Accessories',
-          items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' },
-          ],
-        },
-        {
-          id: 'brands',
-          name: 'Brands',
-          items: [
-            { name: 'Full Nelson', href: '#' },
-            { name: 'My Way', href: '#' },
-            { name: 'Re-Arranged', href: '#' },
-            { name: 'Counterfeit', href: '#' },
-            { name: 'Significant Other', href: '#' },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'men',
-      name: 'Men',
-      featured: [
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
-          imageAlt: 'Drawstring top with elastic loop closure and textured interior padding.',
-        },
-        {
-          name: 'Artwork Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
-          imageAlt:
-            'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
-        },
-      ],
-      sections: [
-        {
-          id: 'clothing',
-          name: 'Clothing',
-          items: [
-            { name: 'Tops', href: '#' },
-            { name: 'Pants', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-            { name: 'Activewear', href: '#' },
-            { name: 'Browse All', href: '#' },
-          ],
-        },
-        {
-          id: 'accessories',
-          name: 'Accessories',
-          items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' },
-          ],
-        },
-        {
-          id: 'brands',
-          name: 'Brands',
-          items: [
-            { name: 'Re-Arranged', href: '#' },
-            { name: 'Counterfeit', href: '#' },
-            { name: 'Full Nelson', href: '#' },
-            { name: 'My Way', href: '#' },
-          ],
-        },
-      ],
-    },
-  ],
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
-  ],
-}
 const products = [
   {
     id: 1,
@@ -174,42 +53,132 @@ const relatedProducts = [
   },
   // More products...
 ]
-const footerNavigation = {
-  products: [
-    { name: 'Bags', href: '#' },
-    { name: 'Tees', href: '#' },
-    { name: 'Objects', href: '#' },
-    { name: 'Home Goods', href: '#' },
-    { name: 'Accessories', href: '#' },
-  ],
-  company: [
-    { name: 'Who we are', href: '#' },
-    { name: 'Sustainability', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Terms & Conditions', href: '#' },
-    { name: 'Privacy', href: '#' },
-  ],
-  customerService: [
-    { name: 'Contact', href: '#' },
-    { name: 'Shipping', href: '#' },
-    { name: 'Returns', href: '#' },
-    { name: 'Warranty', href: '#' },
-    { name: 'Secure Payments', href: '#' },
-    { name: 'FAQ', href: '#' },
-    { name: 'Find a store', href: '#' },
-  ],
-}
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function ShoppingCart() {
+  const userId = useSelector((state)=>state.isLogin.userID)
+  const [AddToCart,{}]= usePostCartMutation()
+  const [cartAllItem,{}]= useGetCartMutation()
   const [open, setOpen] = useState(false)
+  const [cartData,setcartData] = useState([])
+  const [product,setProduct] = useState([])
+  const [totalPrice,setTotalPrice] = useState(0);
+  const [shippingPrice,setShippingPrice] = useState(0)
+
+  async function HandleCart(items){
+    const res= await AddToCart(items)
+    console.log(res)
+  }
+
   useEffect(() => {
      window.scroll(0,0)
+     if(userId==""){
+       let cartItems= JSON.parse(window.localStorage.getItem("cart"))
+      console.log("cartitem",cartItems)
+      const fetchProduct=async()=>{
+        let allData = []
+        for(let element of cartItems) {
+          const res =await fetch(`${import.meta.env.VITE_APP_URL}/listing?listingId=${element.listing}`,{
+            method:"GET",
+            credentials:"include"
+          })
+          const data = await res.json()
+          allData.push(data[0])
+          
+        }
+        setProduct(allData)
+        console.log(product)
+      }
+      if(cartItems){
+        fetchProduct()
+        setcartData(cartItems)
+      }
+     }else{
+      //login user 
+      let cartItems= JSON.parse(window.localStorage.getItem("cart"))
+      console.log(cartItems)
+      if(cartItems && cartItems.length>0){
+        cartItems.forEach((item)=>{
+          HandleCart(item)
+        })
+        window.localStorage.removeItem("cart")
+      }
+      //Updating cartData by online cart item
+      OnlineCartData()
+    }
+    async function OnlineCartData(){
+      const GetCartData = await cartAllItem();
+      const fetchProduct=async()=>{
+        let allData = []
+        console.log(GetCartData)
+        for(let element of GetCartData.data) {
+          const res =await fetch(`${import.meta.env.VITE_APP_URL}/listing?listingId=${element.listing}`,{
+            method:"GET",
+            credentials:"include"
+          })
+          const data = await res.json()
+          allData.push(data[0])
+          
+        }
+        setProduct(allData)
+        console.log(product)
+      }
+      if(GetCartData.data){
+        fetchProduct()
+        setcartData(GetCartData.data)
+      }
+      
+    }
   },[]);
+  const Calculate=()=>{
+    let price=0
+    let shipping=0
+    cartData.map((c)=>{
+      const fp=product.filter((p)=>{
+          return p._id===c.listing
+      })
+      const opt=fp[0].variants[0].options.filter((v)=>{
+          return v._id==c.variantOption
+      })
+      price=price+(opt[0].price*c.qty)
+      shipping=shipping+(opt[0].deliveryFee*c.qty)
+    }) 
+    console.log("filter",price)
+    setTotalPrice(price)
+    setShippingPrice(shipping)
+    
+  }
+
+  useEffect(()=>{
+    Calculate()
+  },[product])
+  const filterVariantOption=(variant,pid,name)=>{
+    const optfilter = cartData.filter((e)=>{
+        return e.listing === pid
+    }) 
+    const price=variant.options.filter((e)=>{
+      return (e._id===optfilter[0].variantOption)      
+    })
+    if(name=="name"){
+      return price[0].name
+    }else if(name=="price"){
+      return price[0].price
+    }else if(name=="qty"){
+      const qty = cartData.filter((e)=>{
+        return e.listing===pid       
+      })
+      console.log("dsdasd",qty[0].qty)
+      return qty[0].qty
+    }else if(name=="ship"){
+      return price[0].deliveryFee
+    }
+  }
+  
+
 
   return (
     <div className="bg-white">
@@ -228,12 +197,12 @@ export default function ShoppingCart() {
             </h2>
 
             <ul role="list" className="border-t border-b border-gray-200 divide-y divide-gray-200">
-              {products.map((product, productIdx) => (
-                <li key={product.id} className="flex py-6 sm:py-10">
+              {cartData ? product.map((product, productIdx) => (
+                <li key={productIdx} className="flex py-6 sm:py-10">
                   <div className="flex-shrink-0">
                     <img
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
+                      src={`${import.meta.env.VITE_APP_URL}/images/listings/${product?.images[0]}`}
+                      alt={product.title}
                       className="w-24 h-24 rounded-md object-center object-cover sm:w-48 sm:h-48"
                     />
                   </div>
@@ -244,37 +213,39 @@ export default function ShoppingCart() {
                         <div className="flex justify-between">
                           <h3 className="text-sm">
                             <a href={product.href} className="font-medium text-gray-700 hover:text-gray-800">
-                              {product.name}
+                              {product.title}
                             </a>
                           </h3>
                         </div>
                         <div className="mt-1 flex text-sm">
-                          <p className="text-gray-500">{product.color}</p>
-                          {product.size ? (
-                            <p className="ml-4 pl-4 border-l border-gray-200 text-gray-500">{product.size}</p>
-                          ) : null}
+                          <p className="text-gray-500">Variant : {filterVariantOption(product.variants[0],product._id,"name")}</p>
+                          {/* second variant  */}
+                          {/* {product.size ? (
+                            <p className="ml-4 pl-4 border-l border-gray-200 text-gray-500">{23}</p>
+                          ) : null} */}
                         </div>
-                        <p className="mt-1 text-sm font-medium text-skin-primary">{product.price}</p>
+                        <p className="mt-1 text-sm font-medium text-skin-primary">$ {filterVariantOption(product.variants[0],product._id,"price")}</p>
                       </div>
 
                       <div className="mt-4 sm:mt-0 sm:pr-9">
-                        <label htmlFor={`quantity-${productIdx}`} className="sr-only">
-                          Quantity, {product.name}
+                      <div className='flex flex-col'>
+
+                        <label htmlFor={`quantity-${productIdx}`} className="">
+                          Quantity, {filterVariantOption(product.variants[0],product._id,"qty")}
                         </label>
-                        <select
+                        <label htmlFor={`quantity-${productIdx}`} className="">
+                          Shipping Fee: $ {filterVariantOption(product.variants[0],product._id,"ship")}
+                        </label>
+                      </div>
+                        
+                        {/* <select
                           id={`quantity-${productIdx}`}
                           name={`quantity-${productIdx}`}
                           className="max-w-full rounded-md border border-gray-300 py-1.5 text-base leading-5 font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                         >
-                          <option value={1}>1</option>
-                          <option value={2}>2</option>
-                          <option value={3}>3</option>
-                          <option value={4}>4</option>
-                          <option value={5}>5</option>
-                          <option value={6}>6</option>
-                          <option value={7}>7</option>
-                          <option value={8}>8</option>
-                        </select>
+                          <option value={1}></option>
+                          
+                        </select> */}
 
                         <div className="absolute top-0 right-0">
                           <button type="button" className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500">
@@ -292,11 +263,11 @@ export default function ShoppingCart() {
                         <ClockIcon className="flex-shrink-0 h-5 w-5 text-gray-300" aria-hidden="true" />
                       )}
 
-                      <span>{product.inStock ? 'In stock' : `Ships in ${product.leadTime}`}</span>
+                      <span>{product.inStock ? 'In stock' : `Shipping Courier Service : ${product.delivery.services}`}</span>
                     </p>
                   </div>
                 </li>
-              ))}
+              )):<><h1 className='text-2xl '>No Items in your Cart</h1></>}
             </ul>
           </section>
 
@@ -312,7 +283,7 @@ export default function ShoppingCart() {
             <dl className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <dt className="text-sm text-gray-600">Subtotal</dt>
-                <dd className="text-sm font-medium text-skin-primary">$99.00</dd>
+                <dd className="text-sm font-medium text-skin-primary">${totalPrice}</dd>
               </div>
               <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt className="flex items-center text-sm text-gray-600">
@@ -322,9 +293,9 @@ export default function ShoppingCart() {
                     <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                   </a>
                 </dt>
-                <dd className="text-sm font-medium text-skin-primary">$5.00</dd>
+                <dd className="text-sm font-medium text-skin-primary">${shippingPrice}</dd>
               </div>
-              <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+              {/* <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt className="flex text-sm text-gray-600">
                   <span>Tax estimate</span>
                   <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
@@ -333,10 +304,10 @@ export default function ShoppingCart() {
                   </a>
                 </dt>
                 <dd className="text-sm font-medium text-skin-primary">$8.32</dd>
-              </div>
+              </div> */}
               <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt className="text-base font-medium text-skin-primary">Order total</dt>
-                <dd className="text-base font-medium text-skin-primary">$112.32</dd>
+                <dd className="text-base font-medium text-skin-primary">${shippingPrice+totalPrice}</dd>
               </div>
             </dl>
 

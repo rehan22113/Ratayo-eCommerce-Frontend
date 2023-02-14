@@ -1,17 +1,18 @@
 import "flowbite";
-import React, { Fragment } from "react";
-import { Popover, Tab, Transition } from "@headlessui/react";
+import React, { Fragment,useEffect,useState } from "react";
+import { Popover, Transition } from "@headlessui/react";
 import {
     MenuIcon,
     QuestionMarkCircleIcon,
     SearchIcon,
     ShoppingBagIcon,
-    XIcon,
 } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { trigger } from "../Service/Slice/Mobilemenu";
+import { useGetCategoriesQuery } from "../Service/Api/CategoryApi";
+
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"];
 const navigation = {
     categories: [
@@ -369,24 +370,25 @@ function classNames(...classes) {
 
 const Navbar = ({ color }) => {
     const dispatch = useDispatch();
+    const [megaMenu,setMegaMenu] = useState([])
+    const userid = useSelector((state)=>state.isLogin.userID)
+    const {data:cat,isFetching} = useGetCategoriesQuery()
+    useEffect(() => {
+       setMegaMenu(cat)
+    }, [isFetching]);
 
     return (
-<>
-{/* Navigation */}
-<header className="relative z-40">
-<nav aria-label="Top">
-{/* Top navigation */}
-<div className="bg-skin-primary">
-<div className="max-w-7xl mx-auto h-10 px-4 flex items-center justify-between sm:px-6 lg:px-8">
-{/* Currency selector */}
-<form>
-<div>
-<label
-    htmlFor="desktop-currency"
-    className="sr-only"
->
-    Currency
-</label>
+    <>
+    {/* Navigation */}
+    <header className="relative z-40">
+    <nav aria-label="Top">
+    {/* Top navigation */}
+    <div className="bg-skin-primary">
+    <div className="max-w-7xl mx-auto h-10 px-4 flex items-center justify-between sm:px-6 lg:px-8">
+    {/* Currency selector */}
+    <form>
+     <div>
+        <label htmlFor="desktop-currency" className="sr-only" >Currency</label>
 <div className="-ml-2 group relative bg-skin-primary border-transparent rounded-md focus-within:ring-2 focus-within:ring-white">
     <select
         id="desktop-currency"
@@ -421,18 +423,22 @@ const Navbar = ({ color }) => {
 </form>
 
 <div className="flex items-center space-x-6 justify-center">
-<Link
-to="/login"
-className="text-sm font-medium text-white hover:text-gray-100"
->
-Sign in
-</Link>
-<Link
-to="/register"
-className="text-sm font-medium text-white hover:text-gray-100"
->
-Be a vendor
-</Link>
+{
+   userid?(
+    <Link to="/login" className="text-sm font-medium text-white hover:text-gray-100">
+        My Account
+    </Link>
+   ) :(
+    <>
+    <Link to="/login" className="text-sm font-medium text-white hover:text-gray-100">
+        Sign in
+    </Link>
+    <Link to="/register" className="text-sm font-medium text-white hover:text-gray-100">
+        Register / Be a vendor
+    </Link>
+    </>
+ )
+}
 </div>
 </div>
 </div>
@@ -551,7 +557,7 @@ Be a vendor
                                                 {/* Cart */}
             <div className="ml-4 flow-root lg:ml-8">
                 <Link
-                    to="#"
+                    to="/cart"
                     className="group -m-2 p-2 flex items-center"
                 >
                     <ShoppingBagIcon
@@ -593,7 +599,7 @@ Be a vendor
     leaveFrom="opacity-100"
     leaveTo="opacity-0"
 >
-<Popover.Panel className="absolute z-[90] top-full 2xl:left-[12%] left-[3%] w-[15.8rem] text-sm text-gray-500">
+<Popover.Panel className="absolute z-[90] top-full 2xl:left-[14%] left-[3%] w-[15.8rem] text-sm text-gray-500">
 <div
     id="mega-menu-full-image-dropdown"
     className="mt-1 bg-black shadow-lg absolute flex items-center justify-center"
@@ -604,37 +610,21 @@ Be a vendor
             aria-labelledby="mega-menu-full-image-button"
         >
 {/* ============= sub menu start ============== */}
-{navigation.megaMenu.map(
-(
-menu,
-index
-) => {
-return (
-<Fragment
-key={
-index
-}
->
-<li>
+ {megaMenu && megaMenu.map((menu,index) => {
+    return (
+    <Fragment key={index} >
+    <li>
 <div className="hover:underline hover:text-white font-bold text-gray">
 {/* Flyout menus */}
-<Popover.Group className="bottom-0 inset-x-0">
+<Popover.Group className="bottom-0 inset-x-5">
 <div className="h-full flex">
 <Popover className="flex">
-    {({
-        open,
-    }) => (
+    {({open}) => (
         <>
             <div className="relative">
                 <Popover.Button>
-                    {
-                        menu.name
-                    }
-                    <span
-                        className={classNames(
-                            open
-                                ? "bg-white"
-                                : "",
+                    {menu.name}
+                    <span className={classNames(open ? "bg-white" : "",
                             "absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200"
                         )}
                         aria-hidden="true"
@@ -642,9 +632,7 @@ index
                 </Popover.Button>
             </div>
 
-            {menu.hasOwnProperty(
-                "subMenu"
-            ) ? (
+            {menu.hasOwnProperty("subMenu") ? (
                 <>
 <Transition
     as={Fragment}
@@ -669,13 +657,9 @@ index
                             return (
                                 <Fragment key={indexs} >
                                     <li>
-                                        <Link
-                                            to="#"
-                                            className="hover:underline hover:text-white font-bold text-gray"
+                                <Link to="#" className="hover:underline hover:text-white font-bold text-gray"
                                         >
-                                            {
-                                                subMenu.name
-                                            }
+                                            {subMenu.name}
                                         </Link>
                                     </li>
                                 </Fragment>

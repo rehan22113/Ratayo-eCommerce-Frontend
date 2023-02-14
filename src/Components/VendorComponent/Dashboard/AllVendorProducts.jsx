@@ -1,23 +1,33 @@
-import {useEffect,useState} from 'react'
+import {useEffect,useState,Fragment} from 'react'
 import { Link } from 'react-router-dom'
-import { useGetVendorProductsQuery,useGetProductsQuery } from '../../../Service/Api/productQuery';
-import useUserData from '../../../Hooks/useUserData';
+import { Dialog,Transition } from '@headlessui/react'
+import { useDeleteProductMutation, useGetVendorProductsQuery} from '../../../Service/Api/productQuery';
 import EmptyImage from '../../../assets/Empty.svg'
 import { useSelector } from 'react-redux';
 
 const AllVendorProducts = () => {
     const [Products,setProducts] = useState([])
     const Userid =  useSelector(state=>state.isLogin.userID)
-
     const {data,isFetching} = useGetVendorProductsQuery(Userid);
+  const [isOpen, setIsOpen] = useState(false)
+  const [deleteId,setDeleteId] = useState("")
+    const [DeleteProduct] = useDeleteProductMutation()
 
     const FetchProduct=()=>{
+        console.log(data)
         setProducts(data)
     }
+    async function closeModal(id) {
+        console.log("delte",id)
+        const res= await DeleteProduct(id)
+        console.log(res)
+        setIsOpen(false)
+        setDeleteId("")
+      }
 
     useEffect(() => {
         FetchProduct()
-    }, []);
+    }, [isFetching]);
     
   return (
     <>
@@ -55,7 +65,7 @@ const AllVendorProducts = () => {
         <input type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Products" />
         </div>
     </div>
-{!isFetching && Products?.length >0 ? (
+{Products?.length >0 ? (
     <>
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -93,6 +103,9 @@ const AllVendorProducts = () => {
         </tr>
         </thead>
         <tbody>
+        {Products.map((product,index)=>{
+    return(
+        <Fragment key={index}>
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
             <td className="p-4 w-4">
             <div className="flex items-center">
@@ -101,13 +114,13 @@ const AllVendorProducts = () => {
             </div>
             </td>
             <th scope="row" className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
-            <img className="w-10 h-10 rounded-full" src="https://dummyimage.com/80x80" alt="Jese image" />
+            <img className="w-10 h-10 rounded-full" src={`${import.meta.env.VITE_APP_URL}/images/listings/${product.images[0]}`} alt="Jese image" />
             <div className="pl-3 [&_div]:hover:flex">
-                <div className=" text-base font-semibold">{Products?.title}</div>
+                <div className=" text-base font-semibold">{product.title}</div>
                 <div className="group font-normal text-gray-500 hover:flex space-x-2 hidden">
                     <span className='underline cursor-pointer hover:text-blue-600'>Edit</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>Delete</span>
-                    <span className='underline cursor-pointer hover:text-blue-600'>View</span>
+                    <span className='underline cursor-pointer hover:text-blue-600' onClick={()=>{setIsOpen(true);setDeleteId(product._id)}}>Delete</span>
+                    <a target="_blank" href={`http://localhost:5173/single-product/?product_ID=${product._id}`} className='underline cursor-pointer hover:text-blue-600'>View</a>
 
                 </div>
             </div>  
@@ -136,11 +149,16 @@ const AllVendorProducts = () => {
             10/10/2022
             </td>
         </tr>
-       
+       </Fragment>
+    )}
+    )}
         </tbody>
       </table>
         </>
-    ):(
+    )
+
+
+    :(
    <>
    <div className='flex'>
         <div className='px-10 w-full flex flex-col justify-center items-center'>
@@ -153,6 +171,67 @@ const AllVendorProducts = () => {
         }
 
     </div>
+
+    <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={()=>{setIsOpen(false)}}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  {/* <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    {type}
+                  </Dialog.Title> */}
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Do you Really Want to delete a Product?
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex space-x-2">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-blue-900 hover:text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
+                      onClick={()=>{closeModal(deleteId)}}
+                    >
+                      Confirm Delete it!
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={()=>{setIsOpen(false)}}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
    </>
   )
 }

@@ -4,9 +4,19 @@ const ShopQuery = RatayoApi.injectEndpoints(
     {
         endpoints:(builder)=>({
             GetShopByID:builder.query({
-                query:(id)=>`/shop?userid=${id}`
+                query:(id)=>`/shop?userId=${id}`
+            }),
+            GetShopByURL:builder.query({
+                query:(id)=>`/shop/${id}`
+            }),
+            AddShop:builder.mutation({
+                query:(data)=>({
+                    url:'/shop',
+                    method:"POST",  
+                    body:data,
+                })
             })
             })
         
     })
-export const {useGetShopByIDQuery} = ShopQuery
+export const {useGetShopByIDQuery,useAddShopMutation} = ShopQuery

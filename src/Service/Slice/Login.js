@@ -16,10 +16,13 @@ const IsLogin = createSlice({
         },
         UserInformation:(state,action)=>{
             state.userID =action.payload
+        },
+        logoutUser:(state,action)=>{
+            state.userID = ""
         }
     }
 })
 
 
 export default IsLogin.reducer
-export const {LoginUser,LoginVendor,UserInformation} = IsLogin.actions
+export const {LoginUser,LoginVendor,UserInformation,logoutUser} = IsLogin.actions

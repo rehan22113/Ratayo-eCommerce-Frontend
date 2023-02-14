@@ -1,10 +1,14 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState,useEffect } from 'react'
 import { Dialog, Popover, RadioGroup, Tab, Transition } from '@headlessui/react'
-
 import { CheckCircleIcon, TrashIcon } from '@heroicons/react/solid'
 import Navbar from '../Layouts/Navbar'
 import Footer from '../Layouts/Footer'
-
+import { useSelector } from 'react-redux'
+import CardSection from '../Components/CardSection'
+import PaymentPage from './PaymentPage'
+import { useGetCartMutation } from '../Service/Api/CartQuery'
+import { ToastContainer } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 
 const products = [
@@ -18,12 +22,13 @@ const products = [
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
   },
+  
   // More products...
 ]
-const deliveryMethods = [
-  { id: 1, title: 'Standard', turnaround: '4–10 business days', price: '$5.00' },
-  { id: 2, title: 'Express', turnaround: '2–5 business days', price: '$16.00' },
-]
+// const deliveryMethods = [
+//   { id: 1, title: 'Standard', turnaround: '4–10 business days', price: '$5.00' },
+//   { id: 2, title: 'Express', turnaround: '2–5 business days', price: '$16.00' },
+// ]
 const paymentMethods = [
   { id: 'credit-card', title: 'Credit card' },
   { id: 'paypal', title: 'PayPal' },
@@ -36,10 +41,112 @@ function classNames(...classes) {
 
 export default function Checkout() {
   const [open, setOpen] = useState(false)
-  const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
+  const userId = useSelector((state)=>state.isLogin.userID)
+  const [cartData,setcartData] = useState([])
+  const [product,setProduct] = useState([])
+  const [totalPrice,setTotalPrice] = useState(0);
+  const [shippingPrice,setShippingPrice] = useState(0)
+  const [cartAllItem] = useGetCartMutation()
+
+  async function OnlineCartData(){
+    const GetCartData = await cartAllItem();
+    const fetchProduct=async()=>{
+      let allData = []
+      console.log(GetCartData)
+      for(let element of GetCartData.data) {
+        const res =await fetch(`${import.meta.env.VITE_APP_URL}/listing?listingId=${element.listing}`,{
+          method:"GET",
+          credentials:"include"
+        })
+        const data = await res.json()
+        allData.push(data[0])
+        
+      }
+      setProduct(allData)
+      console.log(product)
+    }
+    if(GetCartData.data){
+      fetchProduct()
+      setcartData(GetCartData.data)
+    }
+    
+  }
+  useEffect(()=>{
+    OnlineCartData()
+  },[userId])
+
+  useEffect(() => {
+    window.scroll(0,0)
+    if(!userId){
+      let cartItems= JSON.parse(window.localStorage.getItem("cart"))
+     console.log("cartitem",cartItems)
+     const fetchProduct=async()=>{
+       let allData = []
+       if(cartItems){
+         for(let element of cartItems) {
+           const res =await fetch(`${import.meta.env.VITE_APP_URL}/listing?listingId=${element.listing}`,{
+           method:"GET",
+           credentials:"include"
+          })
+          const data = await res.json()
+          allData.push(data[0])
+          
+        }
+      }
+       setProduct(allData)
+       console.log(product)
+     }
+     fetchProduct()
+       setcartData(cartItems)
+    }else{
+     //login user logic here
+     console.log("hello")
+     OnlineCartData()
+  
+    }
+ },[]);
+
+ const Calculate=()=>{
+   let price=0
+   let shipping=0
+   if(cartData){
+
+     cartData.map((c)=>{
+     const fp=product.filter((p)=>{
+         return p._id===c.listing
+        })
+        const opt=fp[0].variants[0].options.filter((v)=>{
+          return v._id==c.variantOption
+        })
+        price=price+(opt[0].price*c.qty)
+     shipping=shipping+(opt[0].deliveryFee*c.qty)
+    }) 
+  }
+   console.log("filter",price)
+   setTotalPrice(price)
+   setShippingPrice(shipping)
+   
+ }
+
+ useEffect(()=>{
+   Calculate()
+ },[product])
+
 
   return (
     <div className="bg-gray-50">
+      <ToastContainer 
+        position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+      />
       <div className="relative bg-gray-700">
       <Navbar color="bg-grey-900" />
       </div>
@@ -47,7 +154,7 @@ export default function Checkout() {
         <div className="max-w-2xl mx-auto lg:max-w-none">
           <h1 className="sr-only">Checkout</h1>
 
-          <form className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
             <div>
               <div>
                 <h2 className="text-lg font-medium text-skin-primary">Contact information</h2>
@@ -222,8 +329,9 @@ export default function Checkout() {
                   </div>
                 </div>
               </div>
+            
 
-              <div className="mt-10 border-t border-gray-200 pt-10">
+              {/* <div className="mt-10 border-t border-gray-200 pt-10">
                 <RadioGroup value={selectedDeliveryMethod} onChange={setSelectedDeliveryMethod}>
                   <RadioGroup.Label className="text-lg font-medium text-skin-primary">Delivery method</RadioGroup.Label>
 
@@ -275,7 +383,7 @@ export default function Checkout() {
                     ))}
                   </div>
                 </RadioGroup>
-              </div>
+              </div> */}
 
               {/* Payment */}
               <div className="mt-10 border-t border-gray-200 pt-10">
@@ -312,7 +420,8 @@ export default function Checkout() {
                 </fieldset>
 
                 <div className="mt-6 grid grid-cols-4 gap-y-6 gap-x-4">
-                  <div className="col-span-4">
+                     <PaymentPage/>    
+                  {/* <div className="col-span-4">
                     <label htmlFor="card-number" className="block text-sm font-medium text-gray-700">
                       Card number
                     </label>
@@ -325,9 +434,9 @@ export default function Checkout() {
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                       />
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="col-span-4">
+                  {/* <div className="col-span-4">
                     <label htmlFor="name-on-card" className="block text-sm font-medium text-gray-700">
                       Name on card
                     </label>
@@ -340,9 +449,9 @@ export default function Checkout() {
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                       />
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="col-span-3">
+                  {/* <div className="col-span-3">
                     <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
                       Expiration date (MM/YY)
                     </label>
@@ -355,9 +464,9 @@ export default function Checkout() {
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                       />
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div>
+                  {/* <div>
                     <label htmlFor="cvc" className="block text-sm font-medium text-gray-700">
                       CVC
                     </label>
@@ -370,7 +479,7 @@ export default function Checkout() {
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -381,93 +490,37 @@ export default function Checkout() {
 
               <div className="mt-4 bg-white border border-gray-200 rounded-lg shadow-sm">
                 <h3 className="sr-only">Items in your cart</h3>
-                <ul role="list" className="divide-y divide-gray-200">
-                  {products.map((product) => (
-                    <li key={product.id} className="flex py-6 px-4 sm:px-6">
-                      <div className="flex-shrink-0">
-                        <img src={product.imageSrc} alt={product.imageAlt} className="w-20 rounded-md" />
-                      </div>
-
-                      <div className="ml-6 flex-1 flex flex-col">
-                        <div className="flex">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-sm">
-                              <a href={product.href} className="font-medium text-gray-700 hover:text-gray-800">
-                                {product.title}
-                              </a>
-                            </h4>
-                            <p className="mt-1 text-sm text-gray-500">{product.color}</p>
-                            <p className="mt-1 text-sm text-gray-500">{product.size}</p>
-                          </div>
-
-                          <div className="ml-4 flex-shrink-0 flow-root">
-                            <button
-                              type="button"
-                              className="-m-2.5 bg-white p-2.5 flex items-center justify-center text-gray-400 hover:text-gray-500"
-                            >
-                              <span className="sr-only">Remove</span>
-                              <TrashIcon className="h-5 w-5" aria-hidden="true" />
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 pt-2 flex items-end justify-between">
-                          <p className="mt-1 text-sm font-medium text-skin-primary">{product.price}</p>
-
-                          <div className="ml-4">
-                            <label htmlFor="quantity" className="sr-only">
-                              Quantity
-                            </label>
-                            <select
-                              id="quantity"
-                              name="quantity"
-                              className="rounded-md border border-gray-300 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-skin-secondaryLight focus:border-skin-secondaryLight sm:text-sm"
-                            >
-                              <option value={1}>1</option>
-                              <option value={2}>2</option>
-                              <option value={3}>3</option>
-                              <option value={4}>4</option>
-                              <option value={5}>5</option>
-                              <option value={6}>6</option>
-                              <option value={7}>7</option>
-                              <option value={8}>8</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                
                 <dl className="border-t border-gray-200 py-6 px-4 space-y-6 sm:px-6">
                   <div className="flex items-center justify-between">
                     <dt className="text-sm">Subtotal</dt>
-                    <dd className="text-sm font-medium text-skin-primary">$64.00</dd>
+                    <dd className="text-sm font-medium text-skin-primary">${totalPrice}</dd>
                   </div>
                   <div className="flex items-center justify-between">
                     <dt className="text-sm">Shipping</dt>
-                    <dd className="text-sm font-medium text-skin-primary">$5.00</dd>
+                    <dd className="text-sm font-medium text-skin-primary">${shippingPrice}</dd>
                   </div>
-                  <div className="flex items-center justify-between">
+                  {/* <div className="flex items-center justify-between">
                     <dt className="text-sm">Taxes</dt>
                     <dd className="text-sm font-medium text-skin-primary">$5.52</dd>
-                  </div>
+                  </div> */}
                   <div className="flex items-center justify-between border-t border-gray-200 pt-6">
                     <dt className="text-base font-medium">Total</dt>
-                    <dd className="text-base font-medium text-skin-primary">$75.52</dd>
+                    <dd className="text-base font-medium text-skin-primary">${totalPrice+shippingPrice}</dd>
                   </div>
                 </dl>
 
                 <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
-                  <button
-                    type="submit"
+                  <Link
+                    to="/order-detail"
                     className="w-full bg-skin-secondary border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-skin-secondaryDark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-skin-secondaryLight"
                   >
                     Confirm order
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </main>
 

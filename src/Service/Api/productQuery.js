@@ -5,6 +5,9 @@ export const ProductQuery = RatayoApi.injectEndpoints({
         GetProducts:builder.query({
             query:()=> `listing`
           }),
+        GetProductByCategory:builder.query({
+            query:(id)=>`/listing?categoryId=${id}`
+        }),
         GetVendorProducts:builder.query({
             query:(id)=> `listing?u=${id}`,
             }), 
@@ -15,15 +18,17 @@ export const ProductQuery = RatayoApi.injectEndpoints({
                 body:data
             })
         }),
-        AddVariant:builder.mutation({
-            query:(data)=>({
-                url:'/variant',
-                method:"POST",
-                body:data
+        DeleteProduct:builder.mutation({
+            query:(id)=>({
+                url:`/listing/${id}`,
+                method:"DELETE",
+                body:{
+                    delete:true
+                }
             })
-        }),
+        })
 
     })
 })
 
-export const {useGetProductsQuery,useGetVendorProductsQuery,useUploadProductMutation,useAddVariantMutation} = ProductQuery;
+export const {useGetProductsQuery,useGetVendorProductsQuery,useUploadProductMutation,useDeleteProductMutation,useGetProductByCategoryQuery} = ProductQuery;

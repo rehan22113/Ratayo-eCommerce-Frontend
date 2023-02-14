@@ -38,7 +38,7 @@ const SponsorProducts = () => {
       </div>
       <div className="flex items-center space-x-2 justify-between">
         <span className="text-md font-bold text-gray-900 dark:text-white">$599</span>
-        <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buy Now</a>
+        <a href="#" className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">Buy Now</a>
       </div>
     </div>
     
@@ -78,7 +78,7 @@ const SponsorProducts = () => {
       </div>
       <div className="flex items-center space-x-2 justify-between">
         <span className="text-md font-bold text-gray-900 dark:text-white">$599</span>
-        <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buy Now</a>
+        <a href="#" className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">Buy Now</a>
       </div>
     </div>
     
@@ -117,7 +117,7 @@ const SponsorProducts = () => {
       </div>
       <div className="flex items-center space-x-2 justify-between">
         <span className="text-md font-bold text-gray-900 dark:text-white">$599</span>
-        <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buy Now</a>
+        <a href="#" className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">Buy Now</a>
       </div>
     </div>
     
@@ -156,7 +156,7 @@ const SponsorProducts = () => {
       </div>
       <div className="flex items-center space-x-2 justify-between">
         <span className="text-md font-bold text-gray-900 dark:text-white">$599</span>
-        <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buy Now</a>
+        <a href="#" className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">Buy Now</a>
       </div>
     </div>
     
@@ -195,7 +195,7 @@ const SponsorProducts = () => {
       </div>
       <div className="flex items-center space-x-2 justify-between">
         <span className="text-md font-bold text-gray-900 dark:text-white">$599</span>
-        <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buy Now</a>
+        <a href="#" className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">Buy Now</a>
       </div>
     </div>
     

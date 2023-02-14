@@ -4,8 +4,8 @@ const index = () => {
   return (
     <>
         <div className='flex items-center justify-center flex-col bg-gray-300 h-screen'>
-        <h1 className='text-4xl text-gray-500 leading-loose'>Welcome ! To Ratayo</h1>
-        <h2 className='text-xl text-gray-500'>Manage Your Orders Here</h2>
+        <h1 className='text-4xl text-gray-500 leading-loose'>Welcome!</h1>
+        <h2 className='text-xl text-gray-500'>Manage your website</h2>
         <Link to="/help" className='text-xl text-gray-500'>Need Help?</Link>
 
       </div>

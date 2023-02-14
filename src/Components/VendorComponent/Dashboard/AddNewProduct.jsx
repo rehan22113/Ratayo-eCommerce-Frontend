@@ -4,43 +4,55 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
-import { useUploadProductMutation,useAddVariantMutation} from '../../../Service/Api/ProductQuery';
+import { useUploadProductMutation} from '../../../Service/Api/ProductQuery';
 import {useGetShopByIDQuery} from '../../../Service/Api/ShopQuery'
 import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router-dom'
+// import placeholder1 from '../../../assets/product-image/placeholder-1.svg'
+// import placeholder2 from '../../../assets/product-image/placeholder-2.svg'
+// import placeholder3 from '../../../assets/product-image/placeholder-3.svg'
+// import placeholder4 from '../../../assets/product-image/placeholder-4.svg'
+// import placeholder5 from '../../../assets/product-image/placeholder-5.svg'
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const AddNewProduct = () => {
   const [UploadProduct,action] = useUploadProductMutation()
-  const [AddNewVariant,{}]= useAddVariantMutation()
   const [shopID,setShopID] = useState("");
   const userid = useSelector(state=>state.isLogin.userID)
-  const {data,isFetching} = useGetShopByIDQuery(userid)
+  const {data,isFetching,isSuccess} = useGetShopByIDQuery(userid)
   const [variant,setVariant]= useState([])
   const [files, setFiles] = useState([]);
+  const [sameImageError,setSameImageError] = useState(false)
+  const [images,setImages]= useState([])
+
+  
+  
   const Navigate = useNavigate();
   useEffect(()=>{
-    console.log(data)
+  if(isSuccess){
     if(data?.length==0){
       Navigate("/dashboard/vendor/shop-setting-general")
     }else{
-      setShopID(data?._id) 
+      setShopID(data[0]?._id) 
     }
-  },[])
+  }
+  },[isSuccess])
 
   const [variantList,setVariantList] = useState([{
-        typeName:"",
-        typeValue:"",
+        name:"",
         price:0,
         qty:0,
-        color:"",
-        isUploaded:false
+        deliveryFee:0
   }])
+
+  const [variantType,setVariantType] = useState("")
+  
   const [selectedVariant,setSelectedvariant] = useState("")
   const handleChange = (event, index) => {
     const values = [...variantList];
     values[index][event.target.name] = event.target.value;
+    
     setVariantList(values);
   };
   const DeleteFields = (e,index)=>{
@@ -54,29 +66,16 @@ const AddNewProduct = () => {
     setVariantList([
       ...variantList,
       {
-        type:"",
-        value:"",
+       
+        name:"",
         price:0,
         qty:0,
-        color:"",
-        isUploaded:false
+        deliveryFee:0
       },
     ]);
   };
 
-  const UploadVariant=async(e,index)=>{
-     const {data} =await AddNewVariant(variantList[index])
-     console.log(data)
-     if(data.id){
-       setVariant([...variant,data.id])
-       const values = [...variantList];
-      values[index].isUploaded = true;
-      setVariantList(values);
-      }
-      else{
-        console.log("Error to Load variant")
-      }
-  }
+
  const HandleProduct = (e)=>{
   const {name,value} = e.target;
   setProductData({...productData,[name]:value})
@@ -100,23 +99,38 @@ const AddNewProduct = () => {
       processingTime :"",
       country :"",
       services :"",
+      deliveryFee:0,
       weightValue :"",
       length :"",
       width:"",
       height:""
   })
+  
 
   const PostProduct=async()=>{
+    try{
     const formData = new FormData();
-    formData.append("files",files)
+    Object.values(files).forEach(fl=>{
+      formData.append("files",fl.file)
+    })
     formData.append("shop",shopID)
-    formData.append("variants",variant)
+    formData.append("variants",JSON.stringify({
+      variants:{
+        type:variantType,
+        options:variantList
+      }
+    }))
     for ( let key in productData ) {
       formData.append(key, productData[key]);
-  }
+    }
+    console.log("formdata",formData)
   const res = await UploadProduct(formData)
   console.log("Product upload >>",res)
+
+  }catch(err){
+    console.log("PRoduct uploading error",err)
   }
+}
   const [categories,setCategories] = useState([{
     _id:"",
     name:""
@@ -153,11 +167,15 @@ const AddNewProduct = () => {
           <li className=' list-disc'>First Image will be your Primary image
           </li>
         </ul>
+        {sameImageError && <div className=' fixed top-0 left-[40rem] border-1 bg-slate-300 p-4 rounded'><h3 className='text-red-700 p-3'>Image Already Uploaded try another</h3></div>}
         </div>
-        <div className='flex space-x-4 w-3/4'> 
-        <div className=' w-full'>
-
+        <div className='flex flex-col w-3/4'> 
+        <div className=' w-full flex space-x-4'>
+    
+        </div>
+        <div className=''>   
         <FilePond
+                id="inputfield"
                 className="flex flex-row"
                 imagePreviewMaxHeight={300}
                 files={files}
@@ -171,7 +189,7 @@ const AddNewProduct = () => {
                 name="files"
                 labelIdle='Drag & Drop your Primary and Secondry image or <span class="filepond--label-action">Browse</span>'
             />
-        </div>
+            </div>
         </div>
         </div>
       </div>
@@ -255,11 +273,11 @@ const AddNewProduct = () => {
 
            <div className='flex'>
   <div className="flex w-full items-center pl-4 roundedx border-gray-200 dark:border-gray-700">
-    <input onChange={HandleProduct} value="auto" id="renew-1" type="radio" defaultValue name="renewal" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+    <input onChange={HandleProduct} value={"true"} id="renew-1" type="radio" defaultValue name="renewal" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
     <label htmlFor="renew-1" className="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Automatic Renew - $0.20 eachtime </label>
   </div>
   <div className="flex w-full items-center pl-4 rounded border-gray-200 dark:border-gray-700">
-    <input onChange={HandleProduct} value="manual" defaultChecked id="renew-2" type="radio" defaultValue name="renewal" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+    <input onChange={HandleProduct} value={"false"} defaultChecked id="renew-2" type="radio" defaultValue name="renewal" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
     <label htmlFor="renew-2" className="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Manual Renew</label>
   </div>
 </div>
@@ -324,30 +342,31 @@ const AddNewProduct = () => {
 
 <div className=' md:w-1/6'>
       <label htmlFor="first_name" className="block mb-2 text-gray-900 dark:text-gray-300 font-bold text-sm">Select Product Type *</label>
-      <p className='leading-relaxed text-sm'>Learn more about it on Etsy.</p>
+      <p className='leading-relaxed text-sm'>Learn more about it on Ratayo help center.</p>
    </div>
    <div className='w-full'>
    <div className='md:w-3/4 flex space-x-2 justify-center items-center'>
     <div className='w-full flex'>
    <select onChange={(e)=>{setSelectedvariant(e.target.value);}} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     <option selected>Select Type</option>
-    <option value="simple" hidden>Simple</option>
+    <option value="simple">Simple</option>
     <option value="variant" defaultChecked>Variant</option>
   </select>
 </div>
 
 </div>
 {selectedVariant == 'variant' && (
-  variantList.map((data,index)=>(
+  <>
+  <div className='w-3/4'>
+    <span>Type</span>
+    <input onChange={(e)=>{setVariantType(e.target.value)}} value={variantType} name="typeName" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='weight, size...etc.' /> 
+  </div>
+  { variantList.map((data,index)=>(
 
 <div key={index} className='md:w-3/4 flex space-x-2 py-2'>
-  <div className='w-full'>
-    <span>Type</span>
-    <input onChange={event => handleChange(event, index)} value={data.typeName} name="typeName" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='weight, size...etc.' /> 
-  </div>
 <div className='w-full'>
-<span>Value</span>
-<input onChange={event => handleChange(event, index)} value={data.typeValue} name="typeValue" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='1kg,2kg...xl/sm'/> 
+<span>Attribute name</span>
+<input onChange={event => handleChange(event, index)} value={data.name} name="name" type="text" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='1kg,2kg...xl/sm'/> 
 </div>
 <div className='w-full'>
     <span>Price</span>
@@ -360,16 +379,12 @@ const AddNewProduct = () => {
    
 </div>
 <div className='w-full'>
-    <span>Color</span>
-   <input onChange={event => handleChange(event, index)} value={data.color} name="color" type="color" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='3' required/>           
+    <span>Delivery Fee</span>
+   <input onChange={event => handleChange(event, index)} value={data.color} name="deliveryFee" type="text" id="deliveryfee" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='3'/>           
    
 </div>
    <div className='flex justify-center items-center mt-4 space-x-2'>
-   {!data.isUploaded && <>
-  <button onClick={e=>{UploadVariant(e,index)}} className='text-md font-extrabold'>
-    <svg className='w-6' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" /></svg>
-  </button>
-   </>}
+   
   <button onClick={handleAddFields} className='text-md font-extrabold'>
     <svg className='w-6' enableBackground="new 0 0 512 512" version="1.1" viewBox="0 0 512 512" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg">
     <polygon points="289.39 222.61 289.39 0 222.61 0 222.61 222.61 0 222.61 0 289.39 222.61 289.39 222.61 512 289.39 512 289.39 289.39 512 289.39 512 222.61" />
@@ -385,7 +400,10 @@ const AddNewProduct = () => {
   )}
 </div>
    </div>
+
    ))
+  }
+   </>
    )
 }
 </div>
@@ -457,12 +475,12 @@ const AddNewProduct = () => {
             <div className='w-full'>
            <select onChange={HandleProduct} name="processingTime" id="countries" className="bg-gray-50 border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected>Select your processing time...</option>
-            <option value="1">1 business day</option>
-            <option value="1-2">1-2 business day</option>
-            <option value="1-3">1-3 business day</option>
-            <option value="4-5">4-5 business day</option>
-            <option value="5-7">5-7 business day</option>
-            <option value="not-expected">Not Expected</option>
+            <option value={1}>1 business day</option>
+            <option value={2}>1-2 business day</option>
+            <option value={3}>1-3 business day</option>
+            <option value={4}>4-5 business day</option>
+            <option value={5}>5-7 business day</option>
+            <option value={-1}>Not Expected</option>
           </select>
 </div>
 </div>
@@ -487,6 +505,17 @@ const AddNewProduct = () => {
               <div className='md:w-3/4'>
               <div className='w-full flex space-x-4'>
                 <input type="text" onChange={HandleProduct} name='services' id="service" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="TCS Courier" required />
+            </div>
+              </div> 
+              </div>
+              <div className='flex py-4'>
+                <div className=' md:w-1/6'>
+                    <label htmlFor="first_name" className="block mb-2 text-gray-900 dark:text-gray-300 font-bold text-sm">Delivery Fee</label>
+                    <p className='leading-relaxed text-sm'>buyer can pay it for shipping service (leave it if you select varaint product type)</p>
+                </div>
+              <div className='md:w-3/4'>
+              <div className='w-full flex space-x-4'>
+                <input type="text" onChange={HandleProduct} name='deliveryFee' id="service" className="bg-gray-50 before:w-full before: before:content-['Hello'] border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10$..." required />
             </div>
               </div> 
               </div>
