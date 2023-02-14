@@ -3,11 +3,15 @@ import {User,Admin,Vendor} from '../Slice/RoleSlice'
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {logout, setToken} from '../Slice/tokenSlice'
 import jwtDecode from 'jwt-decode'
-import { UserInformation } from '../Slice/Login'
+import { logoutUser, UserInformation } from '../Slice/Login'
 const baseQuery = fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_APP_URL}`,
     credentials: 'include',
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, { getState,endpoint }) => {
+        const UPLOAD_ENDPOINTS = ['AddShop', 'UploadProduct'];
+      if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
+        headers.set('content-type', 'application/json');
+      }
         const token = getState().tokenSlice.token
         if (token) {
             headers.set("authorization", `Bearer ${token}`)
@@ -78,6 +82,7 @@ export const RatayoApi = createApi({
                     dispatch(setToken({accessToken:data.accessToken}))
                     const {UserInfo} = await jwtDecode(data.accessToken)
                     dispatch(UserInformation(UserInfo.id))
+                    
                 }
             }catch(err){
                 console.log("Error on refresh queryStarted",err)
@@ -94,10 +99,9 @@ export const RatayoApi = createApi({
                 try {
                     const { data } = await queryFulfilled;
                     console.log("logoutme",data);
-                    dispatch(logout());
-                    dispatch(Vendor(false))
-                    dispatch(User(false))
-                    dispatch(Admin(false))
+                    dispatch(logout())
+                    dispatch(logoutUser())
+                   
                 } catch (err) {
                     console.log(err);
                 }

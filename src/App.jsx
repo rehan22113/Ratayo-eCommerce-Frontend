@@ -9,6 +9,11 @@ import Checkout from './Pages/Checkout'
 import ShopPage from './Pages/ShopPage'
 import ErrorPage from './Pages/ErrorPage'
 import PreventAfterLogin from './Middleware/PreventAfterLogin'
+import RefreshToken from './Middleware/RefreshToken'
+//Admin pages
+import AdminDashboard from './Pages/Admin/Dashboard'
+import AdminLogin from './Pages/Admin/loginPage'
+import Categories from './Components/AdminComponent/Categories'
 // vendor Pages
 import VendorDashboard from './Pages/Vendor/Dashboard'
 import VendorIndex from './Components/VendorComponent/Dashboard'
@@ -22,26 +27,32 @@ import VendorProtectedRoute from './Middleware/VendorProtectedRoute'
 //customer Pages
 import CustomerDashboard from './Pages/Customer/Dashboard'
 import CustomerProtectedRoute from './Middleware/CustomerProtectedRoute'
+import PaymentPage from './Pages/PaymentPage'
+// import OrderDetail from './Components/VendorComponent/Dashboard/OrderDetail'
+import OrderSummary from './Pages/OrderSummary'
+import AdminProtectedRoute from './Middleware/AdminProtectedRoute'
 
 const App = () => {
   return (
     <>
     {/* Unprotected Routes */}
       <Routes >
+       <Route element={<RefreshToken/>} >
+        <Route path='/payment' element={<PaymentPage />}/>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path='/shop' element={<ShopPage />} />
         <Route path='/single-product' element={<SingleProduct />} />
         <Route path='/cart' element={<ShoppingCart />} />
         <Route path='/checkout' element={<Checkout />} />
-      
+        <Route path='/order-detail' element={<OrderSummary/>} />      
+       </Route> 
 
     {/* Prevent After Routes */}
-        <Route element={<PreventAfterLogin/>}>
-          
+        <Route element={<PreventAfterLogin/>}>         
             <Route path='/login' element={<LoginPage/>}/>
             <Route path='/register' element={<RegisterPage />}/>
-            
+            <Route path='/adminlogin' element={<AdminLogin />} />         
         </Route>
       
 
@@ -63,6 +74,13 @@ const App = () => {
           
         </Route>
     </Route>
+
+    <Route element={<AdminProtectedRoute/>}>
+      <Route path='/admin/ratayo/dashboard' element={<AdminDashboard />} > 
+        <Route path='categories' element={<Categories/>} />
+      </Route>
+    </Route>
+
 
         <Route path='*' element={<ErrorPage />} />
       </Routes>

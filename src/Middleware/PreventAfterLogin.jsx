@@ -10,11 +10,9 @@ const PreventAfterLogin = () => {
     const {RoleAction} = useAuth();
     const isLogin = async()=>{
       const {data} = await refresh()
-      console.log(data);
       const Roles = await RoleAction();
       console.log("Roles prevetn",Roles)
       if(Roles){
-
         if(Roles.Admin){
           Navigate("/dashboard/admin")
         }

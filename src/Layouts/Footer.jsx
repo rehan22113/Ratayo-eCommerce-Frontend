@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PaymentImage from '../assets/payments.png' 
 const footerNavigation = {
     shop: [
       { name: 'Bags', href: '#' },
@@ -119,8 +119,9 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="border-t border-gray-800 py-10">
+          <div className="border-t border-gray-800 py-10 flex justify-between">
             <p className="text-sm text-gray-400">Copyright &copy; 2022 Ratayo.com | All right reserved</p>
+            <img className='w-64 h-20' src={PaymentImage}/>
           </div>
         </div>
       </footer>

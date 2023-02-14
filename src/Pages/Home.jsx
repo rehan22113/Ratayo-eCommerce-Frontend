@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useState,useEffect} from 'react'
 import Footer from '../Layouts/Footer'
 import MobileNavbar from '../Layouts/MobileNavbar'
 import Navbar from '../Layouts/Navbar'
@@ -8,15 +8,24 @@ import MainImage from '../assets/main.jpg'
 // import Typewriter from 'typewriter-effect'
 import OfferSlider from '../Components/OfferSlider'
 // import FullScreenSearch from '../Components/FullScreenSearch'
-import {categories,collections} from '../assets/CatDummyData'
+import {collections} from '../assets/CatDummyData'
 import TopSellerSlider from '../Components/TopSellerSlider'
 import SponsorProducts from '../Components/SponsorProducts'
 import { useMediaQuery} from 'use-media-size'
+import { useGetCategoriesQuery } from '../Service/Api/CategoryApi'
 
 
 export default function Home() {
+  
   const isMobile = useMediaQuery('(max-width:680px)')
- 
+  const [fcategories,setFCategory] = useState([])
+
+  const {data:categories,isFetching} = useGetCategoriesQuery()
+
+  useEffect(() => {
+    setFCategory(categories)
+    console.log(categories)
+  }, [isFetching]);
   return (
     <div className="bg-white">
       <MobileNavbar />
@@ -81,21 +90,21 @@ export default function Home() {
             <div className="-my-2">
               <div className="box-content py-2 relative h-80 overflow-x-auto xl:overflow-visible">
                 <div className="absolute min-w-screen-xl px-4 flex space-x-8 sm:px-6 lg:px-8 xl:relative xl:px-0 xl:space-x-0 xl:grid xl:grid-cols-5 xl:gap-x-8">
-                  {categories.map((category) => (
-                    <a
-                      key={category.name}
-                      href={category.href}
-                      className="relative w-56 h-80 rounded-lg p-6 flex flex-col overflow-hidden hover:opacity-75 xl:w-auto"
+                  {fcategories && fcategories.map((category,index) => (
+                    <Link
+                      key={index}
+                      to={category.href}
+                      className="relative w-56 h-80 rounded-lg p-6 flex flex-col overflow-hidden hover:opacity-75 xl:w-auto cursor-pointer"
                     >
                       <span aria-hidden="true" className="absolute inset-0">
-                        <img src={category.imageSrc} alt="" className="w-full h-full object-center object-cover" />
+                        <img src={`${import.meta.env.VITE_APP_URL}/images/categories/${category.image}`} alt="" className="w-full h-full object-center object-fill" />
                       </span>
                       <span
                         aria-hidden="true"
                         className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-skin-primary opacity-50"
                       />
                       <span className="relative mt-auto text-center text-xl font-bold text-white">{category.name}</span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -110,11 +119,15 @@ export default function Home() {
         </section>
 
         {/*Products section */}
-        <Products category={"New Arrivals"}/>
-        <Products category={"Best Sales"}/>
-        <Products category={"Season collection"}/>
-
-
+        <Products category={"New Arrivals"} id=""/>
+        <Products category={"Home Appliance"} id=""/>
+        <Products category={"Home & Garden"} id=""/>
+        <Products category={"Home Improvement"} id=""/>
+        <Products category={"Sport & Entertainment"} id=""/>
+        <Products category={"Education & Office Supplies"} id=""/>
+        <Products category={"Toys & Hoobies"} id=""/>
+        <Products category={"Security & Protection"} id=""/>
+        <Products category={"Automobile & MotorCycle"} id=""/>
 
         {/* Featured section */}
         <section

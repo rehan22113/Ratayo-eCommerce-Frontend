@@ -32,7 +32,7 @@ export default function LoginPage() {
         if(Roles){
          
           if(Roles.Admin){
-            Navigate("/dashboard/admin")
+            Navigate("/error")
           }
           else if(Roles.Vendor){
             Navigate("/dashboard/vendor")

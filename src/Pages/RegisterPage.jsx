@@ -39,7 +39,7 @@ export default function RegisterPage() {
        console.log("login nowww",Roles);
         if(Roles){    
           if(Roles.Admin){
-            Navigate("/dashboard/admin")
+            Navigate("/error")
           }
           else if(Roles.Vendor){
             Navigate("/dashboard/vendor")
@@ -371,7 +371,9 @@ export default function RegisterPage() {
                 </Link> 
                 </div>
                 <div className='w-full flex justify-center py-2'>
-                <Link to="/" className="text-lg underline text-center text-skin-secondary">Back To Home</Link> 
+                <Link to="/" className="text-lg underline text-center text-skin-secondary">
+                
+                Back To Home</Link> 
                 </div>
               </div>
             </div>
